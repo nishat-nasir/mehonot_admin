@@ -60,6 +60,11 @@ class GeneralWrapper extends StatelessWidget {
                   context.back();
                 },
               );
+            case FeedbackListRoute.name:
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Feedback",
+              );
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -106,6 +111,7 @@ class GeneralWrapper extends StatelessWidget {
           HomePageRouter(),
           JobReqRouter(),
           BannerRouter(),
+          FeedbackRouter(),
         ]);
   }
 }

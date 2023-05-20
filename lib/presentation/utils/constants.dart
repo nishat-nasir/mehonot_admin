@@ -6,8 +6,7 @@ import '../../manager/models/resume/skill_md.dart';
 class Constants {
   static const String appName = 'ADMIN';
 
-  static Codes locationsBd() =>
-      Codes.from({
+  static Codes locationsBd() => Codes.from({
         '01': 'Dhaka',
         '02': 'Chittagong',
         '03': 'Khulna',
@@ -22,6 +21,12 @@ class Constants {
   static const ENCRYTORKEY = "N7YI4KQ3UETGOEMOBTEG3BDJACI0LW==";
 
   ////////////////////////////////
+  ////////////////////////////////
+  // DUMMY feedback
+  static const String dummyFeedback =
+      "dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popu";
+
+  // ////////////////////////////
   ////////////////////////////////
 
   static List<String> jobPeriodList = [
@@ -92,7 +97,6 @@ class Constants {
     "8 persons",
     "9 + persons",
   ];
-
 
   static Division currentlySelectedDivision = Division.Dhaka;
 }

@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:mehonot_admin/manager/navigation/router.gr.dart';
-import 'package:mehonot_admin/presentation/pages/Dashboard/dashboardPage.dart';
+import 'package:mehonot_admin/presentation/pages/Dashboard/dashboard_page.dart';
 import 'package:mehonot_admin/presentation/pages/Job/job_requests_page.dart';
 
 @AutoRouterConfig(
@@ -32,6 +32,9 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: 'banner-create', page: BannerCreateRoute.page),
           AutoRoute(path: 'banner-edit', page: BannerEditRoute.page),
         ]),
+        AutoRoute(path: 'feedback', page: FeedbackRouter.page, children: [
+          AutoRoute(path: '', page: FeedbackListRoute.page),
+        ]),
       ]),
     ])
   ];
@@ -48,3 +51,6 @@ class JobReqRouterPage extends AutoRouter {}
 
 @RoutePage(name: 'BannerRouter')
 class BannerRouterPage extends AutoRouter {}
+
+@RoutePage(name: 'FeedbackRouter')
+class FeedbackRouterPage extends AutoRouter {}
