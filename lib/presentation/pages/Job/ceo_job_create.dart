@@ -436,7 +436,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   }
 
   Future ceoCreateJob(BuildContext context) async {
-    bool success = await appStore.dispatch(GetCreateJobAction(
+    bool success = await appStore.dispatch(GetCreateJobReqAction(
         jobModelReq: JobModelReq(
           title: jobTitleCntr.text,
           companyName: jobCompanyNameCntr.text,

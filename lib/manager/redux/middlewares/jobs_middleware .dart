@@ -16,27 +16,34 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
     switch (action.runtimeType) {
-      //----------------- GET Location -----------------
+    //----------------- GET Location -----------------
       case GetLocationAction:
         return _getLocationAction(store.state, action, next);
 
-      //----------------- GET JOBS -----------------
+    //----------------- GET JOBS -----------------
       case GetJobsAction:
         return _getJobsAction(store.state, action, next);
       case GetJobDataByIdAction:
         return _getJobDataByIdAction(store.state, action, next);
 
-      //----------------- GET JOB DETAILS -----------------
+    //----------------- GET JOB DETAILS -----------------
       case GetJobDetailsAction:
         return _getJobDetailsAction(store.state, action, next);
-      case GetCreateJobAction:
-        return _getCreateJobAction(store.state, action, next);
       case GetUpdateJobAction:
         return _getUpdateJobAction(store.state, action, next);
       case GetDeleteJobAction:
         return _getDeleteJobAction(store.state, action, next);
       case GetJobSearchAction:
         return _getJobSearchAction(store.state, action, next);
+
+    //  --------------- GET REQ JOB  -----------------
+      case GetCreateJobReqAction:
+        return _getCreateJobReqAction(store.state, action, next);
+      case GetCreateJobAction:
+        return _getCreateJobAction(store.state, action, next);
+      case GetReqJobsAction:
+        return _getReqJobsAction(store.state, action, next);
+
       default:
         return next(action);
     }
@@ -45,21 +52,21 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
 
 // ------------------------------------------------------------------------------
 
-Future<Division> _getLocationAction(
-    AppState state, GetLocationAction action, NextDispatcher next) async {
+Future<Division> _getLocationAction(AppState state, GetLocationAction action,
+    NextDispatcher next) async {
   Division curDiv = convertStringToDivision(action.divisionString);
   next(UpdateJobsStateAction(currentDivision: curDiv));
   return curDiv;
 }
 
-Future<bool> _getJobsAction(
-    AppState state, GetJobsAction action, NextDispatcher next) async {
+Future<bool> _getJobsAction(AppState state, GetJobsAction action,
+    NextDispatcher next) async {
   try {
     logger("GetJobsAction -- Called");
     List<JobModel> allJobs = [];
 
     CollectionReference jobFromDivision =
-        getDivisionCollection(action.division);
+    getDivisionCollection(action.division);
 
     await jobFromDivision.get().then((value) {
       value.docs.map((e) {
@@ -146,8 +153,8 @@ Future<bool> _getJobsAction(
   }
 }
 
-Future<JobModel?> _getJobDataByIdAction(
-    AppState state, GetJobDataByIdAction action, NextDispatcher next) async {
+Future<JobModel?> _getJobDataByIdAction(AppState state,
+    GetJobDataByIdAction action, NextDispatcher next) async {
   try {
     logger("GetJobDataByIdAction -- Called");
     // Fetch Job Data by action.jobDivision and action.jobId
@@ -155,7 +162,7 @@ Future<JobModel?> _getJobDataByIdAction(
     JobModel? jobModel;
 
     CollectionReference jobFromDivision =
-        getDivisionCollection(action.jobDivision);
+    getDivisionCollection(action.jobDivision);
 
     await jobFromDivision.doc(action.jobId).get().then((value) {
       logger(value.data(), hint: 'GetJobDataByIdAction MAP DATA');
@@ -187,15 +194,15 @@ Future<JobModel?> _getJobDataByIdAction(
 
 // ------------------------------------------------------------------------------
 
-Future<bool> _getJobDetailsAction(
-    AppState state, GetJobDetailsAction action, NextDispatcher next) async {
+Future<bool> _getJobDetailsAction(AppState state, GetJobDetailsAction action,
+    NextDispatcher next) async {
   try {
     logger("GetJobDetailsAction -- Called");
 
     JobDetailModel jobDetailModel;
 
     CollectionReference jobFromDivision =
-        getDivisionCollection(action.division);
+    getDivisionCollection(action.division);
 
     jobDetailModel = await jobFromDivision
         .doc(action.jobId)
@@ -242,17 +249,60 @@ Future<bool> _getJobDetailsAction(
   }
 }
 
-Future<bool> _getCreateJobAction(
-    AppState state, GetCreateJobAction action, NextDispatcher next) async {
+Future<bool> _getReqJobsAction(AppState state, GetReqJobsAction action,
+    NextDispatcher next) async {
   try {
-    logger("GetCreateJobAction -- Called");
+    logger("GetReqJobsAction -- Called");
 
+    List<JobModel> allReqJobs = [];
+
+    CollectionReference requestedJobsCollection =
+        FirebaseKit().requestedJobsCollection;
+
+    await requestedJobsCollection.get().then((value) {
+      logger(value.docs);
+      value.docs.map((e) {
+        JobModel job = JobModel(
+          jobId: e["jobId"],
+          jobDetailsId: e["jobDetailsId"],
+          title: e["title"],
+          address: AddressModel(
+            division: e["address"]["division"],
+            district: e["address"]["district"],
+            area: e["address"]["area"],
+            city: e["address"]["city"],
+          ),
+          companyName: e["companyName"],
+          images: e["images"],
+          type: e["type"],
+          workFinishTime: e["workFinishTime"],
+          workStartTime: e["workStartTime"],
+          postedByUserId: e["postedByUserId"],
+        );
+        allReqJobs.add(job);
+      }).toList();
+    });
+
+    appStore.dispatch(UpdateJobsStateAction(
+      allRequestedJobs: allReqJobs,
+    ));
+    return true;
+  } catch (e) {
+    logger(e.toString(), hint: 'GetReqJobsAction CATCH ERROR');
+    return false;
+  }
+}
+
+Future<bool> _getCreateJobReqAction(AppState state,
+    GetCreateJobReqAction action, NextDispatcher next) async {
+  try {
+    logger("GetCreateJobReqAction -- Called");
     // Show loading
     String jobUid = generateJobUuid(
       division: action.jobModelReq.address.division,
     );
     String jobDetailsUid =
-        generateJobDetailsUuid(division: action.jobModelReq.address.division);
+    generateJobDetailsUuid(division: action.jobModelReq.address.division);
 
     ////TODO: FOR Images
     // String? downUrl;
@@ -264,12 +314,10 @@ Future<bool> _getCreateJobAction(
     //   ));
     // }
 
-    Division division =
-        convertStringToDivision(action.jobModelReq.address.division);
+    CollectionReference requestedJobsCollection =
+        FirebaseKit().requestedJobsCollection;
 
-    CollectionReference jobFromDivision = getDivisionCollection(division);
-
-    await jobFromDivision.doc(jobUid).set({
+    await requestedJobsCollection.doc(jobUid).set({
       "jobId": jobUid,
       "jobDetailsId": jobDetailsUid,
       "postedByUserId": action.jobModelReq.postedByUserId,
@@ -283,7 +331,7 @@ Future<bool> _getCreateJobAction(
     });
     logger('Job Created');
 
-    await jobFromDivision
+    await requestedJobsCollection
         .doc(jobUid)
         .collection(jobDetailsFbDb)
         .doc(jobDetailsUid)
@@ -305,6 +353,76 @@ Future<bool> _getCreateJobAction(
     await appStore.dispatch(GetAddToMyJobsIdsAction(
       jobId: jobUid,
     ));
+    //TODO: ADD JOB STATUS
+    // await appStore.dispatch(GetUpdateUserAction(postId: _postUid));
+    // closeLoading();
+    return true;
+  } catch (e) {
+    // closeLoading();
+    logger(e.toString(), hint: 'GetCreateJobReqAction CATCH ERROR');
+    return false;
+  }
+}
+
+Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
+    NextDispatcher next) async {
+  try {
+    logger("GetCreateJobAction -- Called");
+
+    // Show loading
+    ////TODO: FOR Images
+    // String? downUrl;
+    // if (action.jobModelReqRes.images != null) {
+    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
+    //     action.jobModelReqRes.images!,
+    //     postId: _jobUid,
+    //     postType: _jobPostUid,
+    //   ));
+    // }
+
+    Division division =
+    convertStringToDivision(action.jobModel.address.division);
+
+    CollectionReference jobFromDivision = getDivisionCollection(division);
+
+    await jobFromDivision.doc(action.jobModel.jobId).set({
+      "jobId": action.jobModel.jobId,
+      "jobDetailsId": action.jobModel.jobDetailsId,
+      "postedByUserId": action.jobModel.postedByUserId,
+      "title": action.jobModel.title,
+      "companyName": action.jobModel.companyName,
+      "images": action.jobModel.images,
+      "address": action.jobModel.address.toJson(),
+      "type": action.jobModel.type,
+      "workStartTime": action.jobModel.workStartTime,
+      "workFinishTime": action.jobModel.workFinishTime,
+    });
+    logger('Job Created');
+
+    await jobFromDivision
+        .doc(action.jobModel.jobId)
+        .collection(jobDetailsFbDb)
+        .doc(action.jobModel.jobDetailsId)
+        .set({
+      "jobId": action.jobModel.jobId,
+      "jobDetailsId": action.jobModel.jobDetailsId,
+      "category": "",
+      "createdAt": action.jobDetailModel.createdAt,
+      "description": action.jobDetailModel.description,
+      "email": action.jobDetailModel.email,
+      "ownerName": action.jobDetailModel.ownerName,
+      "phone": action.jobDetailModel.phone,
+      "recruitCondition": action.jobDetailModel.recruitCondition.toJson(),
+      "website": action.jobDetailModel.website,
+      "workCondition": action.jobDetailModel.workCondition.toJson(),
+      "moreDetails": action.jobDetailModel.moreDetails,
+    });
+    // Update "myJobsIds" in user profile
+
+    //Do not need because it is already updated just update the status
+    // await appStore.dispatch(GetAddToMyJobsIdsAction(
+    //   jobId: action.jobModel.jobId,
+    // ));
 
     // await appStore.dispatch(GetUpdateUserAction(postId: _postUid));
     // closeLoading();
@@ -316,16 +434,16 @@ Future<bool> _getCreateJobAction(
   }
 }
 
-_getUpdateJobAction(
-    AppState state, GetUpdateJobAction action, NextDispatcher next) async {
+_getUpdateJobAction(AppState state, GetUpdateJobAction action,
+    NextDispatcher next) async {
   try {
     logger("GetUpdateJobAction -- Called");
 
     Division division =
-        convertStringToDivision(action.jobModel.address.division);
+    convertStringToDivision(action.jobModel.address.division);
 
     CollectionReference jobFromDivisionCollection =
-        getDivisionCollection(division);
+    getDivisionCollection(division);
 
     await jobFromDivisionCollection.doc(action.jobModel.jobId).update({
       // "jobId": action.jobModel.jobId,
@@ -360,13 +478,13 @@ _getUpdateJobAction(
   }
 }
 
-Future<bool> _getDeleteJobAction(
-    AppState state, GetDeleteJobAction action, NextDispatcher next) async {
+Future<bool> _getDeleteJobAction(AppState state, GetDeleteJobAction action,
+    NextDispatcher next) async {
   try {
     String jobId = action.jobId;
 
     CollectionReference jobFromDivisionCollection =
-        getDivisionCollection(action.division);
+    getDivisionCollection(action.division);
 
     await jobFromDivisionCollection
         .doc(jobId)
@@ -437,14 +555,14 @@ Future<bool> _getDeleteJobAction(
   }
 }
 
-Future<bool> _getJobSearchAction(
-    AppState state, GetJobSearchAction action, NextDispatcher next) async {
+Future<bool> _getJobSearchAction(AppState state, GetJobSearchAction action,
+    NextDispatcher next) async {
   try {
     logger("GetJobSearchAction -- Called");
     next(UpdateJobsStateAction(searchJobList: []));
 
     CollectionReference jobFromDivisionCollection =
-        getDivisionCollection(state.jobsState.currentDivision);
+    getDivisionCollection(state.jobsState.currentDivision);
 
     List<JobModel> searchResult = [];
 

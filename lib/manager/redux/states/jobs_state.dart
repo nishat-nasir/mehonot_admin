@@ -21,6 +21,8 @@ class JobsState {
   final List<JobModel> sylhetJobs;
   final List<JobModel> rangpurJobs;
   final List<JobModel> mymensinghJobs;
+  final List<JobModel> allRequestedJobs;
+
   final List<JobModel> currentLocationJobsList;
   final JobDetailModel selectedJobDetailModel;
 
@@ -36,6 +38,7 @@ class JobsState {
     required this.sylhetJobs,
     required this.rangpurJobs,
     required this.mymensinghJobs,
+    required this.allRequestedJobs,
     required this.currentLocationJobsList,
     required this.selectedJobDetailModel,
     required this.searchJobList,
@@ -53,6 +56,7 @@ class JobsState {
       rangpurJobs: [],
       mymensinghJobs: [],
       currentLocationJobsList: [],
+      allRequestedJobs: [],
       selectedJobDetailModel: JobDetailModel(
         jobId: '',
         jobDetailsId: '',
@@ -88,6 +92,7 @@ class JobsState {
     List<JobModel>? sylhetJobs,
     List<JobModel>? rangpurJobs,
     List<JobModel>? mymensinghJobs,
+    List<JobModel>? allRequestedJobs,
     List<JobModel>? currentLocationJobsList,
     JobDetailModel? selectedJobDetailModel,
     List<JobModel>? searchJobList,
@@ -102,6 +107,7 @@ class JobsState {
       sylhetJobs: sylhetJobs ?? this.sylhetJobs,
       rangpurJobs: rangpurJobs ?? this.rangpurJobs,
       mymensinghJobs: mymensinghJobs ?? this.mymensinghJobs,
+      allRequestedJobs: allRequestedJobs ?? this.allRequestedJobs,
       currentLocationJobsList:
           currentLocationJobsList ?? this.currentLocationJobsList,
       selectedJobDetailModel:
@@ -122,6 +128,7 @@ class UpdateJobsStateAction {
   List<JobModel>? sylhetJobs;
   List<JobModel>? rangpurJobs;
   List<JobModel>? mymensinghJobs;
+  List<JobModel>? allRequestedJobs;
   List<JobModel>? currentLocationJobsList;
   JobDetailModel? selectedJobDetailModel;
   List<JobModel>? searchJobList;
@@ -136,6 +143,7 @@ class UpdateJobsStateAction {
     this.sylhetJobs,
     this.rangpurJobs,
     this.mymensinghJobs,
+    this.allRequestedJobs,
     this.currentLocationJobsList,
     this.selectedJobDetailModel,
     this.searchJobList,
@@ -175,13 +183,23 @@ class GetJobDetailsAction {
   });
 }
 
-class GetCreateJobAction {
+class GetCreateJobReqAction {
   final JobModelReq jobModelReq;
   final JobDetailModelReq jobDetailModelReq;
 
-  GetCreateJobAction({
+  GetCreateJobReqAction({
     required this.jobModelReq,
     required this.jobDetailModelReq,
+  });
+}
+
+class GetCreateJobAction {
+  final JobModel jobModel;
+  final JobDetailModel jobDetailModel;
+
+  GetCreateJobAction({
+    required this.jobModel,
+    required this.jobDetailModel,
   });
 }
 
@@ -220,5 +238,15 @@ class GetLocationAction {
 
   GetLocationAction({
     required this.divisionString,
+  });
+}
+
+class GetReqJobsAction {
+  final JobModelReq jobModelReq;
+  final JobDetailModelReq jobDetailModelReq;
+
+  GetReqJobsAction({
+    required this.jobModelReq,
+    required this.jobDetailModelReq,
   });
 }
