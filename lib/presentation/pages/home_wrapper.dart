@@ -26,6 +26,11 @@ class GeneralWrapper extends StatelessWidget {
         appBarBuilder: (appBarCtx, tabsRouter) {
           logger(appBarCtx.topRoute.name, hint: '----------');
           switch (appBarCtx.topRoute.name) {
+            case DashboardRoute.name:
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Mehnat",
+              );
             case Home01Route.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,

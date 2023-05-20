@@ -1,7 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 
 import 'package:mehonot_admin/manager/navigation/router.gr.dart';
-
+import 'package:mehonot_admin/presentation/pages/Dashboard/dashboardPage.dart';
 
 @AutoRouterConfig(
   replaceInRouteName: 'Page,Route',
@@ -19,7 +19,8 @@ class AppRouter extends $AppRouter {
       AutoRoute(path: "intro-page", page: Intro01Route.page),
       AutoRoute(path: "home", page: GeneralWrapperRouter.page, children: [
         AutoRoute(path: '', page: HomePageRouter.page, children: [
-          AutoRoute(path: '', page: Home01Route.page),
+          AutoRoute(path: '', page: DashboardRoute.page),
+          AutoRoute(path: 'my-home', page: Home01Route.page),
           AutoRoute(path: 'my-profile', page: MyProfileRouter.page, children: [
             AutoRoute(path: "", page: Profile01Route.page),
             AutoRoute(path: "editProfile", page: ProfileEdit01Route.page),
