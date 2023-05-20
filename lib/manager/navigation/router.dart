@@ -23,10 +23,10 @@ class AppRouter extends $AppRouter {
             path: 'home-page',
             page: HomePageRouter.page,
             children: [AutoRoute(path: '', page: DashboardRoute.page)]),
-        AutoRoute(
-            path: 'job-req',
-            page: JobReqRouter.page,
-            children: [AutoRoute(path: '', page: JobRequestsRoute.page)]),
+        AutoRoute(path: 'job-req', page: JobReqRouter.page, children: [
+          AutoRoute(path: '', page: JobRequestsRoute.page),
+          AutoRoute(path: 'job-details', page: JobDetailsRouter.page)
+        ]),
       ]),
     ])
   ];

@@ -183,8 +183,6 @@ ButtonStyle linkTypeButtonTheme({
   );
 }
 
-
-
 ButtonStyle sidebarTabButtonTheme(bool isActive) {
   return ButtonStyle(
       elevation: MaterialStateProperty.all(0),

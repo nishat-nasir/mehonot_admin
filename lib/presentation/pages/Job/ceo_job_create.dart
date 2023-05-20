@@ -487,9 +487,9 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             jobIsCreate = true;
           });
           if (jobIsCreate) {
-            context.replaceRoute( GeneralWrapperRouter(
-              children: [Home01Route()],
-            ));
+            context.replaceRoute(GeneralWrapperRouter(
+                // children: [Home01Route()],
+                ));
           }
         }
       });

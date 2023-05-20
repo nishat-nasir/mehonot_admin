@@ -31,39 +31,13 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Mehnat",
               );
-            case Home01Route.name:
-              return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey: generalWrapperGlobalKey,
-                  titleText: "TestApp",
-                  rightIcon: HeroIcons.user,
-                  onRightIconPress: () {
-                    // context.pushRoute(const MyProfileRouter());
-                  });
-            // case MyProfileRouter.name:
-            //   return PrsmDefaultAppBar(
-            //     generalWrapperGlobalKey: generalWrapperGlobalKey,
-            //   );
-            case Profile01Route.name:
-              return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey: generalWrapperGlobalKey,
-                  titleText: S(context).profile,
-                  rightIcon: HeroIcons.pencilSquare,
-                  onRightIconPress: () {
-                    context.pushRoute(ProfileEdit01Route());
-                  },
-                  leftIcon: HeroIcons.chevronLeft,
-                  onLeftIconPress: () {
-                    context.navigateBack();
-                  });
 
-            case Saved01Route.name:
+            case JobRequestsRoute.name:
               return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey: generalWrapperGlobalKey,
-                  titleText: S(context).savedJobs);
-            case Settings01Route.name:
-              return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey: generalWrapperGlobalKey,
-                  titleText: S(context).settings);
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Job Requests",
+              );
+
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,
