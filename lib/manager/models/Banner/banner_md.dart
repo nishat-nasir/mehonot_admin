@@ -1,39 +1,41 @@
 import 'package:json_annotation/json_annotation.dart';
 
-part 'sponsor_md.g.dart';
+part 'banner_md.g.dart';
 
 @JsonSerializable(anyMap: true)
 class BannerModel {
+  String? id;
   String title;
   String companyName;
-  String? posterName;
+  String postedById;
   String? email;
-  String phone;
+  String? phone;
   List<String>? images;
-  String address;
   String? description;
   String? website;
-  String type;
+  String bannerType;
   String? category;
-  String time;
+  String? createdAt;
+  String? removeAt;
 
   @override
   BannerModel({
+    required this.id,
     required this.title,
     required this.companyName,
-    this.posterName,
+    required this.postedById,
     this.email,
     required this.phone,
     this.images,
-    required this.address,
     this.description,
     this.website,
-    required this.type,
+    required this.bannerType,
     this.category,
-    required this.time,
+    required this.createdAt,
+    required this.removeAt,
   });
 
-  factory BannerModel.fromJson(Map json) => _$SponsorModelFromJson(json);
+  factory BannerModel.fromJson(Map json) => _$BannerModelFromJson(json);
 
-  Map toJson() => _$SponsorModelToJson(this);
+  Map toJson() => _$BannerModelToJson(this);
 }

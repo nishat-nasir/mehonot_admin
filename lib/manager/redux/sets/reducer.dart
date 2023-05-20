@@ -90,7 +90,11 @@ final _adsReducer = combineReducers<AdsState>(
     [TypedReducer<AdsState, UpdateAdsStateAction>(_updateAdsState)]);
 
 AdsState _updateAdsState(AdsState state, UpdateAdsStateAction action) {
-  return state.copyWith();
+  return state.copyWith(
+    homeBanners: action.homeBanners ?? state.homeBanners,
+    settingBanner: action.settingBanner ?? state.settingBanner,
+    jobAds: action.jobAds ?? state.jobAds,
+  );
 }
 
 /////////////////////////

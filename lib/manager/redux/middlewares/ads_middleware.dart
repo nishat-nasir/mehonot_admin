@@ -1,142 +1,160 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 
 import '../../../presentation/template/template.dart';
 import '../../firebase/firebase_kit.dart';
-import '../../models/Sponsor/sponsor_md.dart';
+import '../../models/Banner/banner_md.dart';
 import '../states/ads_state.dart';
 
 class AdsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
     switch (action.runtimeType) {
-      case GetSettingBannersAction:
-        return _getSettingBannersAction(store.state, action, next);
+      case GetBannersAction:
+        return _getBannersAction(store.state, action, next);
       case GetHomeJobAdsAction:
         return _getHomeJobAdsAction(store.state, action, next);
-      case GetHomeBannersAction:
-        return _getHomeBannersAction(store.state, action, next);
+
+      case GetCreateBannersAction:
+        return _getCreateBannersAction(store.state, action, next);
+
+      case GetPostHomeJobAdsAction:
+        return _getPostHomeJobAdsAction(store.state, action, next);
       default:
         return next(action);
     }
   }
 }
 
-_getSettingBannersAction(
-    AppState state, GetSettingBannersAction action, NextDispatcher next) async {
+Future<bool> _getBannersAction(
+    AppState state, GetBannersAction action, NextDispatcher next) async {
   try {
-    logger("GetSettingBannersAction -- Called");
+    logger("GetBannersAction -- Called");
 
-    List<BannerModel> allSettingsBanners = [];
+    List<BannerModel> allHomeBanners = [];
+    List<BannerModel> allSettingBanners = [];
 
-    CollectionReference settingsAdsCollection =
-        firebaseKit.settingsBannersCollection;
+    CollectionReference settingsAdsCollection = firebaseKit.bannersCollection;
+
     await settingsAdsCollection.get().then((value) {
       value.docs.map((e) {
         BannerModel bannerModel = BannerModel(
-          // jobId: e["jobId"],
+          id: e.id,
+          title: e['title'],
           website: e['website'],
           phone: e['phone'],
           email: e['email'],
           description: e['description'],
           category: e['category'],
-          type: e['type'],
+          bannerType: e['bannerType'],
           images: e['images'],
           companyName: e['companyName'],
-          address: e['address'],
-          title: e['title'],
-          posterName: e['posterName'],
-          time: e['time'],
+          createdAt: e['createdAt'],
+          postedById: e['postedById'],
+          removeAt: e['removeAt'],
         );
-        allSettingsBanners.add(bannerModel);
+        if (bannerModel.bannerType == "home") {
+          allHomeBanners.add(bannerModel);
+        } else {
+          allSettingBanners.add(bannerModel);
+        }
       }).toList();
-      return allSettingsBanners;
     });
     await appStore.dispatch(
       UpdateAdsStateAction(
-        settingsAds: allSettingsBanners,
+        homeBanners: allHomeBanners,
+        settingBanner: allSettingBanners,
       ),
     );
+    return true;
   } catch (e) {
-    logger(e.toString(), hint: "GetSettingBannersAction CATCH ERROR");
+    logger(e.toString(), hint: "GetBannersAction CATCH ERROR");
     return false;
   }
 }
 
-_getHomeJobAdsAction(
+Future<bool> _getHomeJobAdsAction(
     AppState state, GetHomeJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetHomeJobAdsAction -- Called");
 
-    List<BannerModel> allHomeJobAdds = [];
+    List<String> allHomeJobAdds = [];
 
-    CollectionReference homeMidAdsCollection = firebaseKit.midBannersCollection;
-    await homeMidAdsCollection.get().then((value) {
+    CollectionReference jobAdsCollection = firebaseKit.adsJobsCollection;
+    await jobAdsCollection.get().then((value) {
       value.docs.map((e) {
-        BannerModel bannerModel = BannerModel(
-          // jobId: e["jobId"],
-          website: e['website'],
-          phone: e['phone'],
-          email: e['email'],
-          description: e['description'],
-          category: e['category'],
-          type: e['type'],
-          images: e['images'],
-          companyName: e['companyName'],
-          address: e['address'],
-          title: e['title'],
-          posterName: e['posterName'],
-          time: e['time'],
-        );
-        allHomeJobAdds.add(bannerModel);
+        List<String> jobAds = e['jobAds'].cast<String>();
+        allHomeJobAdds.addAll(jobAds);
       }).toList();
-      return allHomeJobAdds;
     });
     await appStore.dispatch(
       UpdateAdsStateAction(
-        homeMidAds: allHomeJobAdds,
+        jobAds: allHomeJobAdds,
       ),
     );
+    return true;
   } catch (e) {
     logger(e.toString(), hint: "GetHomeJobAdsAction CATCH ERROR");
     return false;
   }
 }
 
-_getHomeBannersAction(
-    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(
+    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
   try {
-    logger("GetHomeBannersAction -- Called");
-    List<BannerModel> allHomeBanners = [];
-
-    CollectionReference homeTopAdsCollection = firebaseKit.topBannersCollection;
-    await homeTopAdsCollection.get().then((value) {
-      value.docs.map((e) {
-        BannerModel bannerModel = BannerModel(
-          // jobId: e["jobId"],
-          website: e['website'],
-          phone: e['phone'],
-          email: e['email'],
-          description: e['description'],
-          category: e['category'],
-          type: e['type'],
-          images: e['images'],
-          companyName: e['companyName'],
-          address: e['address'],
-          title: e['title'],
-          posterName: e['posterName'],
-          time: e['time'],
-        );
-        allHomeBanners.add(bannerModel);
-      }).toList();
-      return allHomeBanners;
-    });
-    await appStore.dispatch(
-      UpdateAdsStateAction(
-        homeTopAds: allHomeBanners,
-      ),
+    logger("GetCreateBannersAction -- Called");
+    // Show loading
+    String bannerUuid = generateHomeBannerUuid(
+      division: state.userState.userProfileData.address.division,
+      type: action.bannerType,
     );
+    ////TODO: FOR Images
+    // String? downUrl;
+    // if (action.jobModelReqRes.images != null) {
+    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
+    //     action.jobModelReqRes.images!,
+    //     postId: _jobUid,
+    //     postType: _jobPostUid,
+    //   ));
+    // }
+
+    CollectionReference createJobAdsCollection = firebaseKit.adsJobsCollection;
+
+    await createJobAdsCollection.doc(bannerUuid).set({
+      "id": bannerUuid,
+      "title": action.bannerModel.title,
+      "companyName": action.bannerModel.companyName,
+      "postedById": action.bannerModel.postedById,
+      "email": action.bannerModel.email,
+      "phone": action.bannerModel.phone,
+      "images": action.bannerModel.images,
+      "description": action.bannerModel.description,
+      "website": action.bannerModel.website,
+      "bannerType": action.bannerModel.bannerType,
+      "category": action.bannerModel.category,
+      "createdAt": action.bannerModel.createdAt,
+      "removeAt": action.bannerModel.removeAt,
+    });
+    return true;
+
+    //TODO: Next version add my ads
   } catch (e) {
-    logger(e.toString(), hint: "GetHomeBannersAction CATCH ERROR");
+    logger(e.toString(), hint: "GetCreateBannersAction CATCH ERROR");
+    return false;
+  }
+}
+
+_getPostHomeJobAdsAction(
+    AppState state, GetPostHomeJobAdsAction action, NextDispatcher next) async {
+  try {
+    logger("GetPostHomeJobAdsAction -- Called");
+    CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
+
+    await createAdsJobsCollection.doc().update({
+      "jobIds": FieldValue.arrayUnion([action.jobId]),
+    });
+  } catch (e) {
+    logger(e.toString(), hint: "GetCreateSettingBannerAction CATCH ERROR");
     return false;
   }
 }
