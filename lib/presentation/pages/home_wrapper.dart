@@ -37,12 +37,12 @@ class GeneralWrapper extends StatelessWidget {
                   titleText: "TestApp",
                   rightIcon: HeroIcons.user,
                   onRightIconPress: () {
-                    context.pushRoute(const MyProfileRouter());
+                    // context.pushRoute(const MyProfileRouter());
                   });
-            case MyProfileRouter.name:
-              return PrsmDefaultAppBar(
-                generalWrapperGlobalKey: generalWrapperGlobalKey,
-              );
+            // case MyProfileRouter.name:
+            //   return PrsmDefaultAppBar(
+            //     generalWrapperGlobalKey: generalWrapperGlobalKey,
+            //   );
             case Profile01Route.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -101,11 +101,14 @@ class GeneralWrapper extends StatelessWidget {
           }
         },
         routes: const [
-          HomePageRouter(),
-          SearchRouter(),
+          // HomePageRouter(),
+          // SearchRouter(),
           // MenuRouter(),
-          SavedRouter(),
-          SettingsRouter(),
+          // SavedRouter(),
+          // SettingsRouter(),
+
+          HomePageRouter(),
+          JobReqRouter(),
         ]);
   }
 }
