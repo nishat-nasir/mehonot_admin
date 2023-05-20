@@ -9,10 +9,11 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? paddingTop;
   final VoidCallback? onRightIconPress;
   final VoidCallback? onLeftIconPress;
-  final GlobalKey<ScaffoldState> generalWrapperGlobalKey;
+  final GlobalKey<ScaffoldState>? generalWrapperGlobalKey;
 
-   const PrsmDefaultAppBar({super.key,
-    required this.generalWrapperGlobalKey,
+  const PrsmDefaultAppBar({
+    super.key,
+    this.generalWrapperGlobalKey,
     this.titleText,
     this.leftIcon,
     this.rightIcon,
@@ -26,8 +27,9 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
-        color:
-            isDark ? MehonotColorsDark.appBarColor : MehonotColorsLight.appBarColor,
+        color: isDark
+            ? MehonotColorsDark.appBarColor
+            : MehonotColorsLight.appBarColor,
         // boxShadow: ThemeShadows.shadowSm,
         // border: Border(
         //   bottom: BorderSide(
@@ -57,9 +59,11 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
           Row(children: [
             if (leftIcon == null)
               IconButton(
-                  onPressed: (){
+                  onPressed: () {
                     // Open generalWrapperGlobalKey drawer
-                    generalWrapperGlobalKey.currentState!.openDrawer();
+                    if (generalWrapperGlobalKey != null) {
+                      generalWrapperGlobalKey!.currentState!.openDrawer();
+                    }
                   },
                   icon: HeroIcon(HeroIcons.bars3,
                       size: 54.w,

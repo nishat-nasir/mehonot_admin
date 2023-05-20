@@ -111,7 +111,7 @@ class PrsmJobContainer extends StatelessWidget {
                         onTap: onReqAccept,
                         child: Container(
                             decoration: BoxDecoration(
-                                color: ThemeColors.blue500,
+                                color: ThemeColors.green500,
                                 borderRadius: BorderRadius.circular(8.r)),
                             padding: EdgeInsets.all(5.w),
                             child: HeroIcon(HeroIcons.check,

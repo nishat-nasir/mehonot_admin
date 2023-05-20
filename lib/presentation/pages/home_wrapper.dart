@@ -20,6 +20,7 @@ class GeneralWrapper extends StatelessWidget {
     return AutoTabsScaffold(
         backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
         animationCurve: Curves.easeInOutCubicEmphasized,
+        drawerEnableOpenDragGesture: false,
         scaffoldKey: generalWrapperGlobalKey,
         drawer: const DefaultSidebar(),
         resizeToAvoidBottomInset: true,
@@ -42,7 +43,23 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Banners",
               );
-
+            case BannerCreateRoute.name:
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Create banner",
+                leftIcon: HeroIcons.xMark,
+                onLeftIconPress: () {
+                  context.back();
+                },
+              );
+            case BannerEditRoute.name:
+              return PrsmDefaultAppBar(
+                titleText: "Edit banner",
+                leftIcon: HeroIcons.xMark,
+                onLeftIconPress: () {
+                  context.back();
+                },
+              );
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,
