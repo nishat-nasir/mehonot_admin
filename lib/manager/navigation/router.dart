@@ -27,6 +27,11 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: '', page: JobRequestsRoute.page),
           AutoRoute(path: 'job-details', page: JobDetailsRouter.page)
         ]),
+        AutoRoute(path: 'banner', page: BannerRouter.page, children: [
+          AutoRoute(path: '', page: BannerListRoute.page),
+          AutoRoute(path: 'banner-create', page: BannerCreateRoute.page),
+          AutoRoute(path: 'banner-edit', page: BannerEditRoute.page),
+        ]),
       ]),
     ])
   ];
@@ -40,3 +45,6 @@ class HomePageRouterPage extends AutoRouter {}
 
 @RoutePage(name: 'JobReqRouter')
 class JobReqRouterPage extends AutoRouter {}
+
+@RoutePage(name: 'BannerRouter')
+class BannerRouterPage extends AutoRouter {}

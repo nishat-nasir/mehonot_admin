@@ -37,6 +37,11 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Job Requests",
               );
+            case BannerListRoute.name:
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Banners",
+              );
 
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
@@ -83,6 +88,7 @@ class GeneralWrapper extends StatelessWidget {
 
           HomePageRouter(),
           JobReqRouter(),
+          BannerRouter(),
         ]);
   }
 }
