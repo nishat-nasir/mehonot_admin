@@ -6,10 +6,11 @@ import '../template/template.dart';
 import '../widgets/bottom_navbar.dart';
 import '../widgets/appbar/default_appbar.dart';
 import '../widgets/no_appbar.dart';
+import '../widgets/sidebar/default_sidebar.dart';
 
 @RoutePage(name: "GeneralWrapperRouter")
 class GeneralWrapper extends StatelessWidget {
-   GeneralWrapper({Key? key}) : super(key: key);
+  GeneralWrapper({Key? key}) : super(key: key);
 
   GlobalKey<ScaffoldState> generalWrapperGlobalKey = GlobalKey<ScaffoldState>();
 
@@ -19,30 +20,27 @@ class GeneralWrapper extends StatelessWidget {
     return AutoTabsScaffold(
         backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
         animationCurve: Curves.easeInOutCubicEmphasized,
-scaffoldKey: generalWrapperGlobalKey,
-        drawer: Container(
-          color: isDark ? Colors.black : ThemeColors.gray50,
-          child: const Text("Drawer"),
-        ),
+        scaffoldKey: generalWrapperGlobalKey,
+        drawer: const DefaultSidebar(),
         resizeToAvoidBottomInset: true,
         appBarBuilder: (appBarCtx, tabsRouter) {
           logger(appBarCtx.topRoute.name, hint: '----------');
           switch (appBarCtx.topRoute.name) {
             case Home01Route.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: "TestApp",
                   rightIcon: HeroIcons.user,
                   onRightIconPress: () {
                     context.pushRoute(const MyProfileRouter());
                   });
             case MyProfileRouter.name:
-              return  PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
               );
             case Profile01Route.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: S(context).profile,
                   rightIcon: HeroIcons.pencilSquare,
                   onRightIconPress: () {
@@ -55,13 +53,15 @@ scaffoldKey: generalWrapperGlobalKey,
 
             case Saved01Route.name:
               return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey:generalWrapperGlobalKey,titleText: S(context).savedJobs);
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
+                  titleText: S(context).savedJobs);
             case Settings01Route.name:
               return PrsmDefaultAppBar(
-                  generalWrapperGlobalKey:generalWrapperGlobalKey,titleText: S(context).settings);
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
+                  titleText: S(context).settings);
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: S(context).account,
                   leftIcon: HeroIcons.chevronLeft,
                   onLeftIconPress: () {
@@ -69,7 +69,7 @@ scaffoldKey: generalWrapperGlobalKey,
                   });
             case CeoJobCreateRouter.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: S(context).postJob,
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
@@ -77,7 +77,7 @@ scaffoldKey: generalWrapperGlobalKey,
                   });
             case CeoJobEditRouter.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: "Edit Job",
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
@@ -85,7 +85,7 @@ scaffoldKey: generalWrapperGlobalKey,
                   });
             case JobDetailsRouter.name:
               return PrsmDefaultAppBar(
-                generalWrapperGlobalKey:generalWrapperGlobalKey,
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: "Job Details",
                   leftIcon: HeroIcons.chevronLeft,
                   onLeftIconPress: () {
@@ -101,32 +101,6 @@ scaffoldKey: generalWrapperGlobalKey,
           // MenuRouter(),
           SavedRouter(),
           SettingsRouter(),
-        ],
-        bottomNavigationBuilder: (bCtx, tabsRouter) {
-          logger(context.routeData.name);
-          switch (bCtx.topRoute.name) {
-            case BecomeCeoRouter.name:
-              return const SizedBox();
-            case CeoJobCreateRouter.name:
-              return const SizedBox();
-            case Profile01Route.name:
-              return const SizedBox();
-            case ProfileEdit01Route.name:
-              return const SizedBox();
-            case JobDetailsRouter.name:
-              return const SizedBox();
-            case MyAccountRouter.name:
-              return const SizedBox();
-            case AccountChangeIdRouter.name:
-              return const SizedBox();
-            case CeoJobEditRouter.name:
-              return const SizedBox();
-            default:
-              return PrsmBottomNavbar(
-                onChanged: tabsRouter.setActiveIndex,
-                index: tabsRouter.activeIndex,
-              );
-          }
-        });
+        ]);
   }
 }

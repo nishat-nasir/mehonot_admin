@@ -182,3 +182,14 @@ ButtonStyle linkTypeButtonTheme({
     ),
   );
 }
+
+
+
+ButtonStyle sidebarTabButtonTheme(bool isActive) {
+  return ButtonStyle(
+      elevation: MaterialStateProperty.all(0),
+      padding: MaterialStateProperty.all(EdgeInsets.zero),
+      backgroundColor: MaterialStateProperty.all(
+          isActive ? ThemeColors.coolgray100 : ThemeColors.white),
+      overlayColor: MaterialStateProperty.all(ThemeColors.blue50));
+}

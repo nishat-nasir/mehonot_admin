@@ -1,0 +1,1 @@
+TODO LISTS:- Make Sidebar first- Add Lists of item with icons- Add dashboard- Add Job req lists- Add banners lists- Add banners create UI page- Add banners edit UI page- Add dashboard api- Add Job req middlewares- Add Job req api- Add banners middlewares- Add banners create api- Add banners create api
