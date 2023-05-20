@@ -4,7 +4,7 @@ import '../../manager/models/resume/experience_md.dart';
 import '../../manager/models/resume/skill_md.dart';
 
 class Constants {
-  static const String appName = 'App Name';
+  static const String appName = 'ADMIN';
 
   static Codes locationsBd() =>
       Codes.from({

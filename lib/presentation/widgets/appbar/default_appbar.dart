@@ -9,16 +9,17 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final double? paddingTop;
   final VoidCallback? onRightIconPress;
   final VoidCallback? onLeftIconPress;
+  final GlobalKey<ScaffoldState> generalWrapperGlobalKey;
 
-  const PrsmDefaultAppBar({
-    Key? key,
+   const PrsmDefaultAppBar({super.key,
+    required this.generalWrapperGlobalKey,
     this.titleText,
     this.leftIcon,
     this.rightIcon,
     this.paddingTop,
     this.onRightIconPress,
     this.onLeftIconPress,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +55,15 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(children: [
+            if (leftIcon == null)
+              IconButton(
+                  onPressed: (){
+                    // Open generalWrapperGlobalKey drawer
+                    generalWrapperGlobalKey.currentState!.openDrawer();
+                  },
+                  icon: HeroIcon(HeroIcons.bars3,
+                      size: 54.w,
+                      color: isDark ? ThemeColors.white : ThemeColors.black)),
             if (leftIcon != null)
               IconButton(
                   onPressed: onLeftIconPress ?? context.router.popTop,

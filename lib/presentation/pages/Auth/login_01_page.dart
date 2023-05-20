@@ -133,7 +133,7 @@ class _Login01PageState extends State<Login01Page> {
         setState(() {
           isLoading = false;
         });
-        await appRouter.replace(const GeneralWrapperRouter());
+        await appRouter.replace( GeneralWrapperRouter());
       }
       if (!matched) {
         setState(() {

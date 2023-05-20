@@ -487,7 +487,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             jobIsCreate = true;
           });
           if (jobIsCreate) {
-            context.replaceRoute(const GeneralWrapperRouter(
+            context.replaceRoute( GeneralWrapperRouter(
               children: [Home01Route()],
             ));
           }

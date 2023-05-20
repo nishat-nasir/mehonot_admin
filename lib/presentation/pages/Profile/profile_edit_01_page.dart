@@ -98,16 +98,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
   Widget build(BuildContext context) {
     isDark = Theme.of(context).brightness == Brightness.dark;
     return SpacedColumn(children: [
-      PrsmDefaultAppBar(
-          titleText: S(context).editProfile,
-          rightIcon: HeroIcons.plusCircle,
-          onRightIconPress: () {
-            saveProfile();
-          },
-          leftIcon: HeroIcons.chevronLeft,
-          onLeftIconPress: () {
-            context.navigateBack();
-          }),
+
       Padding(
           padding: EdgeInsets.all(24.w),
           child: SizedBox(

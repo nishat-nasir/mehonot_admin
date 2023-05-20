@@ -1,5 +1,4 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:mehonot_admin/presentation/widgets/appbar/search_appbar.dart';
 
 import '../../manager/navigation/router.gr.dart';
 import '../../manager/redux/states/user_state.dart';
@@ -10,7 +9,9 @@ import '../widgets/no_appbar.dart';
 
 @RoutePage(name: "GeneralWrapperRouter")
 class GeneralWrapper extends StatelessWidget {
-  const GeneralWrapper({Key? key}) : super(key: key);
+   GeneralWrapper({Key? key}) : super(key: key);
+
+  GlobalKey<ScaffoldState> generalWrapperGlobalKey = GlobalKey<ScaffoldState>();
 
   @override
   Widget build(BuildContext context) {
@@ -18,21 +19,30 @@ class GeneralWrapper extends StatelessWidget {
     return AutoTabsScaffold(
         backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
         animationCurve: Curves.easeInOutCubicEmphasized,
+scaffoldKey: generalWrapperGlobalKey,
+        drawer: Container(
+          color: isDark ? Colors.black : ThemeColors.gray50,
+          child: const Text("Drawer"),
+        ),
         resizeToAvoidBottomInset: true,
         appBarBuilder: (appBarCtx, tabsRouter) {
           logger(appBarCtx.topRoute.name, hint: '----------');
           switch (appBarCtx.topRoute.name) {
             case Home01Route.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: "TestApp",
                   rightIcon: HeroIcons.user,
                   onRightIconPress: () {
                     context.pushRoute(const MyProfileRouter());
                   });
             case MyProfileRouter.name:
-              return const PrsmDefaultAppBar();
+              return  PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
+              );
             case Profile01Route.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: S(context).profile,
                   rightIcon: HeroIcons.pencilSquare,
                   onRightIconPress: () {
@@ -42,21 +52,16 @@ class GeneralWrapper extends StatelessWidget {
                   onLeftIconPress: () {
                     context.navigateBack();
                   });
-            // case ProfileEdit01Route.name:
-            //   return PrsmDefaultAppBar(
-            //       titleText: S(context).editProfile,
-            //       rightIcon: HeroIcons.plusCircle,
-            //       onRightIconPress: ,
-            //       leftIcon: HeroIcons.chevronLeft,
-            //       onLeftIconPress: () {
-            //         context.navigateBack();
-            //       });
+
             case Saved01Route.name:
-              return PrsmDefaultAppBar(titleText: S(context).savedJobs);
+              return PrsmDefaultAppBar(
+                  generalWrapperGlobalKey:generalWrapperGlobalKey,titleText: S(context).savedJobs);
             case Settings01Route.name:
-              return PrsmDefaultAppBar(titleText: S(context).settings);
+              return PrsmDefaultAppBar(
+                  generalWrapperGlobalKey:generalWrapperGlobalKey,titleText: S(context).settings);
             case MyAccountRouter.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: S(context).account,
                   leftIcon: HeroIcons.chevronLeft,
                   onLeftIconPress: () {
@@ -64,6 +69,7 @@ class GeneralWrapper extends StatelessWidget {
                   });
             case CeoJobCreateRouter.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: S(context).postJob,
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
@@ -71,6 +77,7 @@ class GeneralWrapper extends StatelessWidget {
                   });
             case CeoJobEditRouter.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: "Edit Job",
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
@@ -78,6 +85,7 @@ class GeneralWrapper extends StatelessWidget {
                   });
             case JobDetailsRouter.name:
               return PrsmDefaultAppBar(
+                generalWrapperGlobalKey:generalWrapperGlobalKey,
                   titleText: "Job Details",
                   leftIcon: HeroIcons.chevronLeft,
                   onLeftIconPress: () {

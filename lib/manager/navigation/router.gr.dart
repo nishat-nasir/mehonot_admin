@@ -10,8 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i21;
 import 'package:flutter/rendering.dart' as _i25;
-import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart' as _i23;
-import 'package:mehonot_admin/manager/models/Job/job_md.dart' as _i22;
+import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart' as _i24;
+import 'package:mehonot_admin/manager/models/Job/job_md.dart' as _i23;
 import 'package:mehonot_admin/manager/navigation/router.dart' as _i1;
 import 'package:mehonot_admin/presentation/pages/Account/account_01_page.dart'
     as _i2;
@@ -19,18 +19,15 @@ import 'package:mehonot_admin/presentation/pages/Account/account_02_change_id_pa
     as _i3;
 import 'package:mehonot_admin/presentation/pages/Auth/login_01_page.dart'
     as _i4;
-import 'package:mehonot_admin/presentation/pages/Auth/reg_01_page.dart'
-    as _i5;
+import 'package:mehonot_admin/presentation/pages/Auth/reg_01_page.dart' as _i5;
 import 'package:mehonot_admin/presentation/pages/Auth/reg_done_01_page.dart'
     as _i6;
-import 'package:mehonot_admin/presentation/pages/Home/home_01_page.dart'
-    as _i7;
+import 'package:mehonot_admin/presentation/pages/Home/home_01_page.dart' as _i7;
 import 'package:mehonot_admin/presentation/pages/home_wrapper.dart' as _i8;
 import 'package:mehonot_admin/presentation/pages/intro_01_page.dart' as _i9;
 import 'package:mehonot_admin/presentation/pages/Job/ceo_job_create.dart'
     as _i10;
-import 'package:mehonot_admin/presentation/pages/Job/ceo_job_edit.dart'
-    as _i11;
+import 'package:mehonot_admin/presentation/pages/Job/ceo_job_edit.dart' as _i11;
 import 'package:mehonot_admin/presentation/pages/Job/job_details_page.dart'
     as _i12;
 import 'package:mehonot_admin/presentation/pages/Menu/menu_01_page.dart'
@@ -48,7 +45,7 @@ import 'package:mehonot_admin/presentation/pages/Setting/settings_01_page.dart'
 import 'package:mehonot_admin/presentation/pages/Setting/settings_be_ceo_page.dart'
     as _i19;
 import 'package:mehonot_admin/presentation/pages/splash_page.dart' as _i20;
-import 'package:mehonot_admin/presentation/template/template.dart' as _i24;
+import 'package:mehonot_admin/presentation/template/template.dart' as _i22;
 
 abstract class $AppRouter extends _i21.RootStackRouter {
   $AppRouter({super.navigatorKey});
@@ -134,9 +131,11 @@ abstract class $AppRouter extends _i21.RootStackRouter {
       );
     },
     GeneralWrapperRouter.name: (routeData) {
+      final args = routeData.argsAs<GeneralWrapperRouterArgs>(
+          orElse: () => const GeneralWrapperRouterArgs());
       return _i21.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i8.GeneralWrapper(),
+        child: _i8.GeneralWrapper(key: args.key),
       );
     },
     Intro01Route.name: (routeData) {
@@ -416,16 +415,32 @@ class Home01Route extends _i21.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i8.GeneralWrapper]
-class GeneralWrapperRouter extends _i21.PageRouteInfo<void> {
-  const GeneralWrapperRouter({List<_i21.PageRouteInfo>? children})
-      : super(
+class GeneralWrapperRouter
+    extends _i21.PageRouteInfo<GeneralWrapperRouterArgs> {
+  GeneralWrapperRouter({
+    _i22.Key? key,
+    List<_i21.PageRouteInfo>? children,
+  }) : super(
           GeneralWrapperRouter.name,
+          args: GeneralWrapperRouterArgs(key: key),
           initialChildren: children,
         );
 
   static const String name = 'GeneralWrapperRouter';
 
-  static const _i21.PageInfo<void> page = _i21.PageInfo<void>(name);
+  static const _i21.PageInfo<GeneralWrapperRouterArgs> page =
+      _i21.PageInfo<GeneralWrapperRouterArgs>(name);
+}
+
+class GeneralWrapperRouterArgs {
+  const GeneralWrapperRouterArgs({this.key});
+
+  final _i22.Key? key;
+
+  @override
+  String toString() {
+    return 'GeneralWrapperRouterArgs{key: $key}';
+  }
 }
 
 /// generated route for
@@ -460,9 +475,9 @@ class CeoJobCreateRouter extends _i21.PageRouteInfo<void> {
 /// [_i11.CeoJobEditPage]
 class CeoJobEditRouter extends _i21.PageRouteInfo<CeoJobEditRouterArgs> {
   CeoJobEditRouter({
-    required _i22.JobModel jobModel,
-    required _i23.JobDetailModel jobDetailModel,
-    _i24.Key? key,
+    required _i23.JobModel jobModel,
+    required _i24.JobDetailModel jobDetailModel,
+    _i22.Key? key,
     List<_i21.PageRouteInfo>? children,
   }) : super(
           CeoJobEditRouter.name,
@@ -487,11 +502,11 @@ class CeoJobEditRouterArgs {
     this.key,
   });
 
-  final _i22.JobModel jobModel;
+  final _i23.JobModel jobModel;
 
-  final _i23.JobDetailModel jobDetailModel;
+  final _i24.JobDetailModel jobDetailModel;
 
-  final _i24.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -503,9 +518,9 @@ class CeoJobEditRouterArgs {
 /// [_i12.JobDetailsPage]
 class JobDetailsRouter extends _i21.PageRouteInfo<JobDetailsRouterArgs> {
   JobDetailsRouter({
-    _i24.Key? key,
-    required _i22.JobModel jobModel,
-    _i23.JobDetailModel? jobDetailModel,
+    _i22.Key? key,
+    required _i23.JobModel jobModel,
+    _i24.JobDetailModel? jobDetailModel,
     List<_i21.PageRouteInfo>? children,
   }) : super(
           JobDetailsRouter.name,
@@ -530,11 +545,11 @@ class JobDetailsRouterArgs {
     this.jobDetailModel,
   });
 
-  final _i24.Key? key;
+  final _i22.Key? key;
 
-  final _i22.JobModel jobModel;
+  final _i23.JobModel jobModel;
 
-  final _i23.JobDetailModel? jobDetailModel;
+  final _i24.JobDetailModel? jobDetailModel;
 
   @override
   String toString() {
@@ -589,7 +604,7 @@ class Profile01RouteArgs {
 /// [_i15.ProfileEdit01Page]
 class ProfileEdit01Route extends _i21.PageRouteInfo<ProfileEdit01RouteArgs> {
   ProfileEdit01Route({
-    _i24.Key? key,
+    _i22.Key? key,
     List<_i21.PageRouteInfo>? children,
   }) : super(
           ProfileEdit01Route.name,
@@ -606,7 +621,7 @@ class ProfileEdit01Route extends _i21.PageRouteInfo<ProfileEdit01RouteArgs> {
 class ProfileEdit01RouteArgs {
   const ProfileEdit01RouteArgs({this.key});
 
-  final _i24.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -618,7 +633,7 @@ class ProfileEdit01RouteArgs {
 /// [_i16.Saved01Page]
 class Saved01Route extends _i21.PageRouteInfo<Saved01RouteArgs> {
   Saved01Route({
-    _i24.Key? key,
+    _i22.Key? key,
     List<_i21.PageRouteInfo>? children,
   }) : super(
           Saved01Route.name,
@@ -635,7 +650,7 @@ class Saved01Route extends _i21.PageRouteInfo<Saved01RouteArgs> {
 class Saved01RouteArgs {
   const Saved01RouteArgs({this.key});
 
-  final _i24.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
@@ -647,7 +662,7 @@ class Saved01RouteArgs {
 /// [_i17.Search01Page]
 class Search01Route extends _i21.PageRouteInfo<Search01RouteArgs> {
   Search01Route({
-    _i24.Key? key,
+    _i22.Key? key,
     List<_i21.PageRouteInfo>? children,
   }) : super(
           Search01Route.name,
@@ -664,7 +679,7 @@ class Search01Route extends _i21.PageRouteInfo<Search01RouteArgs> {
 class Search01RouteArgs {
   const Search01RouteArgs({this.key});
 
-  final _i24.Key? key;
+  final _i22.Key? key;
 
   @override
   String toString() {
