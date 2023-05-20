@@ -1,0 +1,119 @@
+{
+  "project_info": {
+    "project_number": "111528070491",
+    "firebase_url": "https://porisrom-2022-default-rtdb.firebaseio.com",
+    "project_id": "porisrom-2022",
+    "storage_bucket": "porisrom-2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111528070491:android:80dbffff9a3cf9a342de7e",
+        "android_client_info": {
+          "package_name": "com.example.mehonot_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACCnMR08q_00DDqTN3R2J1QkIdZLs605M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "111528070491-pitahjh8kjuvoqrbv4cngk7dd4g12hnb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.porisromAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111528070491:android:98a9f00a69ddf43b42de7e",
+        "android_client_info": {
+          "package_name": "com.example.porisrom_admin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACCnMR08q_00DDqTN3R2J1QkIdZLs605M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "111528070491-pitahjh8kjuvoqrbv4cngk7dd4g12hnb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.porisromAdmin"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111528070491:android:f1519c0be58d218142de7e",
+        "android_client_info": {
+          "package_name": "com.example.porisrom_flutter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACCnMR08q_00DDqTN3R2J1QkIdZLs605M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111528070491-35egr5d0f8kf16cmmo1difbk7dbkb6ta.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "111528070491-pitahjh8kjuvoqrbv4cngk7dd4g12hnb.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.porisromAdmin"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
