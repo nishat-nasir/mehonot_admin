@@ -3,7 +3,7 @@ import 'package:json_annotation/json_annotation.dart';
 part 'sponsor_md.g.dart';
 
 @JsonSerializable(anyMap: true)
-class SponsorModel {
+class BannerModel {
   String title;
   String companyName;
   String? posterName;
@@ -18,7 +18,7 @@ class SponsorModel {
   String time;
 
   @override
-  SponsorModel({
+  BannerModel({
     required this.title,
     required this.companyName,
     this.posterName,
@@ -33,7 +33,7 @@ class SponsorModel {
     required this.time,
   });
 
-  factory SponsorModel.fromJson(Map json) => _$SponsorModelFromJson(json);
+  factory BannerModel.fromJson(Map json) => _$SponsorModelFromJson(json);
 
   Map toJson() => _$SponsorModelToJson(this);
 }

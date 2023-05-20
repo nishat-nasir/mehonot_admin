@@ -9,30 +9,30 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
     switch (action.runtimeType) {
-      case GetSettingsAdsAction:
-        return _getSettingsAdsAction(store.state, action, next);
-      case GetHomeMidAdsAction:
-        return _getHomeMidAdsAction(store.state, action, next);
-      case GetHomeTopAdsAction:
-        return _getHomeTopAdsAction(store.state, action, next);
+      case GetSettingBannersAction:
+        return _getSettingBannersAction(store.state, action, next);
+      case GetHomeJobAdsAction:
+        return _getHomeJobAdsAction(store.state, action, next);
+      case GetHomeBannersAction:
+        return _getHomeBannersAction(store.state, action, next);
       default:
         return next(action);
     }
   }
 }
 
-_getSettingsAdsAction(
-    AppState state, GetSettingsAdsAction action, NextDispatcher next) async {
+_getSettingBannersAction(
+    AppState state, GetSettingBannersAction action, NextDispatcher next) async {
   try {
-    logger("GetSettingsAdsAction -- Called");
+    logger("GetSettingBannersAction -- Called");
 
-    List<SponsorModel> allSettingsAds = [];
+    List<BannerModel> allSettingsBanners = [];
 
     CollectionReference settingsAdsCollection =
         firebaseKit.settingsBannersCollection;
     await settingsAdsCollection.get().then((value) {
       value.docs.map((e) {
-        SponsorModel jobSponsorModel = SponsorModel(
+        BannerModel bannerModel = BannerModel(
           // jobId: e["jobId"],
           website: e['website'],
           phone: e['phone'],
@@ -47,32 +47,32 @@ _getSettingsAdsAction(
           posterName: e['posterName'],
           time: e['time'],
         );
-        allSettingsAds.add(jobSponsorModel);
+        allSettingsBanners.add(bannerModel);
       }).toList();
-      return allSettingsAds;
+      return allSettingsBanners;
     });
     await appStore.dispatch(
       UpdateAdsStateAction(
-        settingsAds: allSettingsAds,
+        settingsAds: allSettingsBanners,
       ),
     );
   } catch (e) {
-    logger(e.toString(), hint: "GetSettingsAdsAction CATCH ERROR");
+    logger(e.toString(), hint: "GetSettingBannersAction CATCH ERROR");
     return false;
   }
 }
 
-_getHomeMidAdsAction(
-    AppState state, GetHomeMidAdsAction action, NextDispatcher next) async {
+_getHomeJobAdsAction(
+    AppState state, GetHomeJobAdsAction action, NextDispatcher next) async {
   try {
-    logger("GetHomeMidAdsAction -- Called");
+    logger("GetHomeJobAdsAction -- Called");
 
-    List<SponsorModel> allHomeMidAds = [];
+    List<BannerModel> allHomeJobAdds = [];
 
     CollectionReference homeMidAdsCollection = firebaseKit.midBannersCollection;
     await homeMidAdsCollection.get().then((value) {
       value.docs.map((e) {
-        SponsorModel jobSponsorModel = SponsorModel(
+        BannerModel bannerModel = BannerModel(
           // jobId: e["jobId"],
           website: e['website'],
           phone: e['phone'],
@@ -87,31 +87,31 @@ _getHomeMidAdsAction(
           posterName: e['posterName'],
           time: e['time'],
         );
-        allHomeMidAds.add(jobSponsorModel);
+        allHomeJobAdds.add(bannerModel);
       }).toList();
-      return allHomeMidAds;
+      return allHomeJobAdds;
     });
     await appStore.dispatch(
       UpdateAdsStateAction(
-        homeMidAds: allHomeMidAds,
+        homeMidAds: allHomeJobAdds,
       ),
     );
   } catch (e) {
-    logger(e.toString(), hint: "GetHomeMidAdsAction CATCH ERROR");
+    logger(e.toString(), hint: "GetHomeJobAdsAction CATCH ERROR");
     return false;
   }
 }
 
-_getHomeTopAdsAction(
-    AppState state, GetHomeTopAdsAction action, NextDispatcher next) async {
+_getHomeBannersAction(
+    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
   try {
-    logger("GetHomeTopAdsAction -- Called");
-    List<SponsorModel> allHomeTopAds = [];
+    logger("GetHomeBannersAction -- Called");
+    List<BannerModel> allHomeBanners = [];
 
     CollectionReference homeTopAdsCollection = firebaseKit.topBannersCollection;
     await homeTopAdsCollection.get().then((value) {
       value.docs.map((e) {
-        SponsorModel jobSponsorModel = SponsorModel(
+        BannerModel bannerModel = BannerModel(
           // jobId: e["jobId"],
           website: e['website'],
           phone: e['phone'],
@@ -126,17 +126,17 @@ _getHomeTopAdsAction(
           posterName: e['posterName'],
           time: e['time'],
         );
-        allHomeTopAds.add(jobSponsorModel);
+        allHomeBanners.add(bannerModel);
       }).toList();
-      return allHomeTopAds;
+      return allHomeBanners;
     });
     await appStore.dispatch(
       UpdateAdsStateAction(
-        homeTopAds: allHomeTopAds,
+        homeTopAds: allHomeBanners,
       ),
     );
   } catch (e) {
-    logger(e.toString(), hint: "GetHomeTopAdsAction CATCH ERROR");
+    logger(e.toString(), hint: "GetHomeBannersAction CATCH ERROR");
     return false;
   }
 }

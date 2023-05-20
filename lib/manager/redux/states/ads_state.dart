@@ -3,9 +3,9 @@ import '../../models/Sponsor/sponsor_md.dart';
 
 @immutable
 class AdsState {
-  final List<SponsorModel> homeTopAds;
-  final List<SponsorModel> homeMidAds;
-  final List<SponsorModel> settingsAds;
+  final List<BannerModel> homeTopAds;
+  final List<BannerModel> homeMidAds;
+  final List<BannerModel> settingsAds;
 
   AdsState({
     required this.homeTopAds,
@@ -22,9 +22,9 @@ class AdsState {
   }
 
   AdsState copyWith({
-    List<SponsorModel>? homeTopAds,
-    List<SponsorModel>? homeMidAds,
-    List<SponsorModel>? settingsAds,
+    List<BannerModel>? homeTopAds,
+    List<BannerModel>? homeMidAds,
+    List<BannerModel>? settingsAds,
   }) {
     return AdsState(
       homeTopAds: homeTopAds ?? this.homeTopAds,
@@ -36,9 +36,9 @@ class AdsState {
 
 ///------------------Update Ads Action ---------
 class UpdateAdsStateAction {
-  final List<SponsorModel>? homeTopAds;
-  final List<SponsorModel>? homeMidAds;
-  final List<SponsorModel>? settingsAds;
+  final List<BannerModel>? homeTopAds;
+  final List<BannerModel>? homeMidAds;
+  final List<BannerModel>? settingsAds;
 
   UpdateAdsStateAction({
     this.homeTopAds,
@@ -49,14 +49,14 @@ class UpdateAdsStateAction {
 
 ///------------------Ads Action ---------
 
-class GetSettingsAdsAction {
-  GetSettingsAdsAction();
+class GetSettingBannersAction {
+  GetSettingBannersAction();
 }
 
-class GetHomeMidAdsAction {
-  GetHomeMidAdsAction();
+class GetHomeJobAdsAction {
+  GetHomeJobAdsAction();
 }
 
-class GetHomeTopAdsAction {
-  GetHomeTopAdsAction();
+class GetHomeBannersAction {
+  GetHomeBannersAction();
 }
