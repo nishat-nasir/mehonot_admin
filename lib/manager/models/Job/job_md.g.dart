@@ -6,7 +6,8 @@ part of 'job_md.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-JobModel _$JobModelFromJson(Map json) => JobModel(
+JobModel _$JobModelFromJson(Map json) =>
+    JobModel(
       jobId: json['jobId'] as String,
       jobDetailsId: json['jobDetailsId'] as String,
       title: json['title'] as String,
@@ -17,9 +18,11 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       workStartTime: json['workStartTime'] as String,
       workFinishTime: json['workFinishTime'] as String,
       postedByUserId: json['postedByUserId'] as String,
+      status: json['status'] as String,
     );
 
-Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
+Map<String, dynamic> _$JobModelToJson(JobModel instance) =>
+    <String, dynamic>{
       'jobId': instance.jobId,
       'jobDetailsId': instance.jobDetailsId,
       'title': instance.title,
@@ -30,4 +33,5 @@ Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
       'workStartTime': instance.workStartTime,
       'workFinishTime': instance.workFinishTime,
       'postedByUserId': instance.postedByUserId,
+      'status': instance.status,
     };

@@ -89,6 +89,7 @@ Future<bool> _getJobsAction(AppState state, GetJobsAction action,
           workFinishTime: e["workFinishTime"],
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
+          status: e["status"],
         );
         allJobs.add(job);
       }).toList();
@@ -184,6 +185,7 @@ Future<JobModel?> _getJobDataByIdAction(AppState state,
         workFinishTime: value["workFinishTime"],
         workStartTime: value["workStartTime"],
         postedByUserId: value["postedByUserId"],
+        status: value["status"],
       );
     });
 
@@ -280,6 +282,7 @@ Future<bool> _getReqJobsAction(AppState state, GetReqJobsAction action,
           workFinishTime: e["workFinishTime"],
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
+          status: e["status"],
         );
         allReqJobs.add(job);
       }).toList();
@@ -414,11 +417,14 @@ Future<bool> _getAcceptReqJobAction(AppState state,
         jobModel: action.jobMd, jobDetailModel: jobDetailModel));
 
     if (success) {
+      await requestedJobColl
+          .doc(action.jobMd.jobId)
+          .collection(jobDetailsFbDb)
+          .doc(action.jobMd.jobDetailsId)
+          .delete();
       await requestedJobColl.doc(action.jobMd.jobId).delete();
     }
-    // next(UpdateJobsStateAction(
-    //   allRequestedJobs:
-    // ));
+
     //remove from state
     appStore.dispatch(UpdateJobsStateAction(
         allRequestedJobs: state.jobsState.allRequestedJobs

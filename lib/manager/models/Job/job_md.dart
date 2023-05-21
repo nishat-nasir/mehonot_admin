@@ -15,20 +15,21 @@ class JobModel {
   String workStartTime;
   String workFinishTime;
   String postedByUserId;
+  String status;
 
   @override
-  JobModel({
-    required this.jobId,
-    required this.jobDetailsId,
-    required this.title,
-    required this.companyName,
-    this.images,
-    required this.address,
-    required this.type,
-    required this.workStartTime,
-    required this.workFinishTime,
-    required this.postedByUserId,
-  });
+  JobModel(
+      {required this.jobId,
+      required this.jobDetailsId,
+      required this.title,
+      required this.companyName,
+      this.images,
+      required this.address,
+      required this.type,
+      required this.workStartTime,
+      required this.workFinishTime,
+      required this.postedByUserId,
+      required this.status});
 
   factory JobModel.fromJson(Map json) => _$JobModelFromJson(json);
 

@@ -248,6 +248,7 @@ class _Search01PageState extends State<Search01Page> {
                         companyName: currentJob.companyName,
                         jobId: currentJob.jobId,
                         jobDetailsId: currentJob.jobDetailsId,
+                        status: currentJob.status,
                       ),
                       jobDetailModel: JobDetailModel(
                         description: currentJobDetails.description,
