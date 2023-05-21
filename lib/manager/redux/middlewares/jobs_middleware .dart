@@ -43,6 +43,8 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
         return _getCreateJobAction(store.state, action, next);
       case GetReqJobsAction:
         return _getReqJobsAction(store.state, action, next);
+      case GetAcceptReqJobAction:
+        return _getAcceptReqJobAction(store.state, action, next);
 
       default:
         return next(action);
@@ -360,6 +362,72 @@ Future<bool> _getCreateJobReqAction(AppState state,
   } catch (e) {
     // closeLoading();
     logger(e.toString(), hint: 'GetCreateJobReqAction CATCH ERROR');
+    return false;
+  }
+}
+
+Future<bool> _getAcceptReqJobAction(AppState state,
+    GetAcceptReqJobAction action, NextDispatcher next) async {
+  try {
+    logger("GetAcceptReqJobAction -- Called");
+    JobDetailModel jobDetailModel;
+
+    CollectionReference requestedJobColl =
+        FirebaseKit().requestedJobsCollection;
+
+    jobDetailModel = await requestedJobColl
+        .doc(action.jobMd.jobId)
+        .collection(jobDetailsFbDb)
+        .doc(action.jobMd.jobDetailsId)
+        .get()
+        .then((value) {
+      logger(value.data());
+      return jobDetailModel = JobDetailModel(
+        jobId: value["jobId"],
+        phone: value["phone"],
+        createdAt: convertTimeStampToTime(value["createdAt"]),
+        jobDetailsId: value["jobDetailsId"],
+        category: value["category"],
+        description: value["description"],
+        email: value["email"],
+        website: value["website"],
+        workCondition: WorkConModel(
+          period: value["workCondition"]["period"],
+          wageAmount: value["workCondition"]["wageAmount"],
+          wageType: value["workCondition"]["wageType"],
+          workFinishDay: value["workCondition"]["workFinishDay"],
+          workStartDay: value["workCondition"]["workStartDay"],
+        ),
+        recruitCondition: RecruitConModel(
+          personnel: value["recruitCondition"]["personnel"],
+          gender: value["recruitCondition"]["gender"],
+          deadline: value["recruitCondition"]["deadline"],
+          age: value["recruitCondition"]["age"],
+          education: value["recruitCondition"]["education"],
+        ),
+        ownerName: value["ownerName"],
+        moreDetails: value["moreDetails"],
+      );
+    });
+
+    bool success = await appStore.dispatch(GetCreateJobAction(
+        jobModel: action.jobMd, jobDetailModel: jobDetailModel));
+
+    if (success) {
+      await requestedJobColl.doc(action.jobMd.jobId).delete();
+    }
+    // next(UpdateJobsStateAction(
+    //   allRequestedJobs:
+    // ));
+    //remove from state
+    appStore.dispatch(UpdateJobsStateAction(
+        allRequestedJobs: state.jobsState.allRequestedJobs
+            .where((element) => element.jobId != action.jobMd.jobId)
+            .toList()));
+
+    return true;
+  } catch (e) {
+    logger(e.toString(), hint: 'GetAcceptReqJobAction CATCH ERROR');
     return false;
   }
 }

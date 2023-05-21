@@ -244,3 +244,9 @@ class GetLocationAction {
 class GetReqJobsAction {
   GetReqJobsAction();
 }
+
+class GetAcceptReqJobAction {
+  JobModel jobMd;
+
+  GetAcceptReqJobAction({required this.jobMd});
+}
