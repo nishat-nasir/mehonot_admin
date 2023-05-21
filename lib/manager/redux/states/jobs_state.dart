@@ -242,11 +242,5 @@ class GetLocationAction {
 }
 
 class GetReqJobsAction {
-  final JobModelReq jobModelReq;
-  final JobDetailModelReq jobDetailModelReq;
-
-  GetReqJobsAction({
-    required this.jobModelReq,
-    required this.jobDetailModelReq,
-  });
+  GetReqJobsAction();
 }
