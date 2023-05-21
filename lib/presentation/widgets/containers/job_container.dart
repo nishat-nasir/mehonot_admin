@@ -92,31 +92,33 @@ class PrsmJobContainer extends StatelessWidget {
                         ),
                       ),
                     ]),
-                SpacedColumn(verticalSpace: 40, children: [
-                  if (onReqDecline != null)
-                    InkWell(
-                        onTap: onReqDecline,
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: ThemeColors.red500,
-                                borderRadius: BorderRadius.circular(8.r)),
-                            padding: EdgeInsets.all(5.w),
-                            child: HeroIcon(
-                              HeroIcons.xMark,
-                              size: 40.h,
-                              color: ThemeColors.white,
-                            ))),
-                  if (onReqDecline != null)
-                    InkWell(
-                        onTap: onReqAccept,
-                        child: Container(
-                            decoration: BoxDecoration(
-                                color: ThemeColors.green500,
-                                borderRadius: BorderRadius.circular(8.r)),
-                            padding: EdgeInsets.all(5.w),
-                            child: HeroIcon(HeroIcons.check,
-                                size: 40.h, color: ThemeColors.white)))
-                ])
+                Padding(
+                    padding: EdgeInsets.only(right: 16.w),
+                    child: SpacedColumn(verticalSpace: 40, children: [
+                      if (onReqDecline != null)
+                        InkWell(
+                            onTap: onReqDecline,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: ThemeColors.red500,
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                padding: EdgeInsets.all(10.w),
+                                child: HeroIcon(
+                                  HeroIcons.xMark,
+                                  size: 50.h,
+                                  color: ThemeColors.white,
+                                ))),
+                      if (onReqDecline != null)
+                        InkWell(
+                            onTap: onReqAccept,
+                            child: Container(
+                                decoration: BoxDecoration(
+                                    color: ThemeColors.green500,
+                                    borderRadius: BorderRadius.circular(8.r)),
+                                padding: EdgeInsets.all(10.w),
+                                child: HeroIcon(HeroIcons.check,
+                                    size: 50.h, color: ThemeColors.white)))
+                    ]))
               ]),
         ));
   }
