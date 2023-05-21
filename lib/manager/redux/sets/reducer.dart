@@ -81,7 +81,17 @@ final _initReducer = combineReducers<InitState>(
     [TypedReducer<InitState, UpdateInitStateAction>(_updateInitState)]);
 
 InitState _updateInitState(InitState state, UpdateInitStateAction action) {
-  return state.copyWith();
+  return state.copyWith(
+    countDhkJobs: action.countDhkJobs ?? state.countDhkJobs,
+    countCtgJobs: action.countCtgJobs ?? state.countCtgJobs,
+    countKhlJobs: action.countKhlJobs ?? state.countKhlJobs,
+    countRajJobs: action.countRajJobs ?? state.countRajJobs,
+    countBarJobs: action.countBarJobs ?? state.countBarJobs,
+    countSylJobs: action.countSylJobs ?? state.countSylJobs,
+    countRngJobs: action.countRngJobs ?? state.countRngJobs,
+    countMymJobs: action.countMymJobs ?? state.countMymJobs,
+    countAllJobs: action.countAllJobs ?? state.countAllJobs,
+  );
 }
 
 /////////////////////////
