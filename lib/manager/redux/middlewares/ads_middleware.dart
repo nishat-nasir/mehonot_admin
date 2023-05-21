@@ -118,13 +118,14 @@ Future<bool> _getCreateBannersAction(
     //   ));
     // }
 
-    CollectionReference createJobAdsCollection = firebaseKit.adsJobsCollection;
+    CollectionReference createBannerAdsCollection =
+        firebaseKit.bannersCollection;
 
-    await createJobAdsCollection.doc(bannerUuid).set({
+    await createBannerAdsCollection.doc(bannerUuid).set({
       "id": bannerUuid,
       "title": action.bannerModel.title,
       "companyName": action.bannerModel.companyName,
-      "postedById": action.bannerModel.postedById,
+      "postedById": state.userState.userData.userId,
       "email": action.bannerModel.email,
       "phone": action.bannerModel.phone,
       "images": action.bannerModel.images,
@@ -132,8 +133,8 @@ Future<bool> _getCreateBannersAction(
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,
       "category": action.bannerModel.category,
-      "createdAt": action.bannerModel.createdAt,
-      "removeAt": action.bannerModel.removeAt,
+      "createdAt": DateTime.now(),
+      "removeAt": DateTime.now().add(const Duration(days: 30)),
     });
     return true;
 
