@@ -14,10 +14,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
         return _getBannersAction(store.state, action, next);
       case GetHomeJobAdsAction:
         return _getHomeJobAdsAction(store.state, action, next);
-
       case GetCreateBannersAction:
         return _getCreateBannersAction(store.state, action, next);
-
       case GetPostHomeJobAdsAction:
         return _getPostHomeJobAdsAction(store.state, action, next);
       default:

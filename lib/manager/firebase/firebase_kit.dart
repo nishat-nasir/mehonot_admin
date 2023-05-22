@@ -5,42 +5,46 @@ FirebaseKit firebaseKit = FirebaseKit();
 class FirebaseKit {
   // For User purpose
   final CollectionReference usersCollection =
-  FirebaseFirestore.instance.collection(fbUsersCl);
+      FirebaseFirestore.instance.collection(fbUsersCl);
 
   // For Ad & Notice purpose
   final CollectionReference noticeCollection =
-  FirebaseFirestore.instance.collection(fbNoticeCl);
+      FirebaseFirestore.instance.collection(fbNoticeCl);
   final CollectionReference bannersCollection =
-  FirebaseFirestore.instance.collection(fbBannersCl);
+      FirebaseFirestore.instance.collection(fbBannersCl);
 
-  //For Job Requests lists Puspose
+  //For Job Requests lists Purpose
   final CollectionReference adsJobsCollection =
-  FirebaseFirestore.instance.collection(fbAdsJobsCl);
+      FirebaseFirestore.instance.collection(fbAdsJobsCl);
 
   final CollectionReference requestedJobsCollection =
-  FirebaseFirestore.instance.collection(fbReqJobCl);
+      FirebaseFirestore.instance.collection(fbReqJobCl);
 
   // For Job Category purpose
   final CollectionReference categoriesCollection =
-  FirebaseFirestore.instance.collection(fbCategoriesCl);
+      FirebaseFirestore.instance.collection(fbCategoriesCl);
 
   // For Job Place purpose
   final CollectionReference barisalJobsCollection =
-  FirebaseFirestore.instance.collection(fbBslJobsCl);
+      FirebaseFirestore.instance.collection(fbBslJobsCl);
   final CollectionReference chittagongJobsCollection =
-  FirebaseFirestore.instance.collection(fbCtgJobsCl);
+      FirebaseFirestore.instance.collection(fbCtgJobsCl);
   final CollectionReference dhakaJobsCollection =
-  FirebaseFirestore.instance.collection(fbDhkJobsCl);
+      FirebaseFirestore.instance.collection(fbDhkJobsCl);
   final CollectionReference khulnaJobsCollection =
-  FirebaseFirestore.instance.collection(fbKhlJobsCl);
+      FirebaseFirestore.instance.collection(fbKhlJobsCl);
   final CollectionReference mymensinghJobsCollection =
-  FirebaseFirestore.instance.collection(fbMymJobsCl);
+      FirebaseFirestore.instance.collection(fbMymJobsCl);
   final CollectionReference rajshahiJobsCollection =
-  FirebaseFirestore.instance.collection(fbRjsJobsCl);
+      FirebaseFirestore.instance.collection(fbRjsJobsCl);
   final CollectionReference rangpurJobsCollection =
-  FirebaseFirestore.instance.collection(fbRngJobsCl);
+      FirebaseFirestore.instance.collection(fbRngJobsCl);
   final CollectionReference sylhetJobsCollection =
-  FirebaseFirestore.instance.collection(fbShlJobsCl);
+      FirebaseFirestore.instance.collection(fbShlJobsCl);
+
+  // For Feedback purpose
+  final CollectionReference feedbackCollection =
+      FirebaseFirestore.instance.collection(fbFeedbackCl);
 }
 
 const fbNoticeCl = "NOTICE";
@@ -48,6 +52,7 @@ const fbNoticeCl = "NOTICE";
 const fbBannersCl = "BANNERS";
 const fbAdsJobsCl = "ADS_JOBS";
 const fbReqJobCl = "REQ_JOBS";
+const fbFeedbackCl = "FEEDBACK";
 
 const fbCategoriesCl = "CATEGORIES";
 const fbDhkJobsCl = "DHK_JOBS";
@@ -60,10 +65,6 @@ const fbRngJobsCl = "RNG_JOBS";
 const fbMymJobsCl = "MYM_JOBS";
 
 const fbUsersCl = "USERS";
-
-// const fbProfileCl = "USER_PROFILE";
-// const fbSkillsCl = "SKILLS";
-// const fbMyJobsCl = "MY_JOBS";
 
 const String userProfileFbDb = "USER_PROFILE";
 const String jobDetailsFbDb = "JOB_DETAILS";
