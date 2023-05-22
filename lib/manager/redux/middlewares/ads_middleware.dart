@@ -49,9 +49,9 @@ Future<bool> _getBannersAction(
           bannerType: e['bannerType'],
           images: e['images'],
           companyName: e['companyName'],
-          createdAt: e['createdAt'],
+          createdAt: e['createdAt'].toString(),
           postedById: e['postedById'],
-          removeAt: e['removeAt'],
+          removeAt: e['removeAt'].toString(),
         );
         if (bannerModel.bannerType == "home") {
           allHomeBanners.add(bannerModel);

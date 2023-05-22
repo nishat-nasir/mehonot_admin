@@ -38,10 +38,15 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Job Requests",
               );
-            case BannerListRoute.name:
+            case BannerHomeListRoute.name:
               return PrsmDefaultAppBar(
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
-                titleText: "Banners",
+                titleText: "Home banners",
+              );
+            case BannerSetListRoute.name:
+              return PrsmDefaultAppBar(
+                generalWrapperGlobalKey: generalWrapperGlobalKey,
+                titleText: "Setting banners",
               );
             case BannerDetailsRoute.name:
               return PrsmDefaultAppBar(
