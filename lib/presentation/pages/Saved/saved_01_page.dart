@@ -225,13 +225,14 @@ class _Saved01PageState extends State<Saved01Page> {
                         jobId: currentJob.jobId,
                         jobDetailsId: currentJob.jobDetailsId,
                         status: currentJob.status,
+                        wageAmount: currentJob.wageAmount,
+                        timestamp: currentJob.timestamp,
+
                       ),
                       jobDetailModel: JobDetailModel(
                         description: currentJobDetails.description,
                         jobId: currentJobDetails.jobId,
                         jobDetailsId: currentJobDetails.jobDetailsId,
-                        createdAt: "",
-                        //currentJobDetails.createdAt,
                         phone: currentJobDetails.phone,
                         email: currentJobDetails.email,
                         website: currentJobDetails.website,

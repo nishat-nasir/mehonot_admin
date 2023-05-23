@@ -8,7 +8,6 @@ part 'job_dtl_md.g.dart';
 class JobDetailModel {
   String jobId;
   String jobDetailsId;
-  String createdAt;
   String? ownerName;
   String? description;
   String? email;
@@ -23,7 +22,6 @@ class JobDetailModel {
   JobDetailModel({
     required this.jobId,
     required this.jobDetailsId,
-    required this.createdAt,
     this.ownerName,
     this.description,
     this.email,

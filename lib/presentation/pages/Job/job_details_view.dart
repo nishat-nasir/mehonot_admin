@@ -36,7 +36,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
-    String jobWage = widget.jobDetailModel.workCondition.wageAmount.toString();
+    String jobWage = widget.jobModel.wageAmount.toString();
     String jobWageType = widget.jobDetailModel.workCondition.wageType!;
     String jobDuration = widget.jobDetailModel.workCondition.period!;
 
@@ -50,7 +50,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedText(
-                      text: widget.jobDetailModel.createdAt, //"12.08.12",
+                      text: widget.jobModel.timestamp, //"12.08.12",
                       textStyle: ThemeTextRegular.k14
                           .copyWith(color: ThemeColors.coolgray500)),
                   SizedText(
@@ -268,7 +268,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                   "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
           infoHelper(
               title: S(context).wages,
-              desc: "${widget.jobDetailModel.workCondition.wageAmount} BDT"),
+              desc: "${widget.jobModel.wageAmount} BDT"),
           infoHelper(
               title: S(context).period,
               desc: widget.jobDetailModel.workCondition.period!),

@@ -16,17 +16,17 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
     switch (action.runtimeType) {
-    //----------------- GET Location -----------------
+      //----------------- GET Location -----------------
       case GetLocationAction:
         return _getLocationAction(store.state, action, next);
 
-    //----------------- GET JOBS -----------------
+      //----------------- GET JOBS -----------------
       case GetJobsAction:
         return _getJobsAction(store.state, action, next);
       case GetJobDataByIdAction:
         return _getJobDataByIdAction(store.state, action, next);
 
-    //----------------- GET JOB DETAILS -----------------
+      //----------------- GET JOB DETAILS -----------------
       case GetJobDetailsAction:
         return _getJobDetailsAction(store.state, action, next);
       case GetUpdateJobAction:
@@ -36,13 +36,15 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
       case GetJobSearchAction:
         return _getJobSearchAction(store.state, action, next);
 
-    //  --------------- GET REQ JOB  -----------------
+      //  --------------- GET REQ JOB  -----------------
       case GetCreateJobReqAction:
         return _getCreateJobReqAction(store.state, action, next);
       case GetCreateJobAction:
         return _getCreateJobAction(store.state, action, next);
       case GetReqJobsAction:
         return _getReqJobsAction(store.state, action, next);
+      case GetReqJobDetailsAction:
+        return _getReqJobDetailsAction(store.state, action, next);
       case GetAcceptReqJobAction:
         return _getAcceptReqJobAction(store.state, action, next);
 
@@ -54,21 +56,21 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
 
 // ------------------------------------------------------------------------------
 
-Future<Division> _getLocationAction(AppState state, GetLocationAction action,
-    NextDispatcher next) async {
+Future<Division> _getLocationAction(
+    AppState state, GetLocationAction action, NextDispatcher next) async {
   Division curDiv = convertStringToDivision(action.divisionString);
   next(UpdateJobsStateAction(currentDivision: curDiv));
   return curDiv;
 }
 
-Future<bool> _getJobsAction(AppState state, GetJobsAction action,
-    NextDispatcher next) async {
+Future<bool> _getJobsAction(
+    AppState state, GetJobsAction action, NextDispatcher next) async {
   try {
     logger("GetJobsAction -- Called");
     List<JobModel> allJobs = [];
 
     CollectionReference jobFromDivision =
-    getDivisionCollection(action.division);
+        getDivisionCollection(action.division);
 
     await jobFromDivision.get().then((value) {
       value.docs.map((e) {
@@ -90,6 +92,8 @@ Future<bool> _getJobsAction(AppState state, GetJobsAction action,
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
           status: e["status"],
+          wageAmount: e["wageAmount"],
+          timestamp: e["timestamp"],
         );
         allJobs.add(job);
       }).toList();
@@ -156,8 +160,8 @@ Future<bool> _getJobsAction(AppState state, GetJobsAction action,
   }
 }
 
-Future<JobModel?> _getJobDataByIdAction(AppState state,
-    GetJobDataByIdAction action, NextDispatcher next) async {
+Future<JobModel?> _getJobDataByIdAction(
+    AppState state, GetJobDataByIdAction action, NextDispatcher next) async {
   try {
     logger("GetJobDataByIdAction -- Called");
     // Fetch Job Data by action.jobDivision and action.jobId
@@ -165,7 +169,7 @@ Future<JobModel?> _getJobDataByIdAction(AppState state,
     JobModel? jobModel;
 
     CollectionReference jobFromDivision =
-    getDivisionCollection(action.jobDivision);
+        getDivisionCollection(action.jobDivision);
 
     await jobFromDivision.doc(action.jobId).get().then((value) {
       logger(value.data(), hint: 'GetJobDataByIdAction MAP DATA');
@@ -186,6 +190,8 @@ Future<JobModel?> _getJobDataByIdAction(AppState state,
         workStartTime: value["workStartTime"],
         postedByUserId: value["postedByUserId"],
         status: value["status"],
+        timestamp: value["timestamp"],
+        wageAmount: value["wageAmount"],
       );
     });
 
@@ -198,15 +204,15 @@ Future<JobModel?> _getJobDataByIdAction(AppState state,
 
 // ------------------------------------------------------------------------------
 
-Future<bool> _getJobDetailsAction(AppState state, GetJobDetailsAction action,
-    NextDispatcher next) async {
+Future<bool> _getJobDetailsAction(
+    AppState state, GetJobDetailsAction action, NextDispatcher next) async {
   try {
     logger("GetJobDetailsAction -- Called");
 
     JobDetailModel jobDetailModel;
 
     CollectionReference jobFromDivision =
-    getDivisionCollection(action.division);
+        getDivisionCollection(action.division);
 
     jobDetailModel = await jobFromDivision
         .doc(action.jobId)
@@ -218,7 +224,6 @@ Future<bool> _getJobDetailsAction(AppState state, GetJobDetailsAction action,
       return jobDetailModel = JobDetailModel(
         jobId: value["jobId"],
         phone: value["phone"],
-        createdAt: convertTimeStampToTime(value["createdAt"]),
         jobDetailsId: value["jobDetailsId"],
         category: value["category"],
         description: value["description"],
@@ -226,7 +231,6 @@ Future<bool> _getJobDetailsAction(AppState state, GetJobDetailsAction action,
         website: value["website"],
         workCondition: WorkConModel(
           period: value["workCondition"]["period"],
-          wageAmount: value["workCondition"]["wageAmount"],
           wageType: value["workCondition"]["wageType"],
           workFinishDay: value["workCondition"]["workFinishDay"],
           workStartDay: value["workCondition"]["workStartDay"],
@@ -253,8 +257,8 @@ Future<bool> _getJobDetailsAction(AppState state, GetJobDetailsAction action,
   }
 }
 
-Future<bool> _getReqJobsAction(AppState state, GetReqJobsAction action,
-    NextDispatcher next) async {
+Future<bool> _getReqJobsAction(
+    AppState state, GetReqJobsAction action, NextDispatcher next) async {
   try {
     logger("GetReqJobsAction -- Called");
 
@@ -283,6 +287,8 @@ Future<bool> _getReqJobsAction(AppState state, GetReqJobsAction action,
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
           status: e["status"],
+          wageAmount: e["wageAmount"],
+          timestamp: e["timestamp"],
         );
         allReqJobs.add(job);
       }).toList();
@@ -298,8 +304,8 @@ Future<bool> _getReqJobsAction(AppState state, GetReqJobsAction action,
   }
 }
 
-Future<bool> _getCreateJobReqAction(AppState state,
-    GetCreateJobReqAction action, NextDispatcher next) async {
+Future<bool> _getCreateJobReqAction(
+    AppState state, GetCreateJobReqAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobReqAction -- Called");
     // Show loading
@@ -307,7 +313,7 @@ Future<bool> _getCreateJobReqAction(AppState state,
       division: action.jobModelReq.address.division,
     );
     String jobDetailsUid =
-    generateJobDetailsUuid(division: action.jobModelReq.address.division);
+        generateJobDetailsUuid(division: action.jobModelReq.address.division);
 
     ////TODO: FOR Images
     // String? downUrl;
@@ -333,6 +339,8 @@ Future<bool> _getCreateJobReqAction(AppState state,
       "type": action.jobModelReq.type,
       "workStartTime": action.jobModelReq.workStartTime,
       "workFinishTime": action.jobModelReq.workFinishTime,
+      "status": action.jobModelReq.status,
+      "wageAmount": action.jobModelReq.wageAmount,
     });
     logger('Job Created');
 
@@ -369,8 +377,8 @@ Future<bool> _getCreateJobReqAction(AppState state,
   }
 }
 
-Future<bool> _getAcceptReqJobAction(AppState state,
-    GetAcceptReqJobAction action, NextDispatcher next) async {
+Future<bool> _getAcceptReqJobAction(
+    AppState state, GetAcceptReqJobAction action, NextDispatcher next) async {
   try {
     logger("GetAcceptReqJobAction -- Called");
     JobDetailModel jobDetailModel;
@@ -388,7 +396,6 @@ Future<bool> _getAcceptReqJobAction(AppState state,
       return jobDetailModel = JobDetailModel(
         jobId: value["jobId"],
         phone: value["phone"],
-        createdAt: convertTimeStampToTime(value["createdAt"]),
         jobDetailsId: value["jobDetailsId"],
         category: value["category"],
         description: value["description"],
@@ -396,7 +403,6 @@ Future<bool> _getAcceptReqJobAction(AppState state,
         website: value["website"],
         workCondition: WorkConModel(
           period: value["workCondition"]["period"],
-          wageAmount: value["workCondition"]["wageAmount"],
           wageType: value["workCondition"]["wageType"],
           workFinishDay: value["workCondition"]["workFinishDay"],
           workStartDay: value["workCondition"]["workStartDay"],
@@ -438,8 +444,61 @@ Future<bool> _getAcceptReqJobAction(AppState state,
   }
 }
 
-Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
-    NextDispatcher next) async {
+Future<bool> _getReqJobDetailsAction(
+    AppState state, GetReqJobDetailsAction action, NextDispatcher next) async {
+  try {
+    logger("GetJobDetailsAction -- Called");
+
+    JobDetailModel jobDetailModel;
+
+    CollectionReference jobFromDivision = FirebaseKit().requestedJobsCollection;
+
+    jobDetailModel = await jobFromDivision
+        .doc(action.jobId)
+        .collection(jobDetailsFbDb)
+        .doc(action.jobDetailsId)
+        .get()
+        .then((value) {
+      logger(value.data());
+      return jobDetailModel = JobDetailModel(
+        jobId: value["jobId"],
+        phone: value["phone"],
+        jobDetailsId: value["jobDetailsId"],
+        category: value["category"],
+        description: value["description"],
+        email: value["email"],
+        website: value["website"],
+        workCondition: WorkConModel(
+          period: value["workCondition"]["period"],
+          wageType: value["workCondition"]["wageType"],
+          workFinishDay: value["workCondition"]["workFinishDay"],
+          workStartDay: value["workCondition"]["workStartDay"],
+        ),
+        recruitCondition: RecruitConModel(
+          personnel: value["recruitCondition"]["personnel"],
+          gender: value["recruitCondition"]["gender"],
+          deadline: value["recruitCondition"]["deadline"],
+          age: value["recruitCondition"]["age"],
+          education: value["recruitCondition"]["education"],
+        ),
+        ownerName: value["ownerName"],
+        moreDetails: value["moreDetails"],
+      );
+    });
+
+    appStore.dispatch(UpdateJobsStateAction(
+      selectedJobDetailModel: jobDetailModel,
+    ));
+    return true;
+  } catch (e) {
+    logger(e.toString(), hint: 'GetJobDetailsAction CATCH ERROR');
+    return false;
+  }
+}
+
+
+Future<bool> _getCreateJobAction(
+    AppState state, GetCreateJobAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobAction -- Called");
 
@@ -455,7 +514,7 @@ Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
     // }
 
     Division division =
-    convertStringToDivision(action.jobModel.address.division);
+        convertStringToDivision(action.jobModel.address.division);
 
     CollectionReference jobFromDivision = getDivisionCollection(division);
 
@@ -470,6 +529,9 @@ Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
       "type": action.jobModel.type,
       "workStartTime": action.jobModel.workStartTime,
       "workFinishTime": action.jobModel.workFinishTime,
+      "status": "published",
+      "timestamp": action.jobModel.timestamp,
+      "wageAmount": action.jobModel.wageAmount,
     });
     logger('Job Created');
 
@@ -481,7 +543,6 @@ Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
       "jobId": action.jobModel.jobId,
       "jobDetailsId": action.jobModel.jobDetailsId,
       "category": "",
-      "createdAt": action.jobDetailModel.createdAt,
       "description": action.jobDetailModel.description,
       "email": action.jobDetailModel.email,
       "ownerName": action.jobDetailModel.ownerName,
@@ -508,16 +569,16 @@ Future<bool> _getCreateJobAction(AppState state, GetCreateJobAction action,
   }
 }
 
-_getUpdateJobAction(AppState state, GetUpdateJobAction action,
-    NextDispatcher next) async {
+_getUpdateJobAction(
+    AppState state, GetUpdateJobAction action, NextDispatcher next) async {
   try {
     logger("GetUpdateJobAction -- Called");
 
     Division division =
-    convertStringToDivision(action.jobModel.address.division);
+        convertStringToDivision(action.jobModel.address.division);
 
     CollectionReference jobFromDivisionCollection =
-    getDivisionCollection(division);
+        getDivisionCollection(division);
 
     await jobFromDivisionCollection.doc(action.jobModel.jobId).update({
       // "jobId": action.jobModel.jobId,
@@ -552,13 +613,13 @@ _getUpdateJobAction(AppState state, GetUpdateJobAction action,
   }
 }
 
-Future<bool> _getDeleteJobAction(AppState state, GetDeleteJobAction action,
-    NextDispatcher next) async {
+Future<bool> _getDeleteJobAction(
+    AppState state, GetDeleteJobAction action, NextDispatcher next) async {
   try {
     String jobId = action.jobId;
 
     CollectionReference jobFromDivisionCollection =
-    getDivisionCollection(action.division);
+        getDivisionCollection(action.division);
 
     await jobFromDivisionCollection
         .doc(jobId)
@@ -629,14 +690,14 @@ Future<bool> _getDeleteJobAction(AppState state, GetDeleteJobAction action,
   }
 }
 
-Future<bool> _getJobSearchAction(AppState state, GetJobSearchAction action,
-    NextDispatcher next) async {
+Future<bool> _getJobSearchAction(
+    AppState state, GetJobSearchAction action, NextDispatcher next) async {
   try {
     logger("GetJobSearchAction -- Called");
     next(UpdateJobsStateAction(searchJobList: []));
 
     CollectionReference jobFromDivisionCollection =
-    getDivisionCollection(state.jobsState.currentDivision);
+        getDivisionCollection(state.jobsState.currentDivision);
 
     List<JobModel> searchResult = [];
 

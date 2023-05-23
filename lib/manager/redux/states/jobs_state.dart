@@ -60,7 +60,6 @@ class JobsState {
       selectedJobDetailModel: JobDetailModel(
         jobId: '',
         jobDetailsId: '',
-        createdAt: '',
         phone: '',
         ownerName: '',
         recruitCondition: RecruitConModel(
@@ -244,6 +243,19 @@ class GetLocationAction {
 class GetReqJobsAction {
   GetReqJobsAction();
 }
+
+class GetReqJobDetailsAction {
+  final Division division;
+  final String jobId;
+  final String jobDetailsId;
+
+  GetReqJobDetailsAction({
+    required this.division,
+    required this.jobId,
+    required this.jobDetailsId,
+  });
+}
+
 
 class GetAcceptReqJobAction {
   JobModel jobMd;

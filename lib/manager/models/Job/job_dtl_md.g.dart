@@ -9,7 +9,6 @@ part of 'job_dtl_md.dart';
 JobDetailModel _$JobDetailModelFromJson(Map json) => JobDetailModel(
       jobId: json['jobId'] as String,
       jobDetailsId: json['jobDetailsId'] as String,
-      createdAt: json['createdAt'] as String,
       ownerName: json['ownerName'] as String?,
       description: json['description'] as String?,
       email: json['email'] as String?,
@@ -26,7 +25,6 @@ Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
     <String, dynamic>{
       'jobId': instance.jobId,
       'jobDetailsId': instance.jobDetailsId,
-      'createdAt': instance.createdAt,
       'ownerName': instance.ownerName,
       'description': instance.description,
       'email': instance.email,

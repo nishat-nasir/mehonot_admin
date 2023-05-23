@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:mehonot_admin/manager/navigation/router.gr.dart';
@@ -451,6 +452,9 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           ),
           images: "",
           type: createJobType,
+          wageAmount: double.parse(jobWagesCntr.text),
+          timestamp: Timestamp.now(),
+          status: "pending",
         ),
         jobDetailModelReq: JobDetailModelReq(
             phone: jobPhoneCntr.text,
@@ -469,7 +473,6 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             ),
             workCondition: WorkConModel(
               period: createJobPeriod,
-              wageAmount: double.parse(jobWagesCntr.text),
               wageType: createJobPaymentType,
               workStartDay: createJobStartDay,
               workFinishDay: createJobFinishDay,

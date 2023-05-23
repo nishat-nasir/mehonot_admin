@@ -18,6 +18,8 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       workFinishTime: json['workFinishTime'] as String,
       postedByUserId: json['postedByUserId'] as String,
       status: json['status'] as String,
+      wageAmount: json['wageAmount'] as double,
+      timestamp: const TimestampConverter().fromJson(json['timestamp']),
     );
 
 Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
@@ -32,4 +34,6 @@ Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
       'workFinishTime': instance.workFinishTime,
       'postedByUserId': instance.postedByUserId,
       'status': instance.status,
+      'wageAmount': instance.wageAmount,
+      'timestamp': const TimestampConverter().toJson(instance.timestamp),
     };
