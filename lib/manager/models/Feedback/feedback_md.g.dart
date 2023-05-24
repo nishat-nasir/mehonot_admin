@@ -6,8 +6,7 @@ part of 'feedback_md.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-FeedbackMd _$FeedbackMdFromJson(Map json) =>
-    FeedbackMd(
+FeedbackMd _$FeedbackMdFromJson(Map json) => FeedbackMd(
       id: json['id'] as String,
       userId: json['userId'] as String,
       userProfileId: json['userProfileId'] as String,

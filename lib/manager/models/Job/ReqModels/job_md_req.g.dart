@@ -6,8 +6,7 @@ part of 'job_md_req.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-JobModelReq _$JobModelReqFromJson(Map json) =>
-    JobModelReq(
+JobModelReq _$JobModelReqFromJson(Map json) => JobModelReq(
       title: json['title'] as String,
       companyName: json['companyName'] as String,
       images: json['images'] as String?,
@@ -17,7 +16,7 @@ JobModelReq _$JobModelReqFromJson(Map json) =>
       workFinishTime: json['workFinishTime'] as String?,
       postedByUserId: json['postedByUserId'] as String,
       status: json['status'] as String,
-      wageAmount: json['wageAmount'] as double,
+      wageAmount: (json['wageAmount'] as num).toDouble(),
       timestamp: const TimestampConverter().fromJson(json['timestamp']),
     );
 

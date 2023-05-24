@@ -16,6 +16,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
         return _getHomeJobAdsAction(store.state, action, next);
       case GetCreateBannersAction:
         return _getCreateBannersAction(store.state, action, next);
+        case GetUpdatedBannersAction:
+        return _getUpdatedBannersAction(store.state, action, next);
       case GetPostHomeJobAdsAction:
         return _getPostHomeJobAdsAction(store.state, action, next);
       default:
@@ -139,6 +141,51 @@ Future<bool> _getCreateBannersAction(
     //TODO: Next version add my ads
   } catch (e) {
     logger(e.toString(), hint: "GetCreateBannersAction CATCH ERROR");
+    return false;
+  }
+}
+
+
+Future<bool> _getUpdatedBannersAction(
+    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
+  try {
+    logger("GetUpdatedBannersAction -- Called");
+    // Show loading
+    String bannerUuid = generateHomeBannerUuid(
+      division: state.userState.userProfileData.address.division,
+      type: action.bannerType,
+    );
+    ////TODO: FOR Images
+    // String? downUrl;
+    // if (action.jobModelReqRes.images != null) {
+    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
+    //     action.jobModelReqRes.images!,
+    //     postId: _jobUid,
+    //     postType: _jobPostUid,
+    //   ));
+    // }
+
+    CollectionReference createBannerAdsCollection =
+        firebaseKit.bannersCollection;
+
+    await createBannerAdsCollection.doc(bannerUuid).update({
+      "title": action.bannerModel.title,
+      "companyName": action.bannerModel.companyName,
+      "postedById": state.userState.userData.userId,
+      "email": action.bannerModel.email,
+      "phone": action.bannerModel.phone,
+      "images": action.bannerModel.images,
+      "description": action.bannerModel.description,
+      "website": action.bannerModel.website,
+      "bannerType": action.bannerModel.bannerType,
+      "category": action.bannerModel.category,
+      "removeAt": DateTime.now().add(const Duration(days: 30)),
+    });
+    return true;
+
+    //TODO: Next version add my ads
+  } catch (e) {
+    logger(e.toString(), hint: "GetUpdatedBannersAction CATCH ERROR");
     return false;
   }
 }

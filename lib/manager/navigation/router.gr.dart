@@ -243,9 +243,13 @@ abstract class $AppRouter extends _i28.RootStackRouter {
       );
     },
     BannerEditRoute.name: (routeData) {
+      final args = routeData.argsAs<BannerEditRouteArgs>();
       return _i28.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i22.BannerEditPage(),
+        child: _i22.BannerEditPage(
+          key: args.key,
+          bannerMd: args.bannerMd,
+        ),
       );
     },
     DashboardRoute.name: (routeData) {
@@ -795,16 +799,40 @@ class BannerCreateRouteArgs {
 
 /// generated route for
 /// [_i22.BannerEditPage]
-class BannerEditRoute extends _i28.PageRouteInfo<void> {
-  const BannerEditRoute({List<_i28.PageRouteInfo>? children})
-      : super(
+class BannerEditRoute extends _i28.PageRouteInfo<BannerEditRouteArgs> {
+  BannerEditRoute({
+    _i29.Key? key,
+    required _i33.BannerModel bannerMd,
+    List<_i28.PageRouteInfo>? children,
+  }) : super(
           BannerEditRoute.name,
+          args: BannerEditRouteArgs(
+            key: key,
+            bannerMd: bannerMd,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'BannerEditRoute';
 
-  static const _i28.PageInfo<void> page = _i28.PageInfo<void>(name);
+  static const _i28.PageInfo<BannerEditRouteArgs> page =
+      _i28.PageInfo<BannerEditRouteArgs>(name);
+}
+
+class BannerEditRouteArgs {
+  const BannerEditRouteArgs({
+    this.key,
+    required this.bannerMd,
+  });
+
+  final _i29.Key? key;
+
+  final _i33.BannerModel bannerMd;
+
+  @override
+  String toString() {
+    return 'BannerEditRouteArgs{key: $key, bannerMd: $bannerMd}';
+  }
 }
 
 /// generated route for

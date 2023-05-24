@@ -69,6 +69,16 @@ class GetCreateBannersAction {
   });
 }
 
+class GetUpdatedBannersAction {
+  final String bannerType;
+  final BannerModel bannerModel;
+
+  GetUpdatedBannersAction({
+    required this.bannerType,
+    required this.bannerModel,
+  });
+}
+
 class GetPostHomeJobAdsAction {
   final String jobId;
 
