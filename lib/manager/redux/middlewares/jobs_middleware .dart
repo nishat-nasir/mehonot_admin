@@ -271,24 +271,28 @@ Future<bool> _getReqJobsAction(
       logger(value.docs);
       value.docs.map((e) {
         JobModel job = JobModel(
-          jobId: e["jobId"],
-          jobDetailsId: e["jobDetailsId"],
-          title: e["title"],
-          address: AddressModel(
+            jobId: e["jobId"],
+            jobDetailsId: e["jobDetailsId"],
+            title: e["title"],
+            address: AddressModel(
             division: e["address"]["division"],
             district: e["address"]["district"],
             area: e["address"]["area"],
             city: e["address"]["city"],
-          ),
-          companyName: e["companyName"],
-          images: e["images"],
+        ),
+        companyName: e["companyName"],
+          // Convert from List<dynamic> to List<String>, also check null or empty
+          images: e["images"] != null && e["images"].isNotEmpty
+              ? List<String>.from(e["images"].map((e) => e.toString()))
+              : [],
+
           type: e["type"],
-          workFinishTime: e["workFinishTime"],
-          workStartTime: e["workStartTime"],
-          postedByUserId: e["postedByUserId"],
-          status: e["status"],
-          wageAmount: e["wageAmount"],
-          timestamp: e["timestamp"],
+        workFinishTime: e["workFinishTime"],
+        workStartTime: e["workStartTime"],
+        postedByUserId: e["postedByUserId"],
+        status: e["status"],
+        timestamp: e["timestamp"],
+        wageAmount: e["wageAmount"],
         );
         allReqJobs.add(job);
       }).toList();
@@ -501,17 +505,6 @@ Future<bool> _getCreateJobAction(
     AppState state, GetCreateJobAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobAction -- Called");
-
-    // Show loading
-    ////TODO: FOR Images
-    // String? downUrl;
-    // if (action.jobModelReqRes.images != null) {
-    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
-    //     action.jobModelReqRes.images!,
-    //     postId: _jobUid,
-    //     postType: _jobPostUid,
-    //   ));
-    // }
 
     Division division =
         convertStringToDivision(action.jobModel.address.division);

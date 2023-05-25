@@ -24,7 +24,7 @@ class JobModel {
   String jobDetailsId;
   String title;
   String companyName;
-  String? images;
+  List<String> images;
   AddressModel address;
   String type;
   String workStartTime;
@@ -40,7 +40,7 @@ class JobModel {
     required this.jobDetailsId,
     required this.title,
     required this.companyName,
-    this.images,
+    required this.images,
     required this.address,
     required this.type,
     required this.workStartTime,
@@ -50,6 +50,7 @@ class JobModel {
     required this.wageAmount,
     required this.timestamp,
   });
+
 
   factory JobModel.fromJson(Map<String, dynamic> json) =>
       _$JobModelFromJson(json);

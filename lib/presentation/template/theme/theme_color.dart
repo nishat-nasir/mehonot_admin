@@ -289,10 +289,10 @@ class MehonotColorsLight {
 class MehonotColorsDark {
   static const Color primaryColor = ThemeColors.coolgray900;
   static const Color textColor = ThemeColors.gray50;
-  static const Color accentColor = Color(0xFF475171);
-  static const Color formContainerBgColor = Color(0xFF323232);
+  static const Color accentColor = Color(0xFF314265);
+  static const Color formContainerBgColor = Color(0xFF262626);
   static const Color formFillColor = Color(0xFF464646);
-  static const Color canvasColor = Color(0xFF252525);
+  static const Color canvasColor = Color(0xFF121212);
   static const Color bottomNavBarColor = Color(0xFF1C1C1C);
   static const Color appBarColor = Color(0xFF1C1C1C);
 }
@@ -301,7 +301,7 @@ class MehonotColorsCommon {
   static const Color buttonColor = ThemeColors.indigo600;
   static const Color borderColor = ThemeColors.coolgray300;
   static const LinearGradient locationContainerColor =
-      LinearGradient(colors: [ThemeColors.blue900, ThemeColors.purple600]);
+  LinearGradient(colors: [ThemeColors.blue900, ThemeColors.purple600]);
   static const LinearGradient secondaryContainerColor =
-      LinearGradient(colors: [Color(0xFF8A78F5), Color(0xFF503EC0)]);
+  LinearGradient(colors: [Color(0xFF8A78F5), Color(0xFF503EC0)]);
 }

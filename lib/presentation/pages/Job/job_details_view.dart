@@ -16,16 +16,20 @@ class JobDetailsView extends StatefulWidget {
   VoidCallback? onPress2;
   VoidCallback? onPress3;
   Widget? bottomBtn;
+  VoidCallback? onTapCross;
+  bool? showXMark;
 
   JobDetailsView(
       {required this.jobModel,
-      required this.jobDetailModel,
-      this.iconList,
-      this.onPress1,
-      this.onPress2,
-      this.onPress3,
-      this.bottomBtn,
-      Key? key})
+        required this.jobDetailModel,
+        this.iconList,
+        this.onPress1,
+        this.onPress2,
+        this.onPress3,
+        this.bottomBtn,
+        this.onTapCross,
+        this.showXMark,
+        Key? key})
       : super(key: key);
 
   @override
@@ -49,25 +53,41 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                 verticalSpace: 22,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedText(
-                      text: widget.jobModel.timestamp, //"12.08.12",
-                      textStyle: ThemeTextRegular.k14
-                          .copyWith(color: ThemeColors.coolgray500)),
+                  SizedBox(height: 20.h),
+                  SpacedRow(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedText(
+                            text: widget.jobModel.timestamp
+                                .toDate()
+                                .toString()
+                                .substring(0, 10)
+                                .replaceAll("-", "."),
+                            textStyle: ThemeTextRegular.k14
+                                .copyWith(color: ThemeColors.coolgray500)),
+                        if (widget.showXMark ?? false)
+                          InkWell(
+                            onTap: widget.onTapCross ??
+                                    () {
+                                  context.router.popTop();
+                                },
+                            child: HeroIcon(HeroIcons.xMark, size: 84.h),
+                          )
+                      ]),
                   SizedText(
                       text: widget.jobModel.title,
                       textStyle: ThemeTextSemiBold.k18,
                       softWrap: true,
                       maxLines: 3),
                   _buildTopJobInfoSec(jobWage, jobWageType, jobDuration),
-                  PrsmCarouselWidget(
-                    imageList: const [
-                      "assets/images/png/apple_store_1.png",
-                      "assets/images/png/image_ex1.jpg",
-                      "assets/images/png/image_ex2.jpg",
-                      "assets/images/png/image_ex3.jpg",
-                      "assets/images/png/image_ex4.jpg"
-                    ],
-                  ),
+                  if (widget.jobModel.images.isNotEmpty)
+                    PrsmCarouselImageWidget(
+                      showFromNetwork: true,
+                      imageList: widget.jobModel.images,
+                      // imageList: widget.jobModel.images ??
+                      //     ["assets/images/png/apple_store_1.png"],
+                    ),
                   _buildCompanyTitleSec(
                       companyLogo: "assets/images/png/nft.jpg",
                       companyName: widget.jobModel.companyName,
@@ -78,7 +98,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                   _buildJobOtherInfoSec(isDark),
                   _buildMoreInfoSec(isDark),
                   _buildBottomButtons(context),
-                  SizedBox(height: 20.h)
+                  SizedBox(height: 60.h)
                 ])),
       ),
     );
@@ -102,8 +122,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
 
   Widget _buildCompanyTitleSec(
       {required String companyName,
-      required String companyLogo,
-      required bool isDark}) {
+        required String companyLogo,
+        required bool isDark}) {
     return Padding(
         padding: EdgeInsets.all(8.w),
         child: Container(
@@ -158,7 +178,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
       decoration: BoxDecoration(
           color:
-              isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
+          isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -178,13 +198,13 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     return Container(
       width: double.infinity,
       height: widget.jobDetailModel.moreDetails == null ||
-              widget.jobDetailModel.moreDetails!.length < 100
+          widget.jobDetailModel.moreDetails!.length < 100
           ? 280.h
           : 440,
       padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 42.h),
       decoration: BoxDecoration(
           color:
-              isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
+          isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -265,7 +285,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           infoHelper(
               title: S(context).workDays,
               desc:
-                  "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
+              "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
           infoHelper(
               title: S(context).wages,
               desc: "${widget.jobModel.wageAmount} BDT"),
