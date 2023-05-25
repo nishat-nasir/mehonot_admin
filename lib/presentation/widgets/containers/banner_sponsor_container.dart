@@ -1,7 +1,10 @@
 import '../../template/template.dart';
 
 class SponsorBannerContainer extends StatelessWidget {
-  const SponsorBannerContainer({Key? key}) : super(key: key);
+  final String imageUrl;
+
+  const SponsorBannerContainer({Key? key, required this.imageUrl})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,7 +17,6 @@ class SponsorBannerContainer extends StatelessWidget {
         ),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(18.r),
-            child: Image.asset('assets/images/png/nft.jpg',
-                fit: BoxFit.fitWidth)));
+            child: Image.network(imageUrl, fit: BoxFit.fitWidth)));
   }
 }

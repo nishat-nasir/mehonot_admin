@@ -10,7 +10,7 @@ class BannerModel {
   String postedById;
   String? email;
   String? phone;
-  List<String>? images;
+  String image;
   String? description;
   String? website;
   String bannerType;
@@ -26,7 +26,7 @@ class BannerModel {
     required this.postedById,
     this.email,
     required this.phone,
-    this.images,
+    required this.image,
     this.description,
     this.website,
     required this.bannerType,

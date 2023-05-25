@@ -52,7 +52,7 @@ class GeneralWrapper extends StatelessWidget {
               return PrsmDefaultAppBar(
                 leftIcon: HeroIcons.chevronLeft,
                 onLeftIconPress: () {
-                  context.back();
+                  context.router.popTop();
                 },
                 titleText: "Banner Details",
               );
@@ -62,7 +62,7 @@ class GeneralWrapper extends StatelessWidget {
                 titleText: "Create banner",
                 leftIcon: HeroIcons.xMark,
                 onLeftIconPress: () {
-                  context.back();
+                  context.router.popTop();
                 },
               );
             case BannerEditRoute.name:
@@ -70,7 +70,7 @@ class GeneralWrapper extends StatelessWidget {
                 titleText: "Edit banner",
                 leftIcon: HeroIcons.xMark,
                 onLeftIconPress: () {
-                  context.back();
+                  context.router.popTop();
                 },
               );
             case FeedbackListRoute.name:

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 
 import '../../../presentation/template/template.dart';
@@ -62,20 +64,24 @@ class GetHomeJobAdsAction {
 class GetCreateBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
+final File bannerImg;
 
   GetCreateBannersAction({
     required this.bannerType,
     required this.bannerModel,
+    required this.bannerImg,
   });
 }
 
 class GetUpdatedBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
+  final File bannerImg;
 
   GetUpdatedBannersAction({
     required this.bannerType,
     required this.bannerModel,
+    required this.bannerImg,
   });
 }
 

@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 
 import '../../../presentation/template/template.dart';
+import '../../../presentation/utils/common/helper_function.dart';
 import '../../firebase/firebase_kit.dart';
 import '../../models/Banner/banner_md.dart';
 import '../states/ads_state.dart';
@@ -16,7 +19,7 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
         return _getHomeJobAdsAction(store.state, action, next);
       case GetCreateBannersAction:
         return _getCreateBannersAction(store.state, action, next);
-        case GetUpdatedBannersAction:
+      case GetUpdatedBannersAction:
         return _getUpdatedBannersAction(store.state, action, next);
       case GetPostHomeJobAdsAction:
         return _getPostHomeJobAdsAction(store.state, action, next);
@@ -26,8 +29,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getBannersAction(
-    AppState state, GetBannersAction action, NextDispatcher next) async {
+Future<bool> _getBannersAction(AppState state, GetBannersAction action,
+    NextDispatcher next) async {
   try {
     logger("GetBannersAction -- Called");
 
@@ -47,7 +50,7 @@ Future<bool> _getBannersAction(
           description: e['description'],
           category: e['category'],
           bannerType: e['bannerType'],
-          images: e['images'],
+          image: e['image'],
           companyName: e['companyName'],
           createdAt: e['createdAt'].toString(),
           postedById: e['postedById'],
@@ -73,8 +76,8 @@ Future<bool> _getBannersAction(
   }
 }
 
-Future<bool> _getHomeJobAdsAction(
-    AppState state, GetHomeJobAdsAction action, NextDispatcher next) async {
+Future<bool> _getHomeJobAdsAction(AppState state, GetHomeJobAdsAction action,
+    NextDispatcher next) async {
   try {
     logger("GetHomeJobAdsAction -- Called");
 
@@ -99,8 +102,8 @@ Future<bool> _getHomeJobAdsAction(
   }
 }
 
-Future<bool> _getCreateBannersAction(
-    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(AppState state,
+    GetCreateBannersAction action, NextDispatcher next) async {
   try {
     logger("GetCreateBannersAction -- Called");
     // Show loading
@@ -108,15 +111,27 @@ Future<bool> _getCreateBannersAction(
       division: state.userState.userProfileData.address.division,
       type: action.bannerType,
     );
-    ////TODO: FOR Images
-    // String? downUrl;
-    // if (action.jobModelReqRes.images != null) {
-    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
-    //     action.jobModelReqRes.images!,
-    //     postId: _jobUid,
-    //     postType: _jobPostUid,
-    //   ));
-    // }
+
+    File? imageToUpload = await compressImageFunc(action.bannerImg);
+
+    String? imageUrl;
+
+    final jobImgId =
+    generateBannerImageName(bannerType: action.bannerModel.bannerType);
+
+
+    if (imageToUpload != null) {
+      String? imgLink = await fbUploadBannerImgAndGetLink(
+        imageFile: imageToUpload,
+        postImageId: jobImgId,
+      );
+      if (imgLink != null) {
+        imageUrl = imgLink;
+        logger('Image Upload Success $imgLink');
+      } else {
+        logger('Image Upload Failed');
+      }
+    }
 
     CollectionReference createBannerAdsCollection =
         firebaseKit.bannersCollection;
@@ -128,7 +143,7 @@ Future<bool> _getCreateBannersAction(
       "postedById": state.userState.userData.userId,
       "email": action.bannerModel.email,
       "phone": action.bannerModel.phone,
-      "images": action.bannerModel.images,
+      "image": imageUrl ?? "",
       "description": action.bannerModel.description,
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,
@@ -145,9 +160,8 @@ Future<bool> _getCreateBannersAction(
   }
 }
 
-
-Future<bool> _getUpdatedBannersAction(
-    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
+Future<bool> _getUpdatedBannersAction(AppState state,
+    GetUpdatedBannersAction action, NextDispatcher next) async {
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
@@ -174,7 +188,7 @@ Future<bool> _getUpdatedBannersAction(
       "postedById": state.userState.userData.userId,
       "email": action.bannerModel.email,
       "phone": action.bannerModel.phone,
-      "images": action.bannerModel.images,
+      "image": action.bannerModel.image,
       "description": action.bannerModel.description,
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,
@@ -190,8 +204,8 @@ Future<bool> _getUpdatedBannersAction(
   }
 }
 
-_getPostHomeJobAdsAction(
-    AppState state, GetPostHomeJobAdsAction action, NextDispatcher next) async {
+_getPostHomeJobAdsAction(AppState state, GetPostHomeJobAdsAction action,
+    NextDispatcher next) async {
   try {
     logger("GetPostHomeJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;

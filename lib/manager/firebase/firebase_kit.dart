@@ -66,5 +66,7 @@ const fbMymJobsCl = "MYM_JOBS";
 
 const fbUsersCl = "USERS";
 
+const fbJobImagesBannerStorageFolderName = "BANNER_IMAGES";
+const fbJobImagesJobStorageFolderName = "JOB_IMAGES";
 const String userProfileFbDb = "USER_PROFILE";
 const String jobDetailsFbDb = "JOB_DETAILS";

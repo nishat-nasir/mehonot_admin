@@ -13,8 +13,7 @@ BannerModel _$BannerModelFromJson(Map json) => BannerModel(
       postedById: json['postedById'] as String,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      image:json['phone'] as String,
       description: json['description'] as String?,
       website: json['website'] as String?,
       bannerType: json['bannerType'] as String,
@@ -31,7 +30,7 @@ Map<String, dynamic> _$BannerModelToJson(BannerModel instance) =>
       'postedById': instance.postedById,
       'email': instance.email,
       'phone': instance.phone,
-      'images': instance.images,
+      'images': instance.image,
       'description': instance.description,
       'website': instance.website,
       'bannerType': instance.bannerType,
