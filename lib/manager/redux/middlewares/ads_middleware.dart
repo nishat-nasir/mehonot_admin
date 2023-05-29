@@ -119,7 +119,6 @@ Future<bool> _getCreateBannersAction(AppState state,
     final jobImgId =
     generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
-
     if (imageToUpload != null) {
       String? imgLink = await fbUploadBannerImgAndGetLink(
         imageFile: imageToUpload,
@@ -169,15 +168,35 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       division: state.userState.userProfileData.address.division,
       type: action.bannerType,
     );
-    ////TODO: FOR Images
-    // String? downUrl;
-    // if (action.jobModelReqRes.images != null) {
-    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
-    //     action.jobModelReqRes.images!,
-    //     postId: _jobUid,
-    //     postType: _jobPostUid,
-    //   ));
-    // }
+
+    File? imageToUpload;
+    String? imageUrl;
+    if (action.bannerImgToAdd == null) {
+      imageUrl = action.bannerModel.image;
+    }
+
+    if (action.bannerImgToAdd != null) {
+      imageToUpload = await compressImageFunc(action.bannerImgToAdd!);
+    }
+    if (action.imageUrlToDelete != null) {
+      await fbDeleteBannerImg(postImageId: action.imageUrlToDelete!);
+    }
+
+    if (imageToUpload != null) {
+      final jobImgId =
+      generateBannerImageName(bannerType: action.bannerModel.bannerType);
+
+      String? imgLink = await fbUploadBannerImgAndGetLink(
+        imageFile: imageToUpload,
+        postImageId: jobImgId,
+      );
+      if (imgLink != null) {
+        imageUrl = imgLink;
+        logger('Image Upload Success $imgLink');
+      } else {
+        logger('Image Upload Failed');
+      }
+    }
 
     CollectionReference createBannerAdsCollection =
         firebaseKit.bannersCollection;
@@ -188,7 +207,7 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       "postedById": state.userState.userData.userId,
       "email": action.bannerModel.email,
       "phone": action.bannerModel.phone,
-      "image": action.bannerModel.image,
+      "image": imageUrl ?? "",
       "description": action.bannerModel.description,
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,

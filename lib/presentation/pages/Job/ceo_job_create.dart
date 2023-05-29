@@ -64,7 +64,6 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   List<File> imageFileList = [];
   List<String> imageNameList = [];
 
-
   @override
   void dispose() {
     onReset();
@@ -102,18 +101,23 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                         divider(),
                         _buildCircleHeadForm(context),
                         divider(),
-                        PrsmImageUpload(onImageSelected: (imageFile, image) {
-                          logger("Image Selected");
-                          logger(imageFile);
-                          logger(image);
-                          setState(() {
-                            imageFileList.clear();
-                            imageFileList.addAll(imageFile);
-                            logger("Image Selected ${imageFileList.length}");
-                            logger("Image Selected ${imageFileList.length}");
-                            // imageNameList.add(image);
-                          });
-                        }),                            divider(),
+                        PrsmImageUpload(
+                          onImageSelected: (imageFile, image) {
+                            logger("Image Selected");
+                            logger(imageFile);
+                            logger(image);
+                            setState(() {
+                              imageFileList.clear();
+                              imageFileList.addAll(imageFile);
+                              logger("Image Selected ${imageFileList.length}");
+                              logger("Image Selected ${imageFileList.length}");
+                              // imageNameList.add(image);
+                            });
+                          },
+                          onRemoveNetworkImg: (int) {},
+                          imageNetUrls: [],
+                        ),
+                        divider(),
                         formHelper(
                             title: S(context).companyName,
                             widget: PrsmInputField(

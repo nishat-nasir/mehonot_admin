@@ -57,11 +57,12 @@ class _PrsmCarouselImageWidgetState extends State<PrsmCarouselImageWidget> {
             scrollDirection: Axis.horizontal,
           ),
           items: widget.imageList
-              .map((e) => ClipRRect(
-              borderRadius: BorderRadius.circular(16.r),
-              child: (widget.showFromNetwork == true)
-                  ? Image.network(e, fit: BoxFit.fitWidth, width: 1000.w)
-                  : Image.asset(e, fit: BoxFit.fitWidth, width: 1000.w)))
+              .map((e) =>
+              ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: (widget.showFromNetwork == true)
+                      ? Image.network(e, fit: BoxFit.fitWidth, width: 1000.w)
+                      : Image.asset(e, fit: BoxFit.fitWidth, width: 1000.w)))
               .toList(),
         ),
         carouselDots()
@@ -95,16 +96,20 @@ class PrsmCarouselUploadImgWidget extends StatefulWidget {
   final double height;
   final bool autoPlay;
   final List<File> imageFiles;
+  final List<String> imageNetworkUrls;
   final bool showAddMoreImage;
   final VoidCallback? onAddImg;
   final Function(int)? onRemoveImg;
+  final Function(int)? onRemoveNetworkImg;
 
   const PrsmCarouselUploadImgWidget({
     Key? key,
     this.height = 330,
     this.autoPlay = false,
     required this.imageFiles,
+    required this.imageNetworkUrls,
     required this.showAddMoreImage,
+    required this.onRemoveNetworkImg,
     this.onAddImg,
     this.onRemoveImg,
   }) : super(key: key);
@@ -164,29 +169,72 @@ class _PrsmCarouselUploadImgWidgetState
 
     if (widget.imageFiles.isNotEmpty) {
       items.addAll(
-        widget.imageFiles.map((e) => Center(
-            child: Stack(alignment: Alignment.center, children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(16.r),
-                child: Image.file(
-                  e,
-                  fit: BoxFit.fitWidth,
-                  height: widget.height.h,
-                  width: 1000.w,
-                ),
-              ),
-              Positioned(
-                  top: 1,
-                  right: 0,
-                  child: InkWell(
+        widget.imageFiles.map((e) =>
+            Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: Image.file(
+                      e,
+                      fit: BoxFit.fitWidth,
+                      height: widget.height.h,
+                      width: 1000.w,
+                    ),
+                  ),
+                  Positioned(
+                    top: 1,
+                    right: 0,
+                    child: InkWell(
                       onTap: () {
                         widget.onRemoveImg!(widget.imageFiles.indexOf(e));
                       },
                       child: const HeroIcon(
                         HeroIcons.xMark,
                         color: Colors.white,
-                      )))
-            ]))),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
+      );
+    }
+
+    if (widget.imageNetworkUrls.isNotEmpty) {
+      items.addAll(
+        widget.imageNetworkUrls.map((url) =>
+            Center(
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(16.r),
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.fitWidth,
+                      height: widget.height.h,
+                      width: 1000.w,
+                    ),
+                  ),
+                  Positioned(
+                    top: 1,
+                    right: 0,
+                    child: InkWell(
+                      onTap: () {
+                        widget.onRemoveNetworkImg!(
+                            widget.imageNetworkUrls.indexOf(url));
+                      },
+                      child: const HeroIcon(
+                        HeroIcons.xMark,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            )),
       );
     }
 
@@ -306,15 +354,16 @@ class _PrsmCarouselBannerWidgetState extends State<PrsmCarouselBannerWidget> {
             scrollDirection: Axis.horizontal,
           ),
           items: widget.imageList
-              .map((e) => InkWell(
-              onTap: widget.onTap,
-              child: ClipRRect(
-                  borderRadius: BorderRadius.circular(16.r),
-                  child: widget.showImgFromNetwork == true
-                      ? Image.network(e,
-                      fit: BoxFit.fitWidth, width: 1000.w)
-                      : Image.asset(e,
-                      fit: BoxFit.fitWidth, width: 1000.w))))
+              .map((e) =>
+              InkWell(
+                  onTap: widget.onTap,
+                  child: ClipRRect(
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: widget.showImgFromNetwork == true
+                          ? Image.network(e,
+                          fit: BoxFit.fitWidth, width: 1000.w)
+                          : Image.asset(e,
+                          fit: BoxFit.fitWidth, width: 1000.w))))
               .toList(),
         ),
         carouselDots()

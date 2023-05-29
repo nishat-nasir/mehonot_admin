@@ -64,7 +64,7 @@ class GetHomeJobAdsAction {
 class GetCreateBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
-final File bannerImg;
+  final File bannerImg;
 
   GetCreateBannersAction({
     required this.bannerType,
@@ -76,12 +76,14 @@ final File bannerImg;
 class GetUpdatedBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
-  final File bannerImg;
+  final File? bannerImgToAdd;
+  final String? imageUrlToDelete;
 
   GetUpdatedBannersAction({
     required this.bannerType,
     required this.bannerModel,
-    required this.bannerImg,
+    this.bannerImgToAdd,
+    this.imageUrlToDelete,
   });
 }
 

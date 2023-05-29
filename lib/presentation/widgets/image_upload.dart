@@ -2,14 +2,22 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart'; // Added import for image_cropper
+import 'package:mehonot_admin/presentation/widgets/caousel_widget.dart';
 import '../template/template.dart';
-import 'caousel_widget.dart';
 
 class PrsmImageUpload extends StatefulWidget {
   Function(List<File>, List<String>) onImageSelected;
-  int? maxImages;
+  Function(int) onRemoveNetworkImg;
+  final List<String> imageNetUrls;
+  int? maxImageCount;
 
-  PrsmImageUpload({Key? key, required this.onImageSelected, this.maxImages=3}) : super(key: key);
+  PrsmImageUpload(
+      {Key? key,
+      required this.onImageSelected,
+      required this.onRemoveNetworkImg,
+      required this.imageNetUrls,
+      this.maxImageCount = 3})
+      : super(key: key);
 
   @override
   State<PrsmImageUpload> createState() => _PrsmImageUploadState();
@@ -18,6 +26,7 @@ class PrsmImageUpload extends StatefulWidget {
 class _PrsmImageUploadState extends State<PrsmImageUpload> {
   List<File> imageFiles = [];
   List<String> imageFileNames = [];
+  List<String> imageUrls = [];
 
   @override
   Widget build(BuildContext context) {
@@ -38,24 +47,24 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
         radius: Radius.circular(20.r),
         child: Center(
           heightFactor: 1.5,
-          child: (imageFiles.isNotEmpty)
+          child: (imageFiles.isNotEmpty || widget.imageNetUrls.isNotEmpty)
               ? buildImagesContainer()
               : SpacedColumn(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(
-                "assets/images/png/gallery_icon.png",
-                width: 140.w,
-                height: 140.h,
-              ),
-              PrimaryButton(
-                buttonText: "Upload Image",
-                buttonSize: ButtonSize.M,
-                onPressed: _selectImage,
-              ),
-            ],
-          ),
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      "assets/images/png/gallery_icon.png",
+                      width: 140.w,
+                      height: 140.h,
+                    ),
+                    PrimaryButton(
+                      buttonText: "Upload Image",
+                      buttonSize: ButtonSize.M,
+                      onPressed: _selectImage,
+                    ),
+                  ],
+                ),
         ),
       ),
     );
@@ -63,24 +72,27 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
 
   Widget buildImagesContainer() {
     return PrsmCarouselUploadImgWidget(
-      showAddMoreImage: imageFiles.length < widget.maxImages!,
+      showAddMoreImage: imageFiles.length + widget.imageNetUrls.length <
+          widget.maxImageCount!,
       onAddImg: _selectImage,
+      onRemoveNetworkImg: (index) {
+        widget.onRemoveNetworkImg(index);
+      },
       onRemoveImg: (index) {
         setState(() {
           imageFiles.removeAt(index);
-          imageFileNames.removeAt(index);
         });
         logger("ImageFilesCount: ${imageFiles.length}");
-        widget.onImageSelected(imageFiles, imageFileNames);
       },
       imageFiles: [...imageFiles],
+      imageNetworkUrls: [...widget.imageNetUrls],
     );
   }
 
   Future<void> _selectImage() async {
     final ImagePicker picker = ImagePicker();
     final XFile? selectedImage =
-    await picker.pickImage(source: ImageSource.gallery);
+        await picker.pickImage(source: ImageSource.gallery);
 
     if (selectedImage != null) {
       CroppedFile? croppedImage = await _cropImage(File(selectedImage.path));
@@ -88,7 +100,6 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
       if (croppedImage != null) {
         setState(() {
           imageFiles.add(File(croppedImage.path));
-          imageFileNames.add(selectedImage.name);
         });
       }
     }
@@ -114,11 +125,11 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
                 ? MehonotColorsDark.canvasColor
                 : MehonotColorsLight.canvasColor,
             toolbarWidgetColor:
-            isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
+                isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
             activeControlsWidgetColor:
-            isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
+                isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
             cropFrameColor:
-            isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
+                isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
             statusBarColor: isDark(context)
                 ? MehonotColorsDark.canvasColor
                 : MehonotColorsLight.canvasColor,
@@ -134,7 +145,7 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
             height: 520,
           ),
           viewPort:
-          const CroppieViewPort(width: 480, height: 480, type: 'circle'),
+              const CroppieViewPort(width: 480, height: 480, type: 'circle'),
           enableExif: true,
           enableZoom: true,
           showZoomer: true,
