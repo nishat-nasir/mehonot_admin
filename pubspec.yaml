@@ -35,7 +35,6 @@ dependencies:
   carousel_slider: ^4.1.1
   flutter_slidable: ^2.0.0
   lottie: ^1.4.3
-  url_launcher: ^6.1.6
   uuid: ^3.0.7
   encrypt: ^5.0.1
   fluttertoast: ^8.2.1
@@ -47,6 +46,7 @@ dependencies:
   liquid_pull_to_refresh: ^3.0.1
   flutter_image_compress: ^2.0.3
   image_cropper: ^4.0.1
+  url_launcher: ^6.1.11
 
   firebase_core: ^2.13.0
   firebase_storage: ^11.2.1
