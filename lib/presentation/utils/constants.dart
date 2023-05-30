@@ -19,6 +19,8 @@ class Constants {
 
   static const localUserIdKey = "USERIDKEY";
   static const ENCRYTORKEY = "N7YI4KQ3UETGOEMOBTEG3BDJACI0LW==";
+  static const locale = 'bn_BD';
+  static const filePath = 'path/to/bn_BD_data_file';
 
   ////////////////////////////////
   ////////////////////////////////

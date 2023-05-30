@@ -20,7 +20,9 @@ class BannerModel {
   String? category;
   @TimestampConverter()
   Timestamp createdAt;
+  Timestamp startAt;
   Timestamp removeAt;
+
 
   @override
   BannerModel({
@@ -36,6 +38,7 @@ class BannerModel {
     required this.bannerType,
     this.category,
     required this.createdAt,
+    required this.startAt,
     required this.removeAt,
   });
 

@@ -44,7 +44,7 @@ class MehonotAppState extends State<MehonotApp> with WidgetsBindingObserver {
       store: appStore,
       child: ScreenUtilInit(
         designSize:
-             Size(ThemeSizeStyle.screenWidth, ThemeSizeStyle.screenHeight),
+            const Size(ThemeSizeStyle.screenWidth, ThemeSizeStyle.screenHeight),
         builder: (BuildContext context, Widget? child) => MaterialApp.router(
           builder: (context, child) => MediaQuery(
               data: MediaQuery.of(context).copyWith(textScaleFactor: 1.1),

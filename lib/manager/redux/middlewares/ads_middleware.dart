@@ -31,8 +31,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getHomeBannersAction(AppState state, GetHomeBannersAction action,
-    NextDispatcher next) async {
+Future<bool> _getHomeBannersAction(
+    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
   try {
     logger("GetHomeBannersAction -- Called");
 
@@ -56,6 +56,7 @@ Future<bool> _getHomeBannersAction(AppState state, GetHomeBannersAction action,
           companyName: e['companyName'],
           createdAt: e['createdAt'],
           postedById: e['postedById'],
+          startAt: e['startAt'],
           removeAt: e['removeAt'],
         );
         allHomeBanners.add(bannerModel);
@@ -98,6 +99,7 @@ Future<bool> _getSettingsBannersAction(AppState state,
           image: e['image'],
           companyName: e['companyName'],
           createdAt: e['createdAt'],
+          startAt: e['startAt'],
           postedById: e['postedById'],
           removeAt: e['removeAt'],
         );
@@ -114,8 +116,8 @@ Future<bool> _getSettingsBannersAction(AppState state,
   }
 }
 
-Future<bool> _getHomeJobAdsAction(AppState state, GetHomeJobAdsAction action,
-    NextDispatcher next) async {
+Future<bool> _getHomeJobAdsAction(
+    AppState state, GetHomeJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetHomeJobAdsAction -- Called");
 
@@ -140,8 +142,8 @@ Future<bool> _getHomeJobAdsAction(AppState state, GetHomeJobAdsAction action,
   }
 }
 
-Future<bool> _getCreateBannersAction(AppState state,
-    GetCreateBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(
+    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
   try {
     logger("GetCreateBannersAction -- Called");
     // Show loading
@@ -155,7 +157,7 @@ Future<bool> _getCreateBannersAction(AppState state,
     String? imageUrl;
 
     final jobImgId =
-    generateBannerImageName(bannerType: action.bannerModel.bannerType);
+        generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
     if (imageToUpload != null) {
       String? imgLink = await fbUploadBannerImgAndGetLink(
@@ -191,7 +193,9 @@ Future<bool> _getCreateBannersAction(AppState state,
       "bannerType": action.bannerModel.bannerType,
       "category": action.bannerModel.category,
       "createdAt": DateTime.now(),
-      "removeAt": DateTime.now().add(const Duration(days: 30)),
+      "startAt": action.bannerModel.startAt,
+      "removeAt":
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
     return true;
 
@@ -202,8 +206,8 @@ Future<bool> _getCreateBannersAction(AppState state,
   }
 }
 
-Future<bool> _getUpdatedBannersAction(AppState state,
-    GetUpdatedBannersAction action, NextDispatcher next) async {
+Future<bool> _getUpdatedBannersAction(
+    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
@@ -266,7 +270,8 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,
       "category": action.bannerModel.category,
-      "removeAt": DateTime.now().add(const Duration(days: 30)),
+      "removeAt":
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
     return true;
 
@@ -277,8 +282,8 @@ Future<bool> _getUpdatedBannersAction(AppState state,
   }
 }
 
-_getPostHomeJobAdsAction(AppState state, GetPostHomeJobAdsAction action,
-    NextDispatcher next) async {
+_getPostHomeJobAdsAction(
+    AppState state, GetPostHomeJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetPostHomeJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
