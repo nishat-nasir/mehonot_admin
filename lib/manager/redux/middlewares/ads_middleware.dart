@@ -146,7 +146,7 @@ Future<bool> _getCreateBannersAction(
     logger("GetCreateBannersAction -- Called");
     // Show loading
     String bannerUuid = generateHomeBannerUuid(
-      division: state.userState.userProfileData.address.division,
+      division: action.division.name,
       type: action.bannerType,
     );
 
@@ -207,39 +207,46 @@ Future<bool> _getUpdatedBannersAction(
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
+
     String bannerUuid = generateHomeBannerUuid(
-      division: state.userState.userProfileData.address.division,
+      division: action.division.name,
       type: action.bannerType,
     );
 
-    File? imageToUpload;
-    String? imageUrl;
-    if (action.bannerImgToAdd == null) {
-      imageUrl = action.bannerModel.image;
-    }
-
-    if (action.bannerImgToAdd != null) {
-      imageToUpload = await compressImageFunc(action.bannerImgToAdd!);
-    }
-    if (action.imageUrlToDelete != null) {
-      await fbDeleteBannerImg(postImageId: action.imageUrlToDelete!);
-    }
-
-    if (imageToUpload != null) {
-      final jobImgId =
-          generateBannerImageName(bannerType: action.bannerModel.bannerType);
-
-      String? imgLink = await fbUploadBannerImgAndGetLink(
-        imageFile: imageToUpload,
-        postImageId: jobImgId,
-      );
-      if (imgLink != null) {
-        imageUrl = imgLink;
-        logger('Image Upload Success $imgLink');
-      } else {
-        logger('Image Upload Failed');
+    if (action.imageUrlsToDelete != null &&
+        action.imageUrlsToDelete!.isNotEmpty) {
+      for (int i = 0; i < action.imageUrlsToDelete!.length; i++) {
+        await fbDeleteJobImg(postImageId: action.imageUrlsToDelete![i]);
       }
     }
+
+    final imageUrls = <String>[];
+
+    if (action.imageFilesToAdd != null && action.imageFilesToAdd!.isNotEmpty) {
+      List<File?> imageToUpload = [];
+
+      for (int i = 0; i < action.imageFilesToAdd!.length; i++) {
+        imageToUpload.add(await compressImageFunc(action.imageFilesToAdd![i]));
+      }
+
+      for (int i = 0; i < imageToUpload.length; i++) {
+        logger('Image Files_count: ${imageToUpload.length}');
+        logger(bannerUuid);
+
+        String? imgLink = await fbUploadJobImgAndGetLink(
+          imageFile: imageToUpload[i]!,
+          postImageId: bannerUuid,
+        );
+        if (imgLink != null) {
+          imageUrls.add(imgLink);
+          logger('Image Upload Success $imgLink');
+        } else {
+          logger('Image Upload Failed');
+        }
+      }
+    }
+
+    imageUrls.addAll(action.imageUrlsToAdd ?? []);
 
     CollectionReference createBannerAdsCollection;
     if (action.bannerType == "home") {
@@ -254,7 +261,7 @@ Future<bool> _getUpdatedBannersAction(
       "postedById": state.userState.userData.userId,
       "email": action.bannerModel.email,
       "phone": action.bannerModel.phone,
-      "image": imageUrl ?? "",
+      "image": imageUrls,
       "description": action.bannerModel.description,
       "website": action.bannerModel.website,
       "bannerType": action.bannerModel.bannerType,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 
 import '../../../presentation/template/template.dart';
+import '../../../presentation/utils/constants.dart';
 import '../../models/Banner/banner_md.dart';
 
 @immutable
@@ -73,25 +74,31 @@ class GetCreateBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
   final File bannerImg;
+  final Division division;
 
   GetCreateBannersAction({
     required this.bannerType,
     required this.bannerModel,
     required this.bannerImg,
+    required this.division,
   });
 }
 
 class GetUpdatedBannersAction {
   final String bannerType;
   final BannerModel bannerModel;
-  final File? bannerImgToAdd;
-  final String? imageUrlToDelete;
+  final Division division;
+  List<File>? imageFilesToAdd;
+  List<String>? imageUrlsToAdd;
+  List<String>? imageUrlsToDelete;
 
   GetUpdatedBannersAction({
     required this.bannerType,
     required this.bannerModel,
-    this.bannerImgToAdd,
-    this.imageUrlToDelete,
+    required this.division,
+    this.imageFilesToAdd,
+    this.imageUrlsToAdd,
+    this.imageUrlsToDelete,
   });
 }
 
