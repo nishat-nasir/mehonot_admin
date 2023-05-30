@@ -1,4 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+
+import '../Job/ReqModels/job_md_req.dart';
 
 part 'banner_md.g.dart';
 
@@ -15,8 +18,9 @@ class BannerModel {
   String? website;
   String bannerType;
   String? category;
-  String? createdAt;
-  String? removeAt;
+  @TimestampConverter()
+  Timestamp createdAt;
+  Timestamp removeAt;
 
   @override
   BannerModel({

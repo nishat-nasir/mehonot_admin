@@ -13,13 +13,13 @@ BannerModel _$BannerModelFromJson(Map json) => BannerModel(
       postedById: json['postedById'] as String,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
-      image:json['phone'] as String,
+      image: json['phone'] as String,
       description: json['description'] as String?,
       website: json['website'] as String?,
       bannerType: json['bannerType'] as String,
       category: json['category'] as String?,
-      createdAt: json['createdAt'] as String?,
-      removeAt: json['removeAt'] as String?,
+      createdAt: const TimestampConverter().fromJson(json['createdAt']),
+      removeAt: const TimestampConverter().fromJson(json['removeAt']),
     );
 
 Map<String, dynamic> _$BannerModelToJson(BannerModel instance) =>
@@ -35,6 +35,6 @@ Map<String, dynamic> _$BannerModelToJson(BannerModel instance) =>
       'website': instance.website,
       'bannerType': instance.bannerType,
       'category': instance.category,
-      'createdAt': instance.createdAt,
-      'removeAt': instance.removeAt,
+      'createdAt': const TimestampConverter().toJson(instance.createdAt),
+      'removeAt': const TimestampConverter().toJson(instance.removeAt),
     };
