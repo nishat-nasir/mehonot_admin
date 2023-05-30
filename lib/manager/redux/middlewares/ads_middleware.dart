@@ -13,8 +13,10 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   @override
   call(Store<AppState> store, action, next) {
     switch (action.runtimeType) {
-      case GetBannersAction:
-        return _getBannersAction(store.state, action, next);
+      case GetHomeBannersAction:
+        return _getHomeBannersAction(store.state, action, next);
+      case GetSettingsBannersAction:
+        return _getSettingsBannersAction(store.state, action, next);
       case GetHomeJobAdsAction:
         return _getHomeJobAdsAction(store.state, action, next);
       case GetCreateBannersAction:
@@ -29,17 +31,17 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getBannersAction(AppState state, GetBannersAction action,
-    NextDispatcher next) async {
+Future<bool> _getHomeBannersAction(
+    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
   try {
-    logger("GetBannersAction -- Called");
+    logger("GetHomeBannersAction -- Called");
 
     List<BannerModel> allHomeBanners = [];
-    List<BannerModel> allSettingBanners = [];
 
-    CollectionReference settingsAdsCollection = firebaseKit.bannersCollection;
+    CollectionReference homeBannerCollection =
+        firebaseKit.homeBannersCollection;
 
-    await settingsAdsCollection.get().then((value) {
+    await homeBannerCollection.get().then((value) {
       value.docs.map((e) {
         BannerModel bannerModel = BannerModel(
           id: e.id,
@@ -56,28 +58,64 @@ Future<bool> _getBannersAction(AppState state, GetBannersAction action,
           postedById: e['postedById'],
           removeAt: e['removeAt'].toString(),
         );
-        if (bannerModel.bannerType == "home") {
-          allHomeBanners.add(bannerModel);
-        } else {
-          allSettingBanners.add(bannerModel);
-        }
+        allHomeBanners.add(bannerModel);
       }).toList();
     });
+    logger("GetSettingsBannersAction ---- ${allHomeBanners.length}");
     await appStore.dispatch(
       UpdateAdsStateAction(
         homeBanners: allHomeBanners,
-        settingBanner: allSettingBanners,
       ),
     );
     return true;
   } catch (e) {
-    logger(e.toString(), hint: "GetBannersAction CATCH ERROR");
+    logger(e.toString(), hint: "GetHomeBannersAction CATCH ERROR");
     return false;
   }
 }
 
-Future<bool> _getHomeJobAdsAction(AppState state, GetHomeJobAdsAction action,
-    NextDispatcher next) async {
+Future<bool> _getSettingsBannersAction(AppState state,
+    GetSettingsBannersAction action, NextDispatcher next) async {
+  try {
+    logger("GetSettingsBannersAction -- Called");
+
+    List<BannerModel> allSettingsBanners = [];
+
+    CollectionReference settingBannerCollection =
+        firebaseKit.settingsBannersCollection;
+
+    await settingBannerCollection.get().then((value) {
+      value.docs.map((e) {
+        BannerModel bannerModel = BannerModel(
+          id: e.id,
+          title: e['title'],
+          website: e['website'],
+          phone: e['phone'],
+          email: e['email'],
+          description: e['description'],
+          category: e['category'],
+          bannerType: e['bannerType'],
+          image: e['image'],
+          companyName: e['companyName'],
+          createdAt: e['createdAt'].toString(),
+          postedById: e['postedById'],
+          removeAt: e['removeAt'].toString(),
+        );
+        allSettingsBanners.add(bannerModel);
+      }).toList();
+    });
+    logger("GetSettingsBannersAction ---- ${allSettingsBanners.length}");
+    await appStore
+        .dispatch(UpdateAdsStateAction(settingBanner: allSettingsBanners));
+    return true;
+  } catch (e) {
+    logger(e.toString(), hint: "GetSettingsBannersAction CATCH ERROR");
+    return false;
+  }
+}
+
+Future<bool> _getHomeJobAdsAction(
+    AppState state, GetHomeJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetHomeJobAdsAction -- Called");
 
@@ -102,8 +140,8 @@ Future<bool> _getHomeJobAdsAction(AppState state, GetHomeJobAdsAction action,
   }
 }
 
-Future<bool> _getCreateBannersAction(AppState state,
-    GetCreateBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(
+    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
   try {
     logger("GetCreateBannersAction -- Called");
     // Show loading
@@ -117,7 +155,7 @@ Future<bool> _getCreateBannersAction(AppState state,
     String? imageUrl;
 
     final jobImgId =
-    generateBannerImageName(bannerType: action.bannerModel.bannerType);
+        generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
     if (imageToUpload != null) {
       String? imgLink = await fbUploadBannerImgAndGetLink(
@@ -132,8 +170,13 @@ Future<bool> _getCreateBannersAction(AppState state,
       }
     }
 
-    CollectionReference createBannerAdsCollection =
-        firebaseKit.bannersCollection;
+    CollectionReference createBannerAdsCollection;
+
+    if (action.bannerType == "home") {
+      createBannerAdsCollection = firebaseKit.homeBannersCollection;
+    } else {
+      createBannerAdsCollection = firebaseKit.settingsBannersCollection;
+    }
 
     await createBannerAdsCollection.doc(bannerUuid).set({
       "id": bannerUuid,
@@ -159,8 +202,8 @@ Future<bool> _getCreateBannersAction(AppState state,
   }
 }
 
-Future<bool> _getUpdatedBannersAction(AppState state,
-    GetUpdatedBannersAction action, NextDispatcher next) async {
+Future<bool> _getUpdatedBannersAction(
+    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
@@ -184,7 +227,7 @@ Future<bool> _getUpdatedBannersAction(AppState state,
 
     if (imageToUpload != null) {
       final jobImgId =
-      generateBannerImageName(bannerType: action.bannerModel.bannerType);
+          generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
       String? imgLink = await fbUploadBannerImgAndGetLink(
         imageFile: imageToUpload,
@@ -198,8 +241,12 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       }
     }
 
-    CollectionReference createBannerAdsCollection =
-        firebaseKit.bannersCollection;
+    CollectionReference createBannerAdsCollection;
+    if (action.bannerType == "home") {
+      createBannerAdsCollection = firebaseKit.homeBannersCollection;
+    } else {
+      createBannerAdsCollection = firebaseKit.settingsBannersCollection;
+    }
 
     await createBannerAdsCollection.doc(bannerUuid).update({
       "title": action.bannerModel.title,
@@ -223,8 +270,8 @@ Future<bool> _getUpdatedBannersAction(AppState state,
   }
 }
 
-_getPostHomeJobAdsAction(AppState state, GetPostHomeJobAdsAction action,
-    NextDispatcher next) async {
+_getPostHomeJobAdsAction(
+    AppState state, GetPostHomeJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetPostHomeJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;

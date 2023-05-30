@@ -10,8 +10,11 @@ class FirebaseKit {
   // For Ad & Notice purpose
   final CollectionReference noticeCollection =
       FirebaseFirestore.instance.collection(fbNoticeCl);
-  final CollectionReference bannersCollection =
-      FirebaseFirestore.instance.collection(fbBannersCl);
+
+  final CollectionReference homeBannersCollection =
+      FirebaseFirestore.instance.collection(fbHomeBannersCl);
+  final CollectionReference settingsBannersCollection =
+      FirebaseFirestore.instance.collection(fbSettingBannersCl);
 
   //For Job Requests lists Purpose
   final CollectionReference adsJobsCollection =
@@ -49,7 +52,8 @@ class FirebaseKit {
 
 const fbNoticeCl = "NOTICE";
 
-const fbBannersCl = "BANNERS";
+const fbHomeBannersCl = "HOME_BANNERS";
+const fbSettingBannersCl = "SETG_BANNERS";
 const fbAdsJobsCl = "ADS_JOBS";
 const fbReqJobCl = "REQ_JOBS";
 const fbFeedbackCl = "FEEDBACK";
@@ -68,5 +72,6 @@ const fbUsersCl = "USERS";
 
 const fbJobImagesBannerStorageFolderName = "BANNER_IMAGES";
 const fbJobImagesJobStorageFolderName = "JOB_IMAGES";
+
 const String userProfileFbDb = "USER_PROFILE";
 const String jobDetailsFbDb = "JOB_DETAILS";

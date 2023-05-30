@@ -53,12 +53,20 @@ class UpdateAdsStateAction {
 
 ///------------------Ads Action ---------
 
-class GetBannersAction {
-  GetBannersAction();
-}
-
 class GetHomeJobAdsAction {
   GetHomeJobAdsAction();
+}
+
+class GetHomeBannersAction {
+  final int? limit;
+
+  GetHomeBannersAction({this.limit});
+}
+
+class GetSettingsBannersAction {
+  final int? limit;
+
+  GetSettingsBannersAction({this.limit});
 }
 
 class GetCreateBannersAction {
