@@ -48,14 +48,7 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Setting banners",
               );
-            case BannerDetailsRoute.name:
-              return PrsmDefaultAppBar(
-                leftIcon: HeroIcons.chevronLeft,
-                onLeftIconPress: () {
-                  context.router.popTop();
-                },
-                titleText: "Banner Details",
-              );
+           
             case BannerCreateRoute.name:
               return PrsmDefaultAppBar(
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
