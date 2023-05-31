@@ -21,15 +21,15 @@ class JobDetailsView extends StatefulWidget {
 
   JobDetailsView(
       {required this.jobModel,
-        required this.jobDetailModel,
-        this.iconList,
-        this.onPress1,
-        this.onPress2,
-        this.onPress3,
-        this.bottomBtn,
-        this.onTapCross,
-        this.showXMark,
-        Key? key})
+      required this.jobDetailModel,
+      this.iconList,
+      this.onPress1,
+      this.onPress2,
+      this.onPress3,
+      this.bottomBtn,
+      this.onTapCross,
+      this.showXMark,
+      Key? key})
       : super(key: key);
 
   @override
@@ -69,7 +69,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                         if (widget.showXMark ?? false)
                           InkWell(
                             onTap: widget.onTapCross ??
-                                    () {
+                                () {
                                   context.router.popTop();
                                 },
                             child: HeroIcon(HeroIcons.xMark, size: 84.h),
@@ -81,10 +81,11 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                       softWrap: true,
                       maxLines: 3),
                   _buildTopJobInfoSec(jobWage, jobWageType, jobDuration),
-                  if (widget.jobModel.images.isNotEmpty)
+                  if (widget.jobModel.images != null ||
+                      widget.jobModel.images!.isNotEmpty)
                     PrsmCarouselImageWidget(
                       showFromNetwork: true,
-                      imageList: widget.jobModel.images,
+                      imageList: widget.jobModel.images ?? [],
                       // imageList: widget.jobModel.images ??
                       //     ["assets/images/png/apple_store_1.png"],
                     ),
@@ -122,8 +123,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
 
   Widget _buildCompanyTitleSec(
       {required String companyName,
-        required String companyLogo,
-        required bool isDark}) {
+      required String companyLogo,
+      required bool isDark}) {
     return Padding(
         padding: EdgeInsets.all(8.w),
         child: Container(
@@ -177,8 +178,9 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
       decoration: BoxDecoration(
-          color:
-          isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
+          color: isDark
+              ? MehonotColorsDark.formContainerBgColor
+              : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -198,13 +200,14 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     return Container(
       width: double.infinity,
       height: widget.jobDetailModel.moreDetails == null ||
-          widget.jobDetailModel.moreDetails!.length < 100
+              widget.jobDetailModel.moreDetails!.length < 100
           ? 280.h
           : 440,
       padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 42.h),
       decoration: BoxDecoration(
-          color:
-          isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white,
+          color: isDark
+              ? MehonotColorsDark.formContainerBgColor
+              : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -285,7 +288,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           infoHelper(
               title: S(context).workDays,
               desc:
-              "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
+                  "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
           infoHelper(
               title: S(context).wages,
               desc: "${widget.jobModel.wageAmount} BDT"),

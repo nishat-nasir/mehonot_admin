@@ -470,7 +470,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             city: createJobAddressCity,
             area: createJobAddressArea,
           ),
-          images: "",
+          images: [],
           type: createJobType,
           wageAmount: double.parse(jobWagesCntr.text),
           timestamp: Timestamp.now(),
