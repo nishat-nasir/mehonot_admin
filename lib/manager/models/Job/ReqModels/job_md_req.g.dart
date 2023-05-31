@@ -9,7 +9,8 @@ part of 'job_md_req.dart';
 JobModelReq _$JobModelReqFromJson(Map json) => JobModelReq(
       title: json['title'] as String,
       companyName: json['companyName'] as String,
-      images: json['images'] as String?,
+      images:
+          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       address: AddressModel.fromJson(json['address'] as Map),
       type: json['type'] as String,
       workStartTime: json['workStartTime'] as String?,

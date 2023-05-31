@@ -19,6 +19,9 @@ JobDetailModel _$JobDetailModelFromJson(Map json) => JobDetailModel(
           RecruitConModel.fromJson(json['recruitCondition'] as Map),
       workCondition: WorkConModel.fromJson(json['workCondition'] as Map),
       moreDetails: json['moreDetails'] as String?,
+      appliedBy: (json['appliedBy'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
@@ -34,4 +37,5 @@ Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
       'recruitCondition': instance.recruitCondition,
       'workCondition': instance.workCondition,
       'moreDetails': instance.moreDetails,
+      'appliedBy': instance.appliedBy,
     };

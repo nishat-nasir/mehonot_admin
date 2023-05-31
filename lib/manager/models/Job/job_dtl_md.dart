@@ -17,6 +17,7 @@ class JobDetailModel {
   RecruitConModel recruitCondition;
   WorkConModel workCondition;
   String? moreDetails;
+  List<String>? appliedBy;
 
   @override
   JobDetailModel({
@@ -31,6 +32,7 @@ class JobDetailModel {
     required this.recruitCondition,
     required this.workCondition,
     this.moreDetails,
+    this.appliedBy,
   });
 
   factory JobDetailModel.fromJson(Map json) => _$JobDetailModelFromJson(json);

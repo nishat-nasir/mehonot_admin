@@ -6,7 +6,8 @@ part of 'job_dtl_md_req.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-JobDetailModelReq _$JobDetailModelReqFromJson(Map json) => JobDetailModelReq(
+JobDetailModelReq _$JobDetailModelReqFromJson(Map json) =>
+    JobDetailModelReq(
       createdAt: DateTime.parse(json['createdAt'] as String),
       ownerName: json['ownerName'] as String?,
       description: json['description'] as String?,
@@ -21,6 +22,9 @@ JobDetailModelReq _$JobDetailModelReqFromJson(Map json) => JobDetailModelReq(
           ? null
           : WorkConModel.fromJson(json['workCondition'] as Map),
       moreDetails: json['moreDetails'] as String?,
+      appliedBy: (json['appliedBy'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$JobDetailModelReqToJson(JobDetailModelReq instance) =>
@@ -35,4 +39,5 @@ Map<String, dynamic> _$JobDetailModelReqToJson(JobDetailModelReq instance) =>
       'recruitCondition': instance.recruitCondition,
       'workCondition': instance.workCondition,
       'moreDetails': instance.moreDetails,
+      'appliedBy': instance.appliedBy,
     };
