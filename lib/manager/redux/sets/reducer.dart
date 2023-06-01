@@ -105,7 +105,15 @@ AdsState _updateAdsState(AdsState state, UpdateAdsStateAction action) {
   return state.copyWith(
     homeBanners: action.homeBanners ?? state.homeBanners,
     settingBanner: action.settingBanner ?? state.settingBanner,
-    jobAds: action.jobAds ?? state.jobAds,
+    dhakaJobAds: action.dhakaJobAds ?? state.dhakaJobAds,
+    chittagongJobAds: action.chittagongJobAds ?? state.chittagongJobAds,
+    khulnaJobAds: action.khulnaJobAds ?? state.khulnaJobAds,
+    barisalJobAds: action.barisalJobAds ?? state.barisalJobAds,
+    sylhetJobAds: action.sylhetJobAds ?? state.sylhetJobAds,
+    rajshahiJobAds: action.rajshahiJobAds ?? state.rajshahiJobAds,
+    rangpurJobAds: action.rangpurJobAds ?? state.rangpurJobAds,
+    mymensinghJobAds: action.mymensinghJobAds ?? state.mymensinghJobAds,
+    allJobAdsIds: action.allJobAdsIds ?? state.allJobAdsIds,
   );
 }
 

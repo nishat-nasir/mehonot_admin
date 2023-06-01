@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
 
-import '../Job/ReqModels/job_md_req.dart';
-
 part 'banner_md.g.dart';
 
 class TimestampConverter implements JsonConverter<Timestamp, dynamic> {

@@ -10,7 +10,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i28;
 import 'package:flutter/rendering.dart' as _i33;
-import 'package:mehonot_admin/manager/models/Banner/banner_md.dart' as _i30;
+import 'package:mehonot_admin/manager/models/Ads/banner_ads/banner_md.dart'
+    as _i30;
 import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart' as _i32;
 import 'package:mehonot_admin/manager/models/Job/job_md.dart' as _i31;
 import 'package:mehonot_admin/manager/navigation/router.dart' as _i1;
@@ -221,6 +222,7 @@ abstract class $AppRouter extends _i28.RootStackRouter {
           key: args.key,
           jobModel: args.jobModel,
           jobDetailModel: args.jobDetailModel,
+          bottomWidget: args.bottomWidget,
         ),
       );
     },
@@ -707,6 +709,7 @@ class JobDetailsRouter extends _i28.PageRouteInfo<JobDetailsRouterArgs> {
     _i29.Key? key,
     required _i31.JobModel jobModel,
     _i32.JobDetailModel? jobDetailModel,
+    _i29.Widget? bottomWidget,
     List<_i28.PageRouteInfo>? children,
   }) : super(
           JobDetailsRouter.name,
@@ -714,6 +717,7 @@ class JobDetailsRouter extends _i28.PageRouteInfo<JobDetailsRouterArgs> {
             key: key,
             jobModel: jobModel,
             jobDetailModel: jobDetailModel,
+            bottomWidget: bottomWidget,
           ),
           initialChildren: children,
         );
@@ -729,6 +733,7 @@ class JobDetailsRouterArgs {
     this.key,
     required this.jobModel,
     this.jobDetailModel,
+    this.bottomWidget,
   });
 
   final _i29.Key? key;
@@ -737,9 +742,11 @@ class JobDetailsRouterArgs {
 
   final _i32.JobDetailModel? jobDetailModel;
 
+  final _i29.Widget? bottomWidget;
+
   @override
   String toString() {
-    return 'JobDetailsRouterArgs{key: $key, jobModel: $jobModel, jobDetailModel: $jobDetailModel}';
+    return 'JobDetailsRouterArgs{key: $key, jobModel: $jobModel, jobDetailModel: $jobDetailModel, bottomWidget: $bottomWidget}';
   }
 }
 
