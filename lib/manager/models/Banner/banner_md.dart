@@ -5,6 +5,20 @@ import '../Job/ReqModels/job_md_req.dart';
 
 part 'banner_md.g.dart';
 
+class TimestampConverter implements JsonConverter<Timestamp, dynamic> {
+  const TimestampConverter();
+
+  @override
+  Timestamp fromJson(dynamic json) {
+    return Timestamp.fromMillisecondsSinceEpoch(json.millisecondsSinceEpoch);
+  }
+
+  @override
+  dynamic toJson(Timestamp timestamp) {
+    return timestamp.millisecondsSinceEpoch;
+  }
+}
+
 @JsonSerializable(anyMap: true)
 class BannerModel {
   String? id;
@@ -20,9 +34,10 @@ class BannerModel {
   String? category;
   @TimestampConverter()
   Timestamp createdAt;
+  @TimestampConverter()
   Timestamp startAt;
+  @TimestampConverter()
   Timestamp removeAt;
-
 
   @override
   BannerModel({

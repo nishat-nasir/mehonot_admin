@@ -9,6 +9,7 @@ part of 'user_profile_md.dart';
 UserProfileModel _$UserProfileModelFromJson(Map json) => UserProfileModel(
       userId: json['userId'] as String,
       userProfileId: json['userProfileId'] as String,
+      userJobRelationId: json['userJobRelationId'] as String,
       firstName: json['firstName'] as String,
       lastName: json['lastName'] as String?,
       createdDate: json['createdDate'] as String,
@@ -16,9 +17,6 @@ UserProfileModel _$UserProfileModelFromJson(Map json) => UserProfileModel(
       contactNumber: json['contactNumber'] as String,
       address: AddressModel.fromJson(json['address'] as Map),
       profileImage: json['profileImage'] as String,
-      myJobsIds: (json['myJobsIds'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
       education: (json['education'] as List<dynamic>?)
           ?.map((e) => EducationModel.fromJson(e as Map))
           .toList(),
@@ -33,15 +31,13 @@ UserProfileModel _$UserProfileModelFromJson(Map json) => UserProfileModel(
       bio: json['bio'] as String,
       isVerifiedOwner: json['isVerifiedOwner'] as bool?,
       isVerifiedExplorer: json['isVerifiedExplorer'] as bool?,
-      savedJobsIds: (json['savedJobsIds'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
     );
 
 Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
     <String, dynamic>{
       'userId': instance.userId,
       'userProfileId': instance.userProfileId,
+      'userJobRelationId': instance.userJobRelationId,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'createdDate': instance.createdDate,
@@ -49,7 +45,6 @@ Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
       'contactNumber': instance.contactNumber,
       'address': instance.address,
       'profileImage': instance.profileImage,
-      'myJobsIds': instance.myJobsIds,
       'education': instance.education,
       'experience': instance.experience,
       'skill': instance.skill,
@@ -58,5 +53,4 @@ Map<String, dynamic> _$UserProfileModelToJson(UserProfileModel instance) =>
       'bio': instance.bio,
       'isVerifiedOwner': instance.isVerifiedOwner,
       'isVerifiedExplorer': instance.isVerifiedExplorer,
-      'savedJobsIds': instance.savedJobsIds,
     };

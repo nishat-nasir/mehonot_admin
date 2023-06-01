@@ -35,8 +35,8 @@ class AuthMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getLoginAction(
-    AppState state, GetLoginAction action, NextDispatcher next) async {
+Future<bool> _getLoginAction(AppState state, GetLoginAction action,
+    NextDispatcher next) async {
   try {
     logger("GetLoginAction -- Called");
 
@@ -61,7 +61,6 @@ Future<bool> _getLoginAction(
       );
 
       UserProfileModel? userProf = await appStore.dispatch(GetUserProfileAction(
-        userId: userData.userId,
         userProfileId: userData.userProfileId,
       ));
 
@@ -84,8 +83,8 @@ Future<bool> _getLoginAction(
   }
 }
 
-Future<bool> _getExistedUserAction(
-    AppState state, GetExistedUserAction action, NextDispatcher next) async {
+Future<bool> _getExistedUserAction(AppState state, GetExistedUserAction action,
+    NextDispatcher next) async {
   try {
     logger("GetExistedUserAction -- Called");
 
@@ -108,7 +107,6 @@ Future<bool> _getExistedUserAction(
       );
 
       UserProfileModel? userProf = await appStore.dispatch(GetUserProfileAction(
-        userId: userData.userId,
         userProfileId: userData.userProfileId,
       ));
 
@@ -136,14 +134,18 @@ Future<bool> _getExistedUserAction(
   }
 }
 
-Future<bool> _getRegisterAction(
-    AppState state, GetRegisterAction action, NextDispatcher next) async {
+Future<bool> _getRegisterAction(AppState state, GetRegisterAction action,
+    NextDispatcher next) async {
   try {
     logger("GetRegisterAction -- Called");
 
     String userUid = generateUserUuid();
     String userProfileUid = generateUserProfileUuid();
+    String userProfileJobRelationUid = generateUserProfileJobRelationUuid();
+
     CollectionReference allUsersCollection = FirebaseKit().usersCollection;
+    CollectionReference allUsersProfilesCollection =
+        FirebaseKit().usersProfilesCollection;
     logger('USER Creating');
 
     await allUsersCollection.doc(userUid).set({
@@ -155,13 +157,10 @@ Future<bool> _getRegisterAction(
     });
     logger('USER Created');
 
-    await allUsersCollection
-        .doc(userUid)
-        .collection(userProfileFbDb)
-        .doc(userProfileUid)
-        .set({
+    await allUsersProfilesCollection.doc(userProfileUid).set({
       'userId': userUid,
       'userProfileId': userProfileUid,
+      'userJobRelationId': userProfileJobRelationUid,
       'firstName': action.userProfileModelReq.firstName,
       'lastName': action.userProfileModelReq.lastName,
       'createdDate': action.userProfileModelReq.createdDate,
@@ -169,7 +168,6 @@ Future<bool> _getRegisterAction(
       'contactNumber': action.userProfileModelReq.contactNumber,
       'address': action.userProfileModelReq.address.toJson(),
       'profileImage': action.userProfileModelReq.profileImage,
-      'myJobsIds': action.userProfileModelReq.myJobsIds,
       'education': action.userProfileModelReq.education,
       'experience': action.userProfileModelReq.experience,
       'skill': action.userProfileModelReq.skill,
@@ -178,7 +176,18 @@ Future<bool> _getRegisterAction(
       'birthday': action.userProfileModelReq.birthday,
       'positionTitle': action.userProfileModelReq.positionTitle,
       'bio': action.userProfileModelReq.bio,
-      'savedJobsIds': action.userProfileModelReq.savedJobsIds,
+    });
+
+    // Create sub collection name is userProfileJobRelationsFbDb
+    await allUsersProfilesCollection
+        .doc(userProfileUid)
+        .collection(userProfileJobRelationsFbDb)
+        .doc(userProfileJobRelationUid)
+        .set({
+      'userProfileId': userProfileUid,
+      'myJobsIds': action.userJobRelationMd.myJobsIds,
+      'savedJobsIds': action.userJobRelationMd.savedJobsIds,
+      'appliedJobsIds': action.userJobRelationMd.appliedJobsIds,
     });
 
     HiveClient.setDivision(action.userProfileModelReq.address.division);
@@ -209,8 +218,8 @@ Future<bool> _getCheckPhoneNumExistsAction(AppState state,
   return isExist;
 }
 
-Future<String> _getChangePassAction(
-    AppState state, GetChangePassAction action, NextDispatcher next) async {
+Future<String> _getChangePassAction(AppState state, GetChangePassAction action,
+    NextDispatcher next) async {
   try {
     logger("GetChangePassAction -- Called");
 
@@ -238,12 +247,12 @@ Future<String> _getChangePassAction(
     }).then((value) {
       appStore.dispatch(UpdateUserStateAction(
           userData: UserModel(
-        userId: state.userState.userData.userId,
-        userProfileId: state.userState.userData.userProfileId,
-        password: state.userState.userData.password,
-        phoneNumber: newPassword,
-        isAdmin: state.userState.userData.isAdmin,
-      )));
+            userId: state.userState.userData.userId,
+            userProfileId: state.userState.userData.userProfileId,
+            password: state.userState.userData.password,
+            phoneNumber: newPassword,
+            isAdmin: state.userState.userData.isAdmin,
+          )));
     });
 
     return "Password changed successfully";
@@ -253,8 +262,8 @@ Future<String> _getChangePassAction(
   }
 }
 
-_getChangeLoginIdAction(
-    AppState state, GetChangeLoginIdAction action, NextDispatcher next) async {
+_getChangeLoginIdAction(AppState state, GetChangeLoginIdAction action,
+    NextDispatcher next) async {
   try {
     logger("GetChangeLoginIdAction -- Called");
     await FirebaseKit()
@@ -265,12 +274,12 @@ _getChangeLoginIdAction(
     }).then((value) {
       appStore.dispatch(UpdateUserStateAction(
           userData: UserModel(
-        userId: state.userState.userData.userId,
-        userProfileId: state.userState.userData.userProfileId,
-        password: state.userState.userData.password,
-        phoneNumber: action.newLoginId,
-        isAdmin: state.userState.userData.isAdmin,
-      )));
+            userId: state.userState.userData.userId,
+            userProfileId: state.userState.userData.userProfileId,
+            password: state.userState.userData.password,
+            phoneNumber: action.newLoginId,
+            isAdmin: state.userState.userData.isAdmin,
+          )));
     });
 
     return true;

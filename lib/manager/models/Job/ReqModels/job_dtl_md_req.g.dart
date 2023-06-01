@@ -6,8 +6,7 @@ part of 'job_dtl_md_req.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-JobDetailModelReq _$JobDetailModelReqFromJson(Map json) =>
-    JobDetailModelReq(
+JobDetailModelReq _$JobDetailModelReqFromJson(Map json) => JobDetailModelReq(
       createdAt: DateTime.parse(json['createdAt'] as String),
       ownerName: json['ownerName'] as String?,
       description: json['description'] as String?,

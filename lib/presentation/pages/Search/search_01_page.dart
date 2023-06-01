@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
+import 'package:mehonot_admin/manager/models/User/user_job_relation_md.dart';
 import 'package:mehonot_admin/presentation/template/template.dart';
 
 import '../../../manager/models/Address/address_md.dart';
@@ -152,13 +153,12 @@ class _Search01PageState extends State<Search01Page> {
     JobDetailModel currentJobDetails =
         appStore.state.jobsState.selectedJobDetailModel;
 
-    UserProfileModel userProfileModel =
-        appStore.state.userState.userProfileData;
-    if (userProfileModel.savedJobsIds != null &&
-        userProfileModel.savedJobsIds!.isNotEmpty) {
+    UserJobRelationMd userProfileModel =
+        appStore.state.userState.userJobRelationData;
+    if (userProfileModel.savedJobsIds.isNotEmpty) {
       setState(() {
         isJobSavedOrNot =
-            userProfileModel.savedJobsIds!.contains(currentJob.jobId);
+            userProfileModel.savedJobsIds.contains(currentJob.jobId);
       });
     } else {
       setState(() {

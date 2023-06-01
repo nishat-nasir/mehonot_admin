@@ -7,6 +7,9 @@ class FirebaseKit {
   final CollectionReference usersCollection =
       FirebaseFirestore.instance.collection(fbUsersCl);
 
+  final CollectionReference usersProfilesCollection =
+      FirebaseFirestore.instance.collection(fbUserProfileFbCl);
+
   // For Ad & Notice purpose
   final CollectionReference noticeCollection =
       FirebaseFirestore.instance.collection(fbNoticeCl);
@@ -69,9 +72,10 @@ const fbRngJobsCl = "RNG_JOBS";
 const fbMymJobsCl = "MYM_JOBS";
 
 const fbUsersCl = "USERS";
+const fbUserProfileFbCl = "USERS_PROFILES";
 
 const fbJobImagesBannerStorageFolderName = "BANNER_IMAGES";
 const fbJobImagesJobStorageFolderName = "JOB_IMAGES";
 
-const String userProfileFbDb = "USER_PROFILE";
+const String userProfileJobRelationsFbDb = "JOB_RELATIONS";
 const String jobDetailsFbDb = "JOB_DETAILS";

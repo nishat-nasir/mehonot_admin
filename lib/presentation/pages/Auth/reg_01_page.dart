@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:mehonot_admin/manager/models/Address/address_md.dart';
+import 'package:mehonot_admin/manager/models/User/user_job_relation_md.dart';
 import 'package:mehonot_admin/presentation/utils/common/validators.dart';
 import '../../../manager/models/User/ReqModels/user_md_req.dart';
 import '../../../manager/models/User/user_profile_md.dart';
@@ -370,7 +371,13 @@ class _Registration01PageState extends State<Registration01Page> {
         birthday: "",
         positionTitle: "",
         bio: "",
+        userJobRelationId: '',
       ),
+      userJobRelationMd: UserJobRelationMd(
+          userProfileId: '',
+          savedJobsIds: [],
+          appliedJobsIds: [],
+          myJobsIds: []),
     ));
     // if (matched) { // if OTP Match then put in the DB
     if (registeredComplete) {

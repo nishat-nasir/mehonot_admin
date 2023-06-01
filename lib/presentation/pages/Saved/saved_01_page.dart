@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:mehonot_admin/manager/models/User/user_job_relation_md.dart';
 import 'package:mehonot_admin/presentation/template/template.dart';
 
 import '../../../manager/models/Address/address_md.dart';
@@ -125,13 +126,12 @@ class _Saved01PageState extends State<Saved01Page> {
     JobDetailModel currentJobDetails =
         appStore.state.jobsState.selectedJobDetailModel;
 
-    UserProfileModel userProfileModel =
-        appStore.state.userState.userProfileData;
-    if (userProfileModel.savedJobsIds != null &&
-        userProfileModel.savedJobsIds!.isNotEmpty) {
+    UserJobRelationMd userJobRelationMd =
+        appStore.state.userState.userJobRelationData;
+    if (userJobRelationMd.savedJobsIds.isNotEmpty) {
       setState(() {
         isJobSavedOrNot =
-            userProfileModel.savedJobsIds!.contains(currentJob.jobId);
+            userJobRelationMd.savedJobsIds.contains(currentJob.jobId);
       });
     } else {
       setState(() {
@@ -228,7 +228,6 @@ class _Saved01PageState extends State<Saved01Page> {
                         status: currentJob.status,
                         wageAmount: currentJob.wageAmount,
                         timestamp: currentJob.timestamp,
-
                       ),
                       jobDetailModel: JobDetailModel(
                         description: currentJobDetails.description,

@@ -47,16 +47,16 @@ class JobsState {
 
   factory JobsState.initial() {
     return JobsState(
-      dhakaJobs: [],
-      chittagongJobs: [],
-      khulnaJobs: [],
-      rajshahiJobs: [],
-      barisalJobs: [],
-      sylhetJobs: [],
-      rangpurJobs: [],
-      mymensinghJobs: [],
-      currentLocationJobsList: [],
-      allRequestedJobs: [],
+      dhakaJobs: const [],
+      chittagongJobs: const [],
+      khulnaJobs: const [],
+      rajshahiJobs: const [],
+      barisalJobs: const [],
+      sylhetJobs: const [],
+      rangpurJobs: const [],
+      mymensinghJobs: const [],
+      currentLocationJobsList: const [],
+      allRequestedJobs: const [],
       selectedJobDetailModel: JobDetailModel(
         jobId: '',
         jobDetailsId: '',
@@ -76,7 +76,7 @@ class JobsState {
         category: '',
         moreDetails: '',
       ),
-      searchJobList: [],
+      searchJobList: const [],
       currentDivision: convertStringToDivision(
           HiveClient.getDivision() ?? Constants.jobDivisionList.first.name),
     );
@@ -216,11 +216,13 @@ class GetDeleteJobAction {
   final String jobId;
   final String jobDetailsId;
   final Division division;
+  final String jobStatus;
 
   GetDeleteJobAction({
     required this.jobId,
     required this.jobDetailsId,
     required this.division,
+    required this.jobStatus,
   });
 }
 
@@ -255,7 +257,6 @@ class GetReqJobDetailsAction {
     required this.jobDetailsId,
   });
 }
-
 
 class GetAcceptReqJobAction {
   JobModel jobMd;

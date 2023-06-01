@@ -98,7 +98,6 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
   Widget build(BuildContext context) {
     isDark = Theme.of(context).brightness == Brightness.dark;
     return SpacedColumn(children: [
-
       Padding(
           padding: EdgeInsets.all(24.w),
           child: SizedBox(
@@ -800,8 +799,8 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
       experience: userExperienceList,
       isVerifiedExplorer: userProfileData.isVerifiedExplorer,
       isVerifiedOwner: userProfileData.isVerifiedOwner,
-      myJobsIds: userProfileData.myJobsIds,
       skill: userSkillList,
+      userJobRelationId: userProfileData.userJobRelationId,
     );
 
     bool success = await appStore

@@ -4,9 +4,11 @@ import '../../../manager/models/Job/job_dtl_md.dart';
 import '../../../manager/models/Job/job_md.dart';
 import '../../../manager/navigation/router.gr.dart';
 import '../../template/template.dart';
+import '../../utils/common/helper_function.dart';
 import '../../widgets/buttons/three_row_buttons.dart';
 import '../../widgets/caousel_widget.dart';
 import '../../widgets/circle_head_widget.dart';
+import '../../widgets/containers/job_status.dart';
 
 class JobDetailsView extends StatefulWidget {
   final JobModel jobModel;
@@ -18,6 +20,8 @@ class JobDetailsView extends StatefulWidget {
   Widget? bottomBtn;
   VoidCallback? onTapCross;
   bool? showXMark;
+  bool? showStatus;
+  VoidCallback? onTapApplicationList;
 
   JobDetailsView(
       {required this.jobModel,
@@ -29,6 +33,8 @@ class JobDetailsView extends StatefulWidget {
       this.bottomBtn,
       this.onTapCross,
       this.showXMark,
+      this.showStatus,
+      this.onTapApplicationList,
       Key? key})
       : super(key: key);
 
@@ -53,39 +59,45 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                 verticalSpace: 22,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20.h),
-                  SpacedRow(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  SizedBox(height: 40.h),
+                  SpacedColumn(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        SpacedRow(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (widget.showStatus == true)
+                                JobStatusChip(
+                                    jobStatus: widget.jobModel.status),
+                              if (widget.showXMark ?? false)
+                                Align(
+                                    alignment: Alignment.centerRight,
+                                    child: InkWell(
+                                      onTap: widget.onTapCross ??
+                                          () {
+                                            context.router.popTop();
+                                          },
+                                      child: HeroIcon(HeroIcons.xMark,
+                                          size: 100.h),
+                                    )),
+                            ]),
                         SizedText(
-                            text: widget.jobModel.timestamp
-                                .toDate()
-                                .toString()
-                                .substring(0, 10)
-                                .replaceAll("-", "."),
-                            textStyle: ThemeTextRegular.k14
+                            text: calculateDuration(widget.jobModel.timestamp),
+                            textStyle: ThemeTextRegular.k10
                                 .copyWith(color: ThemeColors.coolgray500)),
-                        if (widget.showXMark ?? false)
-                          InkWell(
-                            onTap: widget.onTapCross ??
-                                () {
-                                  context.router.popTop();
-                                },
-                            child: HeroIcon(HeroIcons.xMark, size: 84.h),
-                          )
+                        SizedText(
+                            text: widget.jobModel.title,
+                            textStyle: ThemeTextSemiBold.k18,
+                            softWrap: true,
+                            maxLines: 3),
                       ]),
-                  SizedText(
-                      text: widget.jobModel.title,
-                      textStyle: ThemeTextSemiBold.k18,
-                      softWrap: true,
-                      maxLines: 3),
                   _buildTopJobInfoSec(jobWage, jobWageType, jobDuration),
-                  if (widget.jobModel.images != null ||
+                  if (widget.jobModel.images != null &&
                       widget.jobModel.images!.isNotEmpty)
                     PrsmCarouselImageWidget(
                       showFromNetwork: true,
-                      imageList: widget.jobModel.images ?? [],
+                      imageList: widget.jobModel.images!,
                       // imageList: widget.jobModel.images ??
                       //     ["assets/images/png/apple_store_1.png"],
                     ),
@@ -145,7 +157,15 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                       borderRadius: BorderRadius.circular(18.r),
                       child: Image.asset(companyLogo,
                           fit: BoxFit.fill, width: 120.w, height: 120.h)),
-                  SizedText(text: companyName, textStyle: ThemeTextBold.k18)
+                  SizedText(
+                    textAlign: TextAlign.start,
+                    width: 700.w,
+                    height: 120.h,
+                    text: companyName,
+                    softWrap: true,
+                    textStyle: ThemeTextSemiBold.k14,
+                    maxLines: 2,
+                  )
                 ])));
   }
 
