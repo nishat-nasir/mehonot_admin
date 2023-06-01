@@ -32,7 +32,6 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Mehnat",
               );
-
             case JobRequestsRoute.name:
               return PrsmDefaultAppBar(
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -48,7 +47,7 @@ class GeneralWrapper extends StatelessWidget {
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
                 titleText: "Setting banners",
               );
-           
+
             case BannerCreateRoute.name:
               return PrsmDefaultAppBar(
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -85,7 +84,7 @@ class GeneralWrapper extends StatelessWidget {
                   titleText: S(context).postJob,
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
-                    context.navigateBack();
+                    context.back();
                   });
             case CeoJobEditRouter.name:
               return PrsmDefaultAppBar(
@@ -93,7 +92,7 @@ class GeneralWrapper extends StatelessWidget {
                   titleText: "Edit Job",
                   leftIcon: HeroIcons.xMark,
                   onLeftIconPress: () {
-                    context.navigateBack();
+                    context.back();
                   });
             case JobDetailsRouter.name:
               return PrsmDefaultAppBar(
@@ -101,8 +100,12 @@ class GeneralWrapper extends StatelessWidget {
                   titleText: "Job Details",
                   leftIcon: HeroIcons.chevronLeft,
                   onLeftIconPress: () {
-                    context.navigateBack();
+                    context.back();
                   });
+            case JobAdsRouter.name:
+              return PrsmDefaultAppBar(
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
+                  titleText: "Job Ads");
             default:
               return const NoAppBar();
           }
@@ -118,6 +121,7 @@ class GeneralWrapper extends StatelessWidget {
           JobReqRouter(),
           BannerRouter(),
           FeedbackRouter(),
+          JobAdsRouter(),
         ]);
   }
 }

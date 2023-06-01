@@ -705,17 +705,18 @@ Future<bool> _getJobSearchAction(
     List<JobModel> searchResult = [];
 
     await jobFromDivisionCollection
-        .where("title", isGreaterThanOrEqualTo: action.searchText)
+        .where("title", isGreaterThanOrEqualTo: action.searchText.toLowerCase())
+        .where("title", isGreaterThanOrEqualTo: action.searchText.toUpperCase())
         .get()
         .then((value) {
-      value.docs.forEach((element) {
+      for (var element in value.docs) {
         searchResult
             .add(JobModel.fromJson(element.data() as Map<String, dynamic>));
 
         next(UpdateJobsStateAction(
           searchJobList: searchResult,
         ));
-      });
+      }
     });
 
     appStore.dispatch(UpdateJobsStateAction(

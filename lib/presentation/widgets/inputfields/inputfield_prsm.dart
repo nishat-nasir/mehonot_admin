@@ -23,6 +23,7 @@ class PrsmInputField extends StatefulWidget {
   final Color? fillColor;
   final bool? enableShadow;
   final List<TextInputFormatter>? formatter;
+  final ValueChanged<String>? onSubmit;
 
   PrsmInputField({
     Key? key,
@@ -47,6 +48,7 @@ class PrsmInputField extends StatefulWidget {
     this.fillColor,
     this.enableShadow = true,
     this.formatter,
+    this.onSubmit,
   }) : super(key: key) {
     hintText ??= 'Enter your text';
     width ??= 300;
@@ -62,12 +64,15 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
 
-    Color fillColor = isDark ? MehonotColorsDark.formFillColor : ThemeColors.white;
+    Color fillColor = isDark ? MehonotColorsDark.formFillColor : ThemeColors
+        .white;
 
     Color borderColor =
-        isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white;
+    isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white;
     Color textColor = isDark ? ThemeColors.gray100 : ThemeColors.gray400;
 
     BorderRadius borderRadius = BorderRadius.circular(18.r);
@@ -78,15 +83,16 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
       child: Container(
         decoration: !isDark
             ? widget.enableShadow!
-                ? BoxDecoration(
-                    border:
-                        Border.all(width: 1, color: ThemeColors.coolgray100),
-                    boxShadow: ThemeShadows.shadowSm,
-                    borderRadius: borderRadius,
-                  )
-                : null
+            ? BoxDecoration(
+          border:
+          Border.all(width: 1, color: ThemeColors.coolgray100),
+          boxShadow: ThemeShadows.shadowSm,
+          borderRadius: borderRadius,
+        )
+            : null
             : null,
         child: TextFormField(
+          onFieldSubmitted: widget.onSubmit,
           autovalidateMode: widget.autoValidateMode,
           validator: widget.validator,
           onChanged: widget.onChange,
@@ -103,15 +109,15 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
           style: widget.disableAll
               ? ThemeTextRegular.k14.copyWith(color: ThemeColors.gray700)
               : ThemeTextRegular.k14.copyWith(
-                  color: isDark
-                      ? MehonotColorsDark.textColor
-                      : MehonotColorsLight.textColor),
+              color: isDark
+                  ? MehonotColorsDark.textColor
+                  : MehonotColorsLight.textColor),
           decoration: InputDecoration(
             errorMaxLines: 2,
             fillColor: widget.fillColor ?? fillColor,
             filled: widget.disableAll ? false : true,
             contentPadding:
-                EdgeInsets.symmetric(horizontal: 24.w, vertical: 5.h),
+            EdgeInsets.symmetric(horizontal: 24.w, vertical: 5.h),
             enabledBorder: OutlineInputBorder(
                 borderRadius: borderRadius,
                 borderSide: BorderSide(
@@ -129,8 +135,8 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
                     color: widget.disableAll
                         ? ThemeColors.gray800
                         : isDark
-                            ? ThemeColors.coolgray500
-                            : ThemeColors.coolgray300)),
+                        ? ThemeColors.coolgray500
+                        : ThemeColors.coolgray300)),
             // border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
             suffixIcon: _getRightIcon(),
             prefixIcon: _getLeftIcon(),

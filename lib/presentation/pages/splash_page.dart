@@ -39,12 +39,12 @@ class _SplashPageState extends State<SplashPage> {
                     verticalSpace: 60,
                     children: [
                       SizedText(
-                        text: "Pleasure",
+                        text: "Salam\nAdmin",
                         textStyle: ThemeTextExtraBold.k28,
                       ),
                       SizedBox(
                           width: 140.w,
-                          height: 140.h,
+                          height: 140.w,
                           child: CircularProgressIndicator(
                             color: ThemeColors.lightblue600,
                             strokeWidth: 20.w,
