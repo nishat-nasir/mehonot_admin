@@ -73,7 +73,6 @@ Future<bool> _getJobsAction(
         getDivisionCollection(action.division);
 
     QuerySnapshot jobSnapshot;
-    int jobCount = 0; // Initialize jobCount
 
     if (action.lastDocumentId != null) {
       DocumentSnapshot lastDocument =
@@ -122,42 +121,6 @@ Future<bool> _getJobsAction(
       );
       allJobs.add(job);
     }).toList();
-
-    // await jobFromDivision
-    //     .orderBy('timestamp', descending: true)
-    //     .limit(10)
-    //     .get()
-    //     .then((value) {
-    //    DocumentSnapshot lastDocument = value.docs[value.docs.length - 1];
-    //
-    //   logger(lastDocument.data(), hint: 'GetJobsAction LAST DATA');
-    //
-    //   value.docs.map((e) {
-    //     logger(e.data(), hint: 'GetJobsAction MAP DATA');
-    //     JobModel job = JobModel(
-    //       jobId: e["jobId"],
-    //       jobDetailsId: e["jobDetailsId"],
-    //       title: e["title"],
-    //       address: AddressModel(
-    //         division: e["address"]["division"],
-    //         district: e["address"]["district"],
-    //         area: e["address"]["area"],
-    //         city: e["address"]["city"],
-    //       ),
-    //       companyName: e["companyName"],
-    //       images: e["images"],
-    //       type: e["type"],
-    //       workFinishTime: e["workFinishTime"],
-    //       workStartTime: e["workStartTime"],
-    //       postedByUserId: e["postedByUserId"],
-    //       status: e["status"],
-    //       timestamp: e["timestamp"],
-    //       wageAmount: e["wageAmount"],
-    //     );
-    //     allJobs.add(job);
-    //   }).toList();
-    //   return allJobs;
-    // });
 
     switch (action.division) {
       case Division.Dhaka:
@@ -216,8 +179,6 @@ Future<bool> _getJobsAction(
       currentLocationJobsList: allJobs,
     ));
 
-    // TODO:
-    // HomeController.to.updateJobsOfCurrentLoc(allJobs);
     return true;
   } catch (e) {
     logger(e.toString(), hint: 'GetJobsAction CATCH ERROR');
@@ -309,6 +270,9 @@ Future<bool> _getJobDetailsAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
+            : [],
       );
     });
 
@@ -486,6 +450,7 @@ Future<bool> _getAcceptReqJobAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
+        appliedBy: value["appliedBy"],
       );
     });
 
@@ -553,6 +518,9 @@ Future<bool> _getReqJobDetailsAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
+            : [],
       );
     });
 

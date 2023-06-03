@@ -40,13 +40,13 @@ JobsState _updateJobsState(JobsState state, UpdateJobsStateAction action) {
     rajshahiJobs: action.rajshahiJobs ?? state.rajshahiJobs,
     rangpurJobs: action.rangpurJobs ?? state.rangpurJobs,
     mymensinghJobs: action.mymensinghJobs ?? state.mymensinghJobs,
-    allRequestedJobs: action.allRequestedJobs ?? state.allRequestedJobs,
     currentLocationJobsList:
         action.currentLocationJobsList ?? state.currentLocationJobsList,
     selectedJobDetailModel:
         action.selectedJobDetailModel ?? state.selectedJobDetailModel,
     searchJobList: action.searchJobList ?? state.searchJobList,
     currentDivision: action.currentDivision ?? state.currentDivision,
+    allRequestedJobs: action.allRequestedJobs ?? state.allRequestedJobs,
   );
 }
 

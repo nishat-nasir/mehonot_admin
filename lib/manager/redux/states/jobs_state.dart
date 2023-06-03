@@ -249,12 +249,10 @@ class GetReqJobsAction {
 }
 
 class GetReqJobDetailsAction {
-  final Division division;
   final String jobId;
   final String jobDetailsId;
 
   GetReqJobDetailsAction({
-    required this.division,
     required this.jobId,
     required this.jobDetailsId,
   });
