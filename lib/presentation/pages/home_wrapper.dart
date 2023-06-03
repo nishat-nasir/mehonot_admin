@@ -102,10 +102,19 @@ class GeneralWrapper extends StatelessWidget {
                   onLeftIconPress: () {
                     context.back();
                   });
-            case JobAdsRouter.name:
+            case JobAdsListRoute.name:
               return PrsmDefaultAppBar(
                   generalWrapperGlobalKey: generalWrapperGlobalKey,
                   titleText: "Job Ads");
+
+            case JobAdCreateRoute.name:
+              return PrsmDefaultAppBar(
+                  generalWrapperGlobalKey: generalWrapperGlobalKey,
+                  leftIcon: HeroIcons.xMark,
+                  onLeftIconPress: () {
+                    context.back();
+                  },
+                  titleText: "Create Job Ads");
             default:
               return const NoAppBar();
           }
@@ -120,8 +129,8 @@ class GeneralWrapper extends StatelessWidget {
           HomePageRouter(),
           JobReqRouter(),
           BannerRouter(),
-          FeedbackRouter(),
           JobAdsRouter(),
+          FeedbackRouter(),
         ]);
   }
 }
