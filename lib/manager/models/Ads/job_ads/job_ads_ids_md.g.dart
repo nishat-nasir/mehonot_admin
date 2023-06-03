@@ -7,40 +7,40 @@ part of 'job_ads_ids_md.dart';
 // **************************************************************************
 
 JobAdsIdsMd _$JobAdsIdsMdFromJson(Map json) => JobAdsIdsMd(
-      dhakaJobAds: (json['dhakaJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      dhakaJobAds: (json['dhakaJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      chittagongJobAds: (json['chittagongJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      khulnaJobAds: (json['khulnaJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      sylhetJobAds: (json['sylhetJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      rajshahiJobAds: (json['rajshahiJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      rajshahiJobAds: (json['rajshahiJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      rangpurJobAds: (json['rangpurJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      khulnaJobAds: (json['khulnaJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      sylhetJobAds: (json['sylhetJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      barisalJobAds: (json['barisalJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      barisalJobAds: (json['barisalJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      rangpurJobAds: (json['rangpurJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      chittagongJobAds: (json['chittagongJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
-      mymensinghJobAds: (json['mymensinghJobAds'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      mymensinghJobAds: (json['mymensinghJobAds'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$JobAdsIdsMdToJson(JobAdsIdsMd instance) =>
     <String, dynamic>{
       'dhakaJobAds': instance.dhakaJobAds,
-      'chittagongJobAds': instance.chittagongJobAds,
-      'sylhetJobAds': instance.sylhetJobAds,
-      'rajshahiJobAds': instance.rajshahiJobAds,
       'khulnaJobAds': instance.khulnaJobAds,
-      'barisalJobAds': instance.barisalJobAds,
+      'rajshahiJobAds': instance.rajshahiJobAds,
       'rangpurJobAds': instance.rangpurJobAds,
+      'sylhetJobAds': instance.sylhetJobAds,
+      'barisalJobAds': instance.barisalJobAds,
+      'chittagongJobAds': instance.chittagongJobAds,
       'mymensinghJobAds': instance.mymensinghJobAds,
     };

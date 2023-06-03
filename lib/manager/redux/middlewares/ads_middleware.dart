@@ -39,8 +39,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getHomeBannersAction(AppState state, GetHomeBannersAction action,
-    NextDispatcher next) async {
+Future<bool> _getHomeBannersAction(
+    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
   try {
     logger("GetHomeBannersAction -- Called");
 
@@ -124,8 +124,8 @@ Future<bool> _getSettingsBannersAction(AppState state,
   }
 }
 
-Future<bool> _getJobAdsIdsAction(AppState state,
-    GetJobAdsIdsAction action, NextDispatcher next) async {
+Future<bool> _getJobAdsIdsAction(
+    AppState state, GetJobAdsIdsAction action, NextDispatcher next) async {
   try {
     logger("GetJobAdsIdsAction -- Called");
 
@@ -140,19 +140,40 @@ Future<bool> _getJobAdsIdsAction(AppState state,
       mymensinghJobAds: [],
     );
 
-    CollectionReference jobAdsIdsCollection =
-        firebaseKit.adsJobsCollection;
+    CollectionReference jobAdsIdsCollection = firebaseKit.adsJobsCollection;
 
-    await jobAdsIdsCollection.doc("jobAdsIds").get().then((value) {
+    await jobAdsIdsCollection.doc(jobAdsDocId).get().then((value) {
       jobAdsIdsModel = JobAdsIdsMd(
-        dhakaJobAds: value['dhkJobAds'] ?? [],
-        chittagongJobAds: value['khlJobAds'] ?? [],
-        rajshahiJobAds: value['rajJobAds'] ?? [],
-        khulnaJobAds: value['rngJobAds'] ?? [],
-        barisalJobAds: value['sylJobAds'] ?? [],
-        sylhetJobAds: value['barJobAds'] ?? [],
-        rangpurJobAds: value['ctgJobAds'] ?? [],
-        mymensinghJobAds: value['mymJobAds'] ?? [],
+        // appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+        //     ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
+        //     : [],
+        dhakaJobAds: value['dhakaJobAds'].isNotEmpty
+            ? List<String>.from(value['dhakaJobAds'].map((e) => e.toString()))
+            : [],
+        khulnaJobAds: value['khulnaJobAds'].isNotEmpty
+            ? List<String>.from(value['khulnaJobAds'].map((e) => e.toString()))
+            : [],
+        rajshahiJobAds: value['rajshahiJobAds'].isNotEmpty
+            ? List<String>.from(
+                value['rajshahiJobAds'].map((e) => e.toString()))
+            : [],
+        rangpurJobAds: value['rangpurJobAds'].isNotEmpty
+            ? List<String>.from(value['rangpurJobAds'].map((e) => e.toString()))
+            : [],
+        sylhetJobAds: value['sylhetJobAds'].isNotEmpty
+            ? List<String>.from(value['sylhetJobAds'].map((e) => e.toString()))
+            : [],
+        barisalJobAds: value['barisalJobAds'].isNotEmpty
+            ? List<String>.from(value['barisalJobAds'].map((e) => e.toString()))
+            : [],
+        chittagongJobAds: value['chittagongJobAds'].isNotEmpty
+            ? List<String>.from(
+                value['chittagongJobAds'].map((e) => e.toString()))
+            : [],
+        mymensinghJobAds: value['mymensinghJobAds'].isNotEmpty
+            ? List<String>.from(
+                value['mymensinghJobAds'].map((e) => e.toString()))
+            : [],
       );
     });
 
@@ -165,9 +186,8 @@ Future<bool> _getJobAdsIdsAction(AppState state,
   }
 }
 
-Future<bool> _getJobAdsDetailAction(AppState state,
-    GetJobAdsDetailAction action,
-    NextDispatcher next) async {
+Future<bool> _getJobAdsDetailAction(
+    AppState state, GetJobAdsDetailAction action, NextDispatcher next) async {
   try {
     logger("GetJobAdsDetailAction -- Called");
 
@@ -175,7 +195,7 @@ Future<bool> _getJobAdsDetailAction(AppState state,
     List<JobModel> allAds = [];
 
     CollectionReference jobFromDivision =
-    getDivisionCollection(action.division);
+        getDivisionCollection(action.division);
 
     switch (action.division) {
       case Division.Dhaka:
@@ -205,10 +225,8 @@ Future<bool> _getJobAdsDetailAction(AppState state,
     }
 
     for (int i = 0; i < curLocAds.length; i++) {
-      JobModel job = await jobFromDivision
-          .doc(curLocAds[i])
-          .get()
-          .then((value) {
+      JobModel job =
+          await jobFromDivision.doc(curLocAds[i]).get().then((value) {
         JobModel jobModel = JobModel(
           jobId: value['jobId'],
           postedByUserId: value['postedByUserId'],
@@ -279,8 +297,8 @@ Future<bool> _getJobAdsDetailAction(AppState state,
   }
 }
 
-Future<bool> _getCreateBannersAction(AppState state,
-    GetCreateBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(
+    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
   try {
     logger("GetCreateBannersAction -- Called");
     // Show loading
@@ -294,7 +312,7 @@ Future<bool> _getCreateBannersAction(AppState state,
     String? imageUrl;
 
     final jobImgId =
-    generateBannerImageName(bannerType: action.bannerModel.bannerType);
+        generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
     if (imageToUpload != null) {
       String? imgLink = await fbUploadBannerImgAndGetLink(
@@ -332,7 +350,7 @@ Future<bool> _getCreateBannersAction(AppState state,
       "createdAt": DateTime.now(),
       "startAt": action.bannerModel.startAt,
       "removeAt":
-      Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
     return true;
 
@@ -343,8 +361,8 @@ Future<bool> _getCreateBannersAction(AppState state,
   }
 }
 
-Future<bool> _getUpdatedBannersAction(AppState state,
-    GetUpdatedBannersAction action, NextDispatcher next) async {
+Future<bool> _getUpdatedBannersAction(
+    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
@@ -408,7 +426,7 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       "bannerType": action.bannerModel.bannerType,
       "category": action.bannerModel.category,
       "removeAt":
-      Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
     return true;
 
@@ -419,114 +437,114 @@ Future<bool> _getUpdatedBannersAction(AppState state,
   }
 }
 
-Future<bool> _getCreateJobAdsAction(AppState state,
-    GetCreateJobAdsAction action, NextDispatcher next) async {
+Future<bool> _getCreateJobAdsAction(
+    AppState state, GetCreateJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
 
     switch (action.division) {
       case Division.Dhaka:
-        await createAdsJobsCollection.doc().update({
-          "dhkJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "dhakaJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Khulna:
-        await createAdsJobsCollection.doc().update({
-          "khlJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "khulnaJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Rajshahi:
-        await createAdsJobsCollection.doc().update({
-          "rajJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "rajshahiJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Rangpur:
-        await createAdsJobsCollection.doc().update({
-          "rngJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "rangpurJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Sylhet:
-        await createAdsJobsCollection.doc().update({
-          "sylJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "sylhetJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Barisal:
-        await createAdsJobsCollection.doc().update({
-          "barJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "barisalJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Chittagong:
-        await createAdsJobsCollection.doc().update({
-          "ctgJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "chittagongJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
       case Division.Mymensingh:
-        await createAdsJobsCollection.doc().update({
-          "mymJobAds": FieldValue.arrayUnion([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "mymensinghJobAds": FieldValue.arrayUnion([action.jobId]),
         });
         break;
     }
 
     return true;
   } catch (e) {
-    logger(e.toString(), hint: "GetCreateSettingBannerAction CATCH ERROR");
+    logger(e.toString(), hint: "GetCreateJobAdsAction CATCH ERROR");
     return false;
   }
 }
 
-Future<bool> _getRemoveJobAdsAction(AppState state,
-    GetRemoveJobAdsAction action, NextDispatcher next) async {
+Future<bool> _getRemoveJobAdsAction(
+    AppState state, GetRemoveJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetRemoveJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
 
     switch (action.division) {
       case Division.Dhaka:
-        await createAdsJobsCollection.doc().update({
-          "dhkJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "dhakaJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Khulna:
-        await createAdsJobsCollection.doc().update({
-          "khlJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "khulnaJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Rajshahi:
-        await createAdsJobsCollection.doc().update({
-          "rajJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "rajshahiJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Rangpur:
-        await createAdsJobsCollection.doc().update({
-          "rngJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "rangpurJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Sylhet:
-        await createAdsJobsCollection.doc().update({
-          "sylJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "sylhetJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Barisal:
-        await createAdsJobsCollection.doc().update({
-          "barJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "barisalJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Chittagong:
-        await createAdsJobsCollection.doc().update({
-          "ctgJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "chittagongJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
       case Division.Mymensingh:
-        await createAdsJobsCollection.doc().update({
-          "mymJobAds": FieldValue.arrayRemove([action.jobId]),
+        await createAdsJobsCollection.doc(jobAdsDocId).update({
+          "mymensinghJobAds": FieldValue.arrayRemove([action.jobId]),
         });
         break;
     }
 
     return true;
   } catch (e) {
-    logger(e.toString(), hint: "GetCreateSettingBannerAction CATCH ERROR");
+    logger(e.toString(), hint: "GetRemoveJobAdsAction CATCH ERROR");
     return false;
   }
 }
