@@ -154,9 +154,11 @@ class UpdateJobsStateAction {
 
 class GetJobsAction {
   final Division division;
+  String? lastDocumentId;
 
   GetJobsAction({
     required this.division,
+    this.lastDocumentId,
   });
 }
 

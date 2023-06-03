@@ -72,33 +72,92 @@ Future<bool> _getJobsAction(
     CollectionReference jobFromDivision =
         getDivisionCollection(action.division);
 
-    await jobFromDivision.get().then((value) {
-      value.docs.map((e) {
-        logger(e.data(), hint: 'GetJobsAction MAP DATA');
-        JobModel job = JobModel(
-          jobId: e["jobId"],
-          jobDetailsId: e["jobDetailsId"],
-          title: e["title"],
-          address: AddressModel(
-            division: e["address"]["division"],
-            district: e["address"]["district"],
-            area: e["address"]["area"],
-            city: e["address"]["city"],
-          ),
-          companyName: e["companyName"],
-          images: e["images"],
-          type: e["type"],
-          workFinishTime: e["workFinishTime"],
-          workStartTime: e["workStartTime"],
-          postedByUserId: e["postedByUserId"],
-          status: e["status"],
-          wageAmount: e["wageAmount"],
-          timestamp: e["timestamp"],
-        );
-        allJobs.add(job);
-      }).toList();
-      return allJobs;
-    });
+    QuerySnapshot jobSnapshot;
+    int jobCount = 0; // Initialize jobCount
+
+    if (action.lastDocumentId != null) {
+      DocumentSnapshot lastDocument =
+          await jobFromDivision.doc(action.lastDocumentId).get();
+      jobSnapshot = await jobFromDivision
+          .orderBy('timestamp', descending: true)
+          .startAfterDocument(lastDocument)
+          .limit(10)
+          .get();
+    } else {
+      jobSnapshot = await jobFromDivision
+          .orderBy('timestamp', descending: true)
+          .limit(10)
+          .get();
+    }
+
+    if (jobSnapshot.docs.isEmpty) {
+      return false;
+    }
+
+    jobSnapshot.docs.map((e) {
+      logger(e.data(), hint: 'GetJobsAction MAP DATA');
+      JobModel job = JobModel(
+        jobId: e["jobId"],
+        jobDetailsId: e["jobDetailsId"],
+        title: e["title"],
+        address: AddressModel(
+          division: e["address"]["division"],
+          district: e["address"]["district"],
+          area: e["address"]["area"],
+          city: e["address"]["city"],
+        ),
+        companyName: e["companyName"],
+        // Convert from List<dynamic> to List<String>, also check null or empty
+        images: e["images"] != null && e["images"].isNotEmpty
+            ? List<String>.from(e["images"].map((e) => e.toString()))
+            : [],
+
+        type: e["type"],
+        workFinishTime: e["workFinishTime"],
+        workStartTime: e["workStartTime"],
+        postedByUserId: e["postedByUserId"],
+        status: e["status"],
+        timestamp: e["timestamp"],
+        wageAmount: e["wageAmount"],
+      );
+      allJobs.add(job);
+    }).toList();
+
+    // await jobFromDivision
+    //     .orderBy('timestamp', descending: true)
+    //     .limit(10)
+    //     .get()
+    //     .then((value) {
+    //    DocumentSnapshot lastDocument = value.docs[value.docs.length - 1];
+    //
+    //   logger(lastDocument.data(), hint: 'GetJobsAction LAST DATA');
+    //
+    //   value.docs.map((e) {
+    //     logger(e.data(), hint: 'GetJobsAction MAP DATA');
+    //     JobModel job = JobModel(
+    //       jobId: e["jobId"],
+    //       jobDetailsId: e["jobDetailsId"],
+    //       title: e["title"],
+    //       address: AddressModel(
+    //         division: e["address"]["division"],
+    //         district: e["address"]["district"],
+    //         area: e["address"]["area"],
+    //         city: e["address"]["city"],
+    //       ),
+    //       companyName: e["companyName"],
+    //       images: e["images"],
+    //       type: e["type"],
+    //       workFinishTime: e["workFinishTime"],
+    //       workStartTime: e["workStartTime"],
+    //       postedByUserId: e["postedByUserId"],
+    //       status: e["status"],
+    //       timestamp: e["timestamp"],
+    //       wageAmount: e["wageAmount"],
+    //     );
+    //     allJobs.add(job);
+    //   }).toList();
+    //   return allJobs;
+    // });
 
     switch (action.division) {
       case Division.Dhaka:
@@ -147,6 +206,12 @@ Future<bool> _getJobsAction(
         ));
     }
 
+    if (action.lastDocumentId != null) {
+      appStore.dispatch(UpdateJobsStateAction(
+        currentLocationJobsList:
+            state.jobsState.currentLocationJobsList + allJobs,
+      ));
+    }
     appStore.dispatch(UpdateJobsStateAction(
       currentLocationJobsList: allJobs,
     ));
