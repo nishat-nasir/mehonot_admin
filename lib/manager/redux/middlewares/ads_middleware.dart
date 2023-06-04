@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:mehonot_admin/manager/models/Address/address_md.dart';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 
 import '../../../presentation/template/template.dart';
@@ -232,7 +233,12 @@ Future<bool> _getJobAdsDetailAction(
           postedByUserId: value['postedByUserId'],
           workStartTime: value['workStartTime'],
           workFinishTime: value['workFinishTime'],
-          address: value['address'],
+          address: AddressModel(
+            division: value['address']['division'],
+            city: value['address']['city'],
+            district: value['address']['district'],
+            area: value['address']['area'],
+          ),
           type: value['type'],
           status: value['status'],
           companyName: value['companyName'],
@@ -240,7 +246,9 @@ Future<bool> _getJobAdsDetailAction(
           timestamp: value['timestamp'],
           wageAmount: value['wageAmount'],
           jobDetailsId: value['jobDetailsId'],
-          images: value['images'],
+          images: value["images"] != null && value["images"].isNotEmpty
+              ? List<String>.from(value["images"].map((e) => e.toString()))
+              : [],
         );
         return jobModel;
       });
