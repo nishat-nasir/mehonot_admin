@@ -50,9 +50,10 @@ class _Login01PageState extends State<Login01Page> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             verticalSpace: 54.h,
                             children: [
-                              SizedText(
-                                  text: Constants.appName,
-                                  textStyle: ThemeTextExtraBold.k48),
+                              Image.asset(
+                                'assets/icons/mehonot_text_logo.png',
+                                width: 700.w,
+                              ),
                               const SizedBox(),
                               PrsmInputField(
                                   controller: phoneNumController,
@@ -133,7 +134,7 @@ class _Login01PageState extends State<Login01Page> {
         setState(() {
           isLoading = false;
         });
-        await appRouter.replace( GeneralWrapperRouter());
+        await appRouter.replace(GeneralWrapperRouter());
       }
       if (!matched) {
         setState(() {
