@@ -9,7 +9,7 @@ import 'package:mehonot_admin/presentation/pages/Job/job_requests_page.dart';
 )
 class AppRouter extends $AppRouter {
   @override
-  RouteType get defaultRouteType => RouteType.material();
+  RouteType get defaultRouteType => const RouteType.material();
   @override
   final List<AutoRoute> routes = [
     AutoRoute(path: "/", page: AuthRouter.page, children: [
