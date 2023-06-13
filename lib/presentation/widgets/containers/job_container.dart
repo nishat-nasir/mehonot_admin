@@ -39,14 +39,14 @@ class PrsmJobContainer extends StatelessWidget {
                               jobModel.companyLogo!.isNotEmpty)
                           ? Image.network(jobModel.companyLogo!,
                               errorBuilder: (context, error, stackTrace) =>
-                                  Image.asset('assets/images/png/error_img.jpg',
+                                  Image.asset('assets/images/png/error_img.png',
                                       fit: BoxFit.fill,
                                       width: 150.w,
                                       height: 150.h),
                               fit: BoxFit.fill,
                               width: 150.w,
                               height: 150.h)
-                          : Image.asset('assets/images/png/no_img.jpg',
+                          : Image.asset('assets/images/png/no_img.png',
                               fit: BoxFit.fill, width: 150.w, height: 150.h)),
                 ),
                 Container(

@@ -563,6 +563,7 @@ Future<bool> _getCreateJobAction(
       "postedByUserId": action.jobModel.postedByUserId,
       "title": action.jobModel.title,
       "companyName": action.jobModel.companyName,
+      "companyLogo": action.jobModel.companyLogo,
       "images": action.jobModel.images,
       "address": action.jobModel.address.toJson(),
       "type": action.jobModel.type,
