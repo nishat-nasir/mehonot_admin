@@ -13,6 +13,7 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       companyName: json['companyName'] as String,
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      companyLogo: json['companyLogo'] as String?,
       address: AddressModel.fromJson(json['address'] as Map),
       type: json['type'] as String,
       workStartTime: json['workStartTime'] as String,
@@ -29,6 +30,7 @@ Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
       'title': instance.title,
       'companyName': instance.companyName,
       'images': instance.images,
+      'companyLogo': instance.companyLogo,
       'address': instance.address,
       'type': instance.type,
       'workStartTime': instance.workStartTime,

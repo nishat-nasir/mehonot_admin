@@ -210,6 +210,7 @@ class _Saved01PageState extends State<Saved01Page> {
                       jobModel: JobModel(
                         title: currentJob.title,
                         images: currentJob.images,
+                        companyLogo: currentJob.companyLogo,
                         address: AddressModel(
                           area: currentJob.address.area,
                           division: currentJob.address.division,

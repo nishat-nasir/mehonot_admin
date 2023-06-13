@@ -110,7 +110,7 @@ Future<bool> _getJobsAction(
         images: e["images"] != null && e["images"].isNotEmpty
             ? List<String>.from(e["images"].map((e) => e.toString()))
             : [],
-
+        companyLogo: e["companyLogo"],
         type: e["type"],
         workFinishTime: e["workFinishTime"],
         workStartTime: e["workStartTime"],
@@ -211,6 +211,7 @@ Future<JobModel?> _getJobDataByIdAction(
         ),
         companyName: value["companyName"],
         images: value["images"],
+        companyLogo: value["companyLogo"],
         type: value["type"],
         workFinishTime: value["workFinishTime"],
         workStartTime: value["workStartTime"],
@@ -314,7 +315,7 @@ Future<bool> _getReqJobsAction(
           images: e["images"] != null && e["images"].isNotEmpty
               ? List<String>.from(e["images"].map((e) => e.toString()))
               : [],
-
+          companyLogo: e["companyLogo"],
           type: e["type"],
           workFinishTime: e["workFinishTime"],
           workStartTime: e["workStartTime"],
@@ -368,6 +369,7 @@ Future<bool> _getCreateJobReqAction(
       "title": action.jobModelReq.title,
       "companyName": action.jobModelReq.companyName,
       "images": action.jobModelReq.images,
+      "companyLogo": action.jobModelReq.companyLogo,
       "address": action.jobModelReq.address.toJson(),
       "type": action.jobModelReq.type,
       "workStartTime": action.jobModelReq.workStartTime,

@@ -229,27 +229,27 @@ Future<bool> _getJobAdsDetailAction(
       JobModel job =
           await jobFromDivision.doc(curLocAds[i]).get().then((value) {
         JobModel jobModel = JobModel(
-          jobId: value['jobId'],
-          postedByUserId: value['postedByUserId'],
-          workStartTime: value['workStartTime'],
-          workFinishTime: value['workFinishTime'],
-          address: AddressModel(
-            division: value['address']['division'],
-            city: value['address']['city'],
-            district: value['address']['district'],
-            area: value['address']['area'],
-          ),
-          type: value['type'],
-          status: value['status'],
-          companyName: value['companyName'],
-          title: value['title'],
-          timestamp: value['timestamp'],
-          wageAmount: value['wageAmount'],
-          jobDetailsId: value['jobDetailsId'],
-          images: value["images"] != null && value["images"].isNotEmpty
-              ? List<String>.from(value["images"].map((e) => e.toString()))
-              : [],
-        );
+            jobId: value['jobId'],
+            postedByUserId: value['postedByUserId'],
+            workStartTime: value['workStartTime'],
+            workFinishTime: value['workFinishTime'],
+            address: AddressModel(
+              division: value['address']['division'],
+              city: value['address']['city'],
+              district: value['address']['district'],
+              area: value['address']['area'],
+            ),
+            type: value['type'],
+            status: value['status'],
+            companyName: value['companyName'],
+            title: value['title'],
+            timestamp: value['timestamp'],
+            wageAmount: value['wageAmount'],
+            jobDetailsId: value['jobDetailsId'],
+            images: value["images"] != null && value["images"].isNotEmpty
+                ? List<String>.from(value["images"].map((e) => e.toString()))
+                : [],
+            companyLogo: value["companyLogo"]);
         return jobModel;
       });
       allAds.add(job);

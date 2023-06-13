@@ -240,6 +240,7 @@ class _Search01PageState extends State<Search01Page> {
                           district: currentJob.address.district,
                         ),
                         images: currentJob.images,
+                        companyLogo: currentJob.companyLogo,
                         postedByUserId: currentJob.postedByUserId,
                         type: currentJob.type,
                         workStartTime: currentJob.workStartTime,
