@@ -324,6 +324,8 @@ Future<bool> _getReqJobsAction(
           timestamp: e["timestamp"],
           wageAmount: e["wageAmount"],
         );
+        logger(job.companyLogo,
+            hint: 'GetReqJobsAction allReqJobs---------------');
         allReqJobs.add(job);
       }).toList();
     });

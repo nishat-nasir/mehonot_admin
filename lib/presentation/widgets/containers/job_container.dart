@@ -32,11 +32,23 @@ class PrsmJobContainer extends StatelessWidget {
               horizontalSpace: 20,
               children: [
                 Padding(
-                    padding: EdgeInsets.only(left: 16.w),
-                    child: ClipRRect(
-                        borderRadius: borderRadius,
-                        child: Image.asset('assets/images/png/nft.jpg',
-                            fit: BoxFit.fill, width: 150.w, height: 150.h))),
+                  padding: EdgeInsets.only(left: 16.w),
+                  child: ClipRRect(
+                      borderRadius: borderRadius,
+                      child: (jobModel.companyLogo != null &&
+                              jobModel.companyLogo!.isNotEmpty)
+                          ? Image.network(jobModel.companyLogo!,
+                              errorBuilder: (context, error, stackTrace) =>
+                                  Image.asset('assets/images/png/error_img.jpg',
+                                      fit: BoxFit.fill,
+                                      width: 150.w,
+                                      height: 150.h),
+                              fit: BoxFit.fill,
+                              width: 150.w,
+                              height: 150.h)
+                          : Image.asset('assets/images/png/no_img.jpg',
+                              fit: BoxFit.fill, width: 150.w, height: 150.h)),
+                ),
                 Container(
                     width: 1.w, height: 170.h, color: ThemeColors.coolgray500),
                 SpacedColumn(
