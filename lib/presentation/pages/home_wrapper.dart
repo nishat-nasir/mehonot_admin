@@ -30,7 +30,7 @@ class GeneralWrapper extends StatelessWidget {
             case DashboardRoute.name:
               return PrsmDefaultAppBar(
                 generalWrapperGlobalKey: generalWrapperGlobalKey,
-                titleText: "Mehnat",
+                titleText: "Mehonot",
               );
             case JobRequestsRoute.name:
               return PrsmDefaultAppBar(
