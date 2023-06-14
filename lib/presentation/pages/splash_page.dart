@@ -29,9 +29,16 @@ class _SplashPageState extends State<SplashPage> {
         onWillPop: _onWillPop,
         child: Scaffold(
             body: Container(
-                color: isDark(context)
-                    ? ThemeColors.coolgray900
-                    : ThemeColors.white,
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      ThemeColors.blue900,
+                      ThemeColors.lightblue600,
+                    ],
+                  ),
+                ),
                 alignment: Alignment.center,
                 child: SpacedColumn(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +46,10 @@ class _SplashPageState extends State<SplashPage> {
                     verticalSpace: 60,
                     children: [
                       SizedText(
-                        text: "Salam\nAdmin",
+                        text: "السلامعليكم ورحمة الله وبركاته",
+                        softWrap: true,
+                        height: 200.h,
+                        width: 700.w,
                         textStyle: ThemeTextExtraBold.k28,
                       ),
                       SizedBox(
