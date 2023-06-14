@@ -277,7 +277,7 @@ class ThemeColors {
   static const pink900 = Color(0xFF831843);
 }
 
-class MehonotColorsLight {
+class PrsmColorsLight {
   static const Color primaryColor = ThemeColors.white;
   static const Color textColor = ThemeColors.coolgray900;
   static const Color accentColor = ThemeColors.indigo50;
@@ -286,7 +286,7 @@ class MehonotColorsLight {
   static const Color bottomNavBarColor = ThemeColors.white;
 }
 
-class MehonotColorsDark {
+class PrsmColorsDark {
   static const Color primaryColor = ThemeColors.coolgray900;
   static const Color textColor = ThemeColors.gray50;
   static const Color accentColor = Color(0xFF314265);
@@ -297,7 +297,7 @@ class MehonotColorsDark {
   static const Color appBarColor = Color(0xFF1C1C1C);
 }
 
-class MehonotColorsCommon {
+class PrsmColorsCommon {
   static const Color buttonColor = ThemeColors.indigo600;
   static const Color borderColor = ThemeColors.coolgray300;
   static const LinearGradient locationContainerColor =

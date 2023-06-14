@@ -26,17 +26,17 @@ class CircleHeadWidget extends StatelessWidget {
           alignment: Alignment.center,
           decoration: const BoxDecoration(
               shape: BoxShape.circle,
-              gradient: MehonotColorsCommon.secondaryContainerColor),
+              gradient: PrsmColorsCommon.secondaryContainerColor),
           child: (icon == null)
               ? SizedText(
-                  text: title ?? "",
-                  textStyle:
-                      ThemeTextRegular.k12.copyWith(color: ThemeColors.white),
-                )
+            text: title ?? "",
+            textStyle:
+            ThemeTextRegular.k12.copyWith(color: ThemeColors.white),
+          )
               : HeroIcon(icon ?? HeroIcons.exclamationTriangle,
-                  size: iconSize ?? 100.h,
-                  color: ThemeColors.white,
-                  style: HeroIconStyle.outline),
+              size: iconSize ?? 100.h,
+              color: ThemeColors.white,
+              style: HeroIconStyle.outline),
         ),
         if (detailText != null)
           SizedText(

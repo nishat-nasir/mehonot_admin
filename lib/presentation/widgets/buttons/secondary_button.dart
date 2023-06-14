@@ -20,7 +20,7 @@ class PrsmSecondaryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
         decoration: BoxDecoration(
-          gradient: MehonotColorsCommon.secondaryContainerColor,
+          gradient: PrsmColorsCommon.secondaryContainerColor,
           borderRadius: BorderRadius.all(Radius.circular(18.r)),
         ),
         height: 85.h,

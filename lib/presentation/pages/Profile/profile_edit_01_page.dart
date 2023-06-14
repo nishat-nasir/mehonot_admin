@@ -96,24 +96,29 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
 
   @override
   Widget build(BuildContext context) {
-    isDark = Theme.of(context).brightness == Brightness.dark;
+    isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     return SpacedColumn(children: [
       Padding(
           padding: EdgeInsets.all(24.w),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height - 280.h,
+            height: MediaQuery
+                .of(context)
+                .size
+                .height - 280.h,
             child: SingleChildScrollView(
                 child: SpacedColumn(
-              verticalSpace: 30,
-              children: [
-                _buildEditProfileSec(),
-                _buildBioSec(),
-                _buildEditSkillSec(context),
-                _buildEditEduSec(context),
-                _buildEditExpSec(context),
-                const SizedBox()
-              ],
-            )),
+                  verticalSpace: 30,
+                  children: [
+                    _buildEditProfileSec(),
+                    _buildBioSec(),
+                    _buildEditSkillSec(context),
+                    _buildEditEduSec(context),
+                    _buildEditExpSec(context),
+                    const SizedBox()
+                  ],
+                )),
           ))
     ]);
   }
@@ -122,7 +127,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
     return Container(
         padding: EdgeInsets.symmetric(vertical: 20.w, horizontal: 10.w),
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: SpacedColumn(verticalSpace: 10, children: [
@@ -227,7 +232,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
       padding: EdgeInsets.all(30.w),
       width: double.infinity,
       decoration: BoxDecoration(
-        color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+        color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
         borderRadius: BorderRadius.circular(10.w),
       ),
       child: SpacedColumn(
@@ -263,7 +268,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
         padding: EdgeInsets.all(30.w),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: SpacedColumn(
@@ -292,7 +297,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
         padding: EdgeInsets.all(30.w),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: SpacedColumn(
@@ -322,7 +327,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
         padding: EdgeInsets.all(30.w),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: SpacedColumn(
@@ -360,7 +365,7 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
   }) {
     return SpacedColumn(children: [
       Material(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           child: InkWell(
               borderRadius: BorderRadius.circular(10.r),
               onTap: onTap,
@@ -472,13 +477,12 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
   ///////////////// MODALS ///////////////////////
   ////////////////////////////////////////////////
 
-  Future generalModal(
-      {required String title,
-      required TextEditingController controller,
-      VoidCallback? onTapTextField,
-      List<TextInputFormatter>? formatter,
-      String? Function(String?)? validator,
-      required VoidCallback onSave}) async {
+  Future generalModal({required String title,
+    required TextEditingController controller,
+    VoidCallback? onTapTextField,
+    List<TextInputFormatter>? formatter,
+    String? Function(String?)? validator,
+    required VoidCallback onSave}) async {
     return DefaultBottomSheet.show(
       context: context,
       heightFactor: 0.4,
@@ -546,14 +550,17 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
 
   addEducationBottomSheet(BuildContext context) async {
     double widthForDualTextField =
-        (MediaQuery.of(context).size.width / 2) - 60.w;
+        (MediaQuery
+            .of(context)
+            .size
+            .width / 2) - 60.w;
 
     DefaultBottomSheet.show(
         context: context,
         heightFactor: 0.8,
         title: "${S(context).education} : ",
         child:
-            StatefulBuilder(builder: (BuildContext ctx, StateSetter stState) {
+        StatefulBuilder(builder: (BuildContext ctx, StateSetter stState) {
           return SpacedColumn(verticalSpace: 20, children: [
             PrsmInputField(
                 hintText: S(context).instituteName, controller: eduInsNameCntr),
@@ -600,7 +607,10 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
                 ]),
             SizedBox(height: 20.h),
             PrsmSecondaryButton(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2,
                 onTap: () {
                   if (eduInsNameCntr.text.isNotEmpty &&
                       eduFieldOfStudyCntr.text.isNotEmpty &&
@@ -632,14 +642,17 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
 
   addExperienceBottomSheet(BuildContext context) async {
     double widthForDualTextField =
-        (MediaQuery.of(context).size.width / 2) - 60.w;
+        (MediaQuery
+            .of(context)
+            .size
+            .width / 2) - 60.w;
 
     return DefaultBottomSheet.show(
         context: context,
         heightFactor: 0.8,
         title: "${S(context).experience} : ",
         child:
-            StatefulBuilder(builder: (BuildContext ctx, StateSetter stState) {
+        StatefulBuilder(builder: (BuildContext ctx, StateSetter stState) {
           return SpacedColumn(verticalSpace: 20, children: [
             PrsmInputField(
                 controller: expCompanyNameCntr,
@@ -683,11 +696,15 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
             PrsmInputField(
                 controller: expDescriptionCntr,
                 hintText:
-                    "${S(context).details} (${S(context).responsibilities}, ${S(context).etc}.)",
+                "${S(context).details} (${S(context).responsibilities}, ${S(
+                    context).etc}.)",
                 maxLines: 9),
             SizedBox(height: 20.h),
             PrsmSecondaryButton(
-                width: MediaQuery.of(context).size.width / 2,
+                width: MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2,
                 text: S(context).save,
                 onTap: () {
                   if (expCompanyNameCntr.text.isNotEmpty &&
@@ -748,26 +765,26 @@ class _ProfileEdit01PageState extends State<ProfileEdit01Page> {
 
   Future showCalendarModal({required TextEditingController controller}) {
     return showDatePicker(
-            builder: (BuildContext context, Widget? child) {
-              return SizedBox(
-                  width: 200.w,
-                  height: 200.h,
-                  child: Theme(
-                    data: ThemeData.light().copyWith(
-                      colorScheme: const ColorScheme.light(
-                        onPrimary: ThemeColors.white,
-                        surface: ThemeColors.white,
-                        onSurface: ThemeColors.black,
-                      ),
-                      dialogBackgroundColor: ThemeColors.white,
-                    ),
-                    child: child!,
-                  ));
-            },
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: DateTime.now())
+        builder: (BuildContext context, Widget? child) {
+          return SizedBox(
+              width: 200.w,
+              height: 200.h,
+              child: Theme(
+                data: ThemeData.light().copyWith(
+                  colorScheme: const ColorScheme.light(
+                    onPrimary: ThemeColors.white,
+                    surface: ThemeColors.white,
+                    onSurface: ThemeColors.black,
+                  ),
+                  dialogBackgroundColor: ThemeColors.white,
+                ),
+                child: child!,
+              ));
+        },
+        context: context,
+        initialDate: DateTime.now(),
+        firstDate: DateTime(1900),
+        lastDate: DateTime.now())
         .then((value) {
       if (value != null) {
         setState(() {

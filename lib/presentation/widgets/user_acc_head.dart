@@ -14,14 +14,16 @@ class UserAccountHeadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
 
     return InkWell(
       onTap: onTap,
       child: Container(
           height: 180.h,
           decoration: BoxDecoration(
-            color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+            color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
             borderRadius: BorderRadius.circular(8.r),
             border: Border.all(
                 color: isDark ? ThemeColors.bluegray600 : ThemeColors.gray200,
@@ -41,7 +43,7 @@ class UserAccountHeadWidget extends StatelessWidget {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        gradient: MehonotColorsCommon.secondaryContainerColor,
+                        gradient: PrsmColorsCommon.secondaryContainerColor,
                         borderRadius: BorderRadius.circular(18.r),
                         border: Border.all(
                             color: isDark

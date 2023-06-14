@@ -2,14 +2,15 @@ import '../template.dart';
 
 AppBarTheme appBarLightTheme = AppBarTheme(
   elevation: 0,
-  iconTheme: const IconThemeData(color: MehonotColorsLight.textColor),
-  titleTextStyle: ThemeTextBold.k18.copyWith(color: MehonotColorsLight.textColor),
-  color: MehonotColorsLight.appBarColor,
+  iconTheme: const IconThemeData(color: PrsmColorsLight.textColor),
+  titleTextStyle: ThemeTextBold.k18.copyWith(
+      color: PrsmColorsLight.textColor),
+  color: PrsmColorsLight.appBarColor,
 );
 
 AppBarTheme appBarDarkTheme = AppBarTheme(
   elevation: 0,
-  iconTheme: const IconThemeData(color: MehonotColorsDark.textColor),
-  titleTextStyle: ThemeTextBold.k18.copyWith(color: MehonotColorsDark.textColor),
-  color: MehonotColorsDark.appBarColor,
+  iconTheme: const IconThemeData(color: PrsmColorsDark.textColor),
+  titleTextStyle: ThemeTextBold.k18.copyWith(color: PrsmColorsDark.textColor),
+  color: PrsmColorsDark.appBarColor,
 );

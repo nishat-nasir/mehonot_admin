@@ -15,7 +15,7 @@ import '../../template/template.dart';
 import '../../utils/common/validators.dart';
 import '../../utils/constants.dart';
 import '../../widgets/circle_head_widget.dart';
-import '../../widgets/image_upload.dart';
+import '../../widgets/photo_widgets/image_upload.dart';
 
 @RoutePage(name: "CeoJobCreateRouter")
 class CeoJobCreatePage extends StatefulWidget {
@@ -41,9 +41,15 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   String createJobAddressCity = "";
   String createJobAddressArea = "";
   List<String> createJobAddressDivisionList = Constants.locationsBd().names();
-  String createJobAddressDivisionString = Constants.locationsBd().names().first;
+  String createJobAddressDivisionString = Constants
+      .locationsBd()
+      .names()
+      .first;
   Division createJobAddressDivisionDivision =
-      convertStringToDivision(Constants.locationsBd().names().first);
+  convertStringToDivision(Constants
+      .locationsBd()
+      .names()
+      .first);
   String createJobEducation = Constants.jobEducationList.first;
   String createJobPersonnel = Constants.jobPersonnelList.first;
   String createJobGender = "";
@@ -72,7 +78,9 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
 
   @override
   Widget build(BuildContext context) {
-    isDark = Theme.of(context).brightness == Brightness.dark;
+    isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
 
     return StoreConnector<AppState, AppState>(
         converter: (store) => store.state,
@@ -279,19 +287,25 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           children: [
             formHelper(
                 title: titleLeft,
-                width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2) - 50.w,
                 widget: PrsmDropdown(
                     listValues: listValuesLeft,
                     enableShadow: false,
                     enableBorder: true,
                     value: valueLeft,
                     bgColor: isDark
-                        ? MehonotColorsDark.formFillColor
+                        ? PrsmColorsDark.formFillColor
                         : ThemeColors.coolgray200,
                     onChanged: onChangedLeft)),
             formHelper(
                 title: titleRight,
-                width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width / 2) - 50.w,
                 widget: PrsmDropdown(
                     dropdownSize: DropdownSize.SIZE1,
                     listValues: listValuesRight,
@@ -299,7 +313,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                     enableBorder: true,
                     value: valueRight,
                     bgColor: isDark
-                        ? MehonotColorsDark.formFillColor
+                        ? PrsmColorsDark.formFillColor
                         : ThemeColors.coolgray200,
                     onChanged: onChangedRight)),
           ]),
@@ -312,7 +326,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
         width: width ?? double.infinity,
         padding: EdgeInsets.all(30.w),
         decoration: BoxDecoration(
-            color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+            color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
             boxShadow: ThemeShadows.shadowSm,
             borderRadius: BorderRadius.circular(12.r)),
         child: SpacedColumn(
@@ -324,14 +338,15 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             ]));
   }
 
-  Widget _buildCircleHeadForm(
-    BuildContext context,
-  ) {
+  Widget _buildCircleHeadForm(BuildContext context,) {
     return SpacedColumn(verticalSpace: 10, children: [
       formTopHelper(
           circleHeadTitle: S(context).wages,
           widget: SizedBox(
-              width: (MediaQuery.of(context).size.width - 270.w),
+              width: (MediaQuery
+                  .of(context)
+                  .size
+                  .width - 270.w),
               height: 140.h,
               child: PrsmInputField(
                   controller: jobWagesCntr,
@@ -343,7 +358,10 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
       formTopHelper(
           circleHeadTitle: S(context).period,
           widget: SizedBox(
-              width: (MediaQuery.of(context).size.width - 270.w),
+              width: (MediaQuery
+                  .of(context)
+                  .size
+                  .width - 270.w),
               height: 140.h,
               child: PrsmDropdown(
                   enableBorder: true,
@@ -355,25 +373,31 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           circleHeadIcon: HeroIcons.clock,
           widget: SpacedRow(horizontalSpace: 10, children: [
             SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width - 230),
                 height: 140.h,
                 child: PrsmInputField(
                     onTap: () => showTimePickerPopup(context, true),
                     hintText: S(context).startTime,
                     enabled: false,
                     controller:
-                        TextEditingController(text: createWorkStartTimeString),
+                    TextEditingController(text: createWorkStartTimeString),
                     defaultBorderColor: ThemeColors.white,
                     enableShadow: false)),
             SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width - 230),
                 height: 140.h,
                 child: PrsmInputField(
                     onTap: () => showTimePickerPopup(context, false),
                     hintText: S(context).endTime,
                     enabled: false,
                     controller:
-                        TextEditingController(text: createWorkFinishTimeString),
+                    TextEditingController(text: createWorkFinishTimeString),
                     defaultBorderColor: ThemeColors.white,
                     enableShadow: false))
           ])),
@@ -381,7 +405,10 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           circleHeadIcon: HeroIcons.calendar,
           widget: SpacedRow(horizontalSpace: 10, children: [
             SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width - 230),
                 height: 140.h,
                 child: PrsmDropdown(
                     enableBorder: true,
@@ -390,7 +417,10 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                     value: createJobStartDay,
                     enableShadow: false)),
             SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
+                width: (MediaQuery
+                    .of(context)
+                    .size
+                    .width - 230),
                 height: 140.h,
                 child: PrsmDropdown(
                     enableBorder: true,
@@ -402,10 +432,9 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
     ]);
   }
 
-  Widget formTopHelper(
-      {String? circleHeadTitle,
-      HeroIcons? circleHeadIcon,
-      required Widget widget}) {
+  Widget formTopHelper({String? circleHeadTitle,
+    HeroIcons? circleHeadIcon,
+    required Widget widget}) {
     return SpacedRow(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -511,8 +540,8 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           });
           if (jobIsCreate) {
             context.replaceRoute(GeneralWrapperRouter(
-                // children: [Home01Route()],
-                ));
+              // children: [Home01Route()],
+            ));
           }
         }
       });
@@ -532,9 +561,15 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
       createJobAddressDistrict = "";
       createJobAddressCity = "";
       createJobAddressArea = "";
-      createJobAddressDivisionString = Constants.locationsBd().names().first;
+      createJobAddressDivisionString = Constants
+          .locationsBd()
+          .names()
+          .first;
       createJobAddressDivisionDivision =
-          convertStringToDivision(Constants.locationsBd().names().first);
+          convertStringToDivision(Constants
+              .locationsBd()
+              .names()
+              .first);
       createJobEducation = Constants.jobEducationList.first;
       createJobPersonnel = Constants.jobPersonnelList.first;
       createJobGender = "";

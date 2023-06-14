@@ -17,9 +17,9 @@ class PrsmDropdownContainer extends StatelessWidget {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
 
     Color fillColor =
-        isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white;
+        isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white;
     Color borderColor =
-        isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white;
+        isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white;
     Color textColor = isDark ? ThemeColors.gray100 : ThemeColors.gray800;
 
     return Container(

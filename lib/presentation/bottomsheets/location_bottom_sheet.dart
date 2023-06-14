@@ -13,12 +13,14 @@ class LocationBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
 
     return Container(
         decoration: BoxDecoration(
             color: isDark
-                ? MehonotColorsDark.formContainerBgColor
+                ? PrsmColorsDark.formContainerBgColor
                 : ThemeColors.gray50,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.r),
@@ -66,11 +68,11 @@ class LocationBottomSheet extends StatelessWidget {
         decoration: BoxDecoration(
             color: isDark
                 ? locationName == selectedLocation
-                    ? ThemeColors.indigo400
-                    : MehonotColorsDark.accentColor
+                ? ThemeColors.indigo400
+                : PrsmColorsDark.accentColor
                 : locationName == selectedLocation
-                    ? ThemeColors.indigo400
-                    : ThemeColors.indigo50,
+                ? ThemeColors.indigo400
+                : ThemeColors.indigo50,
             borderRadius: BorderRadius.circular(8.r)),
         child: Center(
           child: SizedText(
@@ -78,11 +80,11 @@ class LocationBottomSheet extends StatelessWidget {
             textStyle: ThemeTextSemiBold.k16.copyWith(
                 color: isDark
                     ? locationName == selectedLocation
-                        ? ThemeColors.coolgray900
-                        : ThemeColors.white
+                    ? ThemeColors.coolgray900
+                    : ThemeColors.white
                     : locationName == selectedLocation
-                        ? ThemeColors.white
-                        : ThemeColors.coolgray900),
+                    ? ThemeColors.white
+                    : ThemeColors.coolgray900),
           ),
         ),
       ),

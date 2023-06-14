@@ -1,4 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
+
 import '../../template/template.dart';
+import '../photo_widgets/shimmer_loader.dart';
 
 class SponsorBannerContainer extends StatelessWidget {
   final String imageUrl;
@@ -16,7 +19,16 @@ class SponsorBannerContainer extends StatelessWidget {
           boxShadow: ThemeShadows.shadowSm,
         ),
         child: ClipRRect(
-            borderRadius: BorderRadius.circular(18.r),
-            child: Image.network(imageUrl, fit: BoxFit.fitWidth)));
+          borderRadius: BorderRadius.circular(18.r),
+          child: CachedNetworkImage(
+            imageUrl: imageUrl,
+            fit: BoxFit.fitWidth,
+            placeholder: (context, url) => ShimmerImgLoader(
+              height: 300.h,
+              width: double.infinity,
+            ),
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ));
   }
 }

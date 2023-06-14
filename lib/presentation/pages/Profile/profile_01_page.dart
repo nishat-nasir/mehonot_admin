@@ -40,7 +40,9 @@ class _Profile01PageState extends State<Profile01Page> {
 
   @override
   Widget build(BuildContext context) {
-    isDark = Theme.of(context).brightness == Brightness.dark;
+    isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     setState(() {
       userData = appStore.state.userState.userData;
       userProfileData = appStore.state.userState.userProfileData;
@@ -48,20 +50,23 @@ class _Profile01PageState extends State<Profile01Page> {
     return Padding(
         padding: EdgeInsets.all(30.w),
         child: SizedBox(
-            width: MediaQuery.of(context).size.width - 60.w,
+            width: MediaQuery
+                .of(context)
+                .size
+                .width - 60.w,
             child: SingleChildScrollView(
                 child: SpacedColumn(verticalSpace: 30, children: [
-              _buildProfileCardSec(),
-              _buildSkillsSec(),
-              _buildEduSec(),
-              _buildExpSec(),
-            ]))));
+                  _buildProfileCardSec(),
+                  _buildSkillsSec(),
+                  _buildEduSec(),
+                  _buildExpSec(),
+                ]))));
   }
 
   Widget _buildProfileCardSec() {
     return Container(
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         padding: EdgeInsets.symmetric(vertical: 40.h, horizontal: 60.w),
@@ -69,7 +74,10 @@ class _Profile01PageState extends State<Profile01Page> {
           profileHeader(),
           SizedBox(height: 20.h),
           SizedText(
-              width: MediaQuery.of(context).size.width - 60.w,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width - 60.w,
               height: 160.h,
               textAlign: TextAlign.start,
               text: userProfileData.bio.isEmpty
@@ -87,7 +95,7 @@ class _Profile01PageState extends State<Profile01Page> {
         padding: EdgeInsets.all(60.w),
         width: double.infinity,
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         child: SpacedColumn(
@@ -102,7 +110,7 @@ class _Profile01PageState extends State<Profile01Page> {
   Widget _buildEduSec() {
     return Container(
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         padding: EdgeInsets.all(60.w),
@@ -127,7 +135,7 @@ class _Profile01PageState extends State<Profile01Page> {
   Widget _buildExpSec() {
     return Container(
         decoration: BoxDecoration(
-          color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+          color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(10.w),
         ),
         padding: EdgeInsets.all(60.w),
@@ -157,7 +165,8 @@ class _Profile01PageState extends State<Profile01Page> {
           profileHeaderInfoItem(
               title: S(context).location,
               value:
-                  "${userProfileData.address.district} ${userProfileData.address.division}",
+              "${userProfileData.address.district} ${userProfileData.address
+                  .division}",
               icon: HeroIcons.mapPin),
           profileHeaderInfoItem(
               title: S(context).birth,
@@ -189,7 +198,7 @@ class _Profile01PageState extends State<Profile01Page> {
                   size: 42.h,
                   color: isDark
                       ? ThemeColors.coolgray200
-                      : MehonotColorsDark.canvasColor,
+                      : PrsmColorsDark.canvasColor,
                 ),
                 SizedText(text: title, textStyle: ThemeTextRegular.k10)
               ]),
@@ -213,7 +222,8 @@ class _Profile01PageState extends State<Profile01Page> {
                 children: [
                   SizedText(
                       text:
-                          "${userProfileData.firstName} ${userProfileData.lastName}",
+                      "${userProfileData.firstName} ${userProfileData
+                          .lastName}",
                       textStyle: ThemeTextSemiBold.k14),
                   SizedText(
                       text: userProfileData.positionTitle,

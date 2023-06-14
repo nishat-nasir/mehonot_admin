@@ -21,12 +21,12 @@ class Login01Page extends StatefulWidget {
 
 class _Login01PageState extends State<Login01Page> {
   final GlobalKey<FormState> _formKeyLoginPage =
-      GlobalKey<FormState>(debugLabel: '_formKeyLoginPage');
+  GlobalKey<FormState>(debugLabel: '_formKeyLoginPage');
 
   TextEditingController phoneNumController =
-      TextEditingController(text: kDebugMode ? "01011111111" : "");
+  TextEditingController(text: kDebugMode ? "01011111111" : "");
   TextEditingController pwController =
-      TextEditingController(text: kDebugMode ? "Test123!" : "");
+  TextEditingController(text: kDebugMode ? "Test123!" : "");
 
   DateTime timeBackPressed = DateTime.now();
   String errorText = "";
@@ -38,13 +38,16 @@ class _Login01PageState extends State<Login01Page> {
         onWillPop: onWillPop,
         child: Scaffold(
             backgroundColor: isDark(context)
-                ? MehonotColorsDark.canvasColor
-                : MehonotColorsLight.canvasColor,
+                ? PrsmColorsDark.canvasColor
+                : PrsmColorsLight.canvasColor,
             body: Form(
                 key: _formKeyLoginPage,
                 child: Center(
                     child: SizedBox(
-                        width: MediaQuery.of(context).size.width / 1.2,
+                        width: MediaQuery
+                            .of(context)
+                            .size
+                            .width / 1.2,
                         child: SpacedColumn(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -60,7 +63,7 @@ class _Login01PageState extends State<Login01Page> {
                                   width: 300.w,
                                   enableShadow: false,
                                   defaultBorderColor: isDark(context)
-                                      ? MehonotColorsLight.primaryColor
+                                      ? PrsmColorsLight.primaryColor
                                       : ThemeColors.coolgray200,
                                   isRequired: true,
                                   keyboardType: TextInputType.phone,
@@ -76,7 +79,7 @@ class _Login01PageState extends State<Login01Page> {
                                 width: 300.w,
                                 enableShadow: false,
                                 defaultBorderColor: isDark(context)
-                                    ? MehonotColorsLight.primaryColor
+                                    ? PrsmColorsLight.primaryColor
                                     : ThemeColors.coolgray200,
                                 hintText: S(context).password,
                                 validator: Validator(context).validateField,
@@ -84,7 +87,7 @@ class _Login01PageState extends State<Login01Page> {
                               ),
                               SpacedRow(
                                   mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  MainAxisAlignment.spaceBetween,
                                   children: [
                                     InkWell(
                                       onTap: onForgotPasswordPress(context),

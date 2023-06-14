@@ -24,23 +24,25 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
         color: isDark
-            ? MehonotColorsDark.appBarColor
-            : MehonotColorsLight.appBarColor,
+            ? PrsmColorsDark.appBarColor
+            : PrsmColorsLight.appBarColor,
         // boxShadow: ThemeShadows.shadowSm,
         // border: Border(
         //   bottom: BorderSide(
         //     width: .5.h,
         //     color:
-        //         isDark ? MehonotColorsDark.appBarColor : ThemeColors.coolgray300,
+        //         isDark ? PrsmColorsDark.appBarColor : ThemeColors.coolgray300,
         //   ),
         // ),
       ),
       padding:
-          EdgeInsets.symmetric(horizontal: 30.w, vertical: paddingTop ?? 3.h),
+      EdgeInsets.symmetric(horizontal: 30.w, vertical: paddingTop ?? 3.h),
       child: SafeArea(
         right: false,
         left: false,
@@ -51,7 +53,9 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _getActions(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     return SpacedRow(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -96,7 +100,8 @@ class PrsmDefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   @override
-  Size get preferredSize => Size(
+  Size get preferredSize =>
+      Size(
         double.infinity,
         ThemeSizeStyle.appBarHeight.h,
       );

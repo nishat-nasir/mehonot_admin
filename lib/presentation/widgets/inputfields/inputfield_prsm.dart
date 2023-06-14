@@ -68,11 +68,11 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
         .of(context)
         .brightness == Brightness.dark;
 
-    Color fillColor = isDark ? MehonotColorsDark.formFillColor : ThemeColors
+    Color fillColor = isDark ? PrsmColorsDark.formFillColor : ThemeColors
         .white;
 
     Color borderColor =
-    isDark ? MehonotColorsDark.formContainerBgColor : ThemeColors.white;
+    isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white;
     Color textColor = isDark ? ThemeColors.gray100 : ThemeColors.gray400;
 
     BorderRadius borderRadius = BorderRadius.circular(18.r);
@@ -110,8 +110,8 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
               ? ThemeTextRegular.k14.copyWith(color: ThemeColors.gray700)
               : ThemeTextRegular.k14.copyWith(
               color: isDark
-                  ? MehonotColorsDark.textColor
-                  : MehonotColorsLight.textColor),
+                  ? PrsmColorsDark.textColor
+                  : PrsmColorsLight.textColor),
           decoration: InputDecoration(
             errorMaxLines: 2,
             fillColor: widget.fillColor ?? fillColor,

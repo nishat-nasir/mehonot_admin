@@ -130,11 +130,11 @@ class _PrsmToggleState extends State<PrsmToggle>
                       borderRadius: BorderRadius.circular(_borderRadius),
                       border: _switchBorder,
                       gradient: widget.value
-                          ? MehonotColorsCommon.secondaryContainerColor
+                          ? PrsmColorsCommon.secondaryContainerColor
                           : const LinearGradient(colors: [
-                              ThemeColors.lightblue100,
-                              ThemeColors.lightblue200,
-                            ])),
+                        ThemeColors.lightblue100,
+                        ThemeColors.lightblue200,
+                      ])),
                   child: Stack(
                     children: <Widget>[
                       Align(

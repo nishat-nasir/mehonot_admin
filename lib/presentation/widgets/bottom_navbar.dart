@@ -21,7 +21,7 @@ class PrsmBottomNavbar extends StatelessWidget {
             unselectedFontSize: 0,
             elevation: 0,
             backgroundColor:
-                isDark ? MehonotColorsDark.bottomNavBarColor : ThemeColors.white,
+                isDark ? PrsmColorsDark.bottomNavBarColor : ThemeColors.white,
             type: BottomNavigationBarType.fixed,
             items: _getItems(index, context)));
   }
@@ -72,7 +72,7 @@ class PrsmBottomNavbar extends StatelessWidget {
     return BottomNavigationBarItem(
         label: "",
         backgroundColor:
-            isDark ? MehonotColorsDark.bottomNavBarColor : ThemeColors.white,
+            isDark ? PrsmColorsDark.bottomNavBarColor : ThemeColors.white,
         icon: Column(children: [
           HeroIcon(
             icon,

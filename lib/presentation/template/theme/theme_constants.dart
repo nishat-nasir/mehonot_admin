@@ -5,12 +5,12 @@ import 'appbar_theme.dart';
 ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-    canvasColor: MehonotColorsLight.canvasColor,
-    primaryColor: MehonotColorsLight.primaryColor,
+    canvasColor: PrsmColorsLight.canvasColor,
+    primaryColor: PrsmColorsLight.primaryColor,
     appBarTheme: appBarLightTheme,
     fontFamily: 'PoppinsRegular',
     floatingActionButtonTheme: const FloatingActionButtonThemeData(
-        backgroundColor: MehonotColorsLight.primaryColor),
+        backgroundColor: PrsmColorsLight.primaryColor),
     inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(20.0),
@@ -21,8 +21,8 @@ ThemeData lightTheme = ThemeData(
 ThemeData darkTheme = ThemeData(
   useMaterial3: true,
   brightness: Brightness.dark,
-  primaryColor: MehonotColorsDark.primaryColor,
-  canvasColor: MehonotColorsDark.canvasColor,
+  primaryColor: PrsmColorsDark.primaryColor,
+  canvasColor: PrsmColorsDark.canvasColor,
   appBarTheme: appBarDarkTheme,
   fontFamily: 'PoppinsRegular',
   inputDecorationTheme: InputDecorationTheme(

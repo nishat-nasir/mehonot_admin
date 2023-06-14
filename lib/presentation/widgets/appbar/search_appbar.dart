@@ -24,22 +24,24 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     return Container(
         height: ThemeSizeStyle.appBarHeight.h,
         decoration: BoxDecoration(
             color: isDark
-                ? MehonotColorsDark.appBarColor
-                : MehonotColorsLight.appBarColor,
+                ? PrsmColorsDark.appBarColor
+                : PrsmColorsLight.appBarColor,
             // boxShadow: ThemeShadows.shadowSm,
             border: Border(
                 bottom: BorderSide(
                     width: .5.h,
                     color: isDark
-                        ? MehonotColorsDark.appBarColor
+                        ? PrsmColorsDark.appBarColor
                         : ThemeColors.coolgray300))),
         padding:
-            EdgeInsets.symmetric(horizontal: 15.w, vertical: paddingTop ?? 3.h),
+        EdgeInsets.symmetric(horizontal: 15.w, vertical: paddingTop ?? 3.h),
         child: SafeArea(
             right: false,
             left: false,
@@ -48,22 +50,27 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _getActions(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     return SpacedRow(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(),
           SizedBox(
-              width: MediaQuery.of(context).size.width - 300.w,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width - 300.w,
               height: 100.h,
               child: PrsmInputField(
                 enableShadow: false,
                 controller: searchController,
                 fillColor:
-                    isDark ? MehonotColorsDark.formFillColor : ThemeColors.gray50,
+                isDark ? PrsmColorsDark.formFillColor : ThemeColors.gray50,
                 defaultBorderColor:
-                    isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray300,
+                isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray300,
               )),
           IconButton(
               onPressed: onRightIconPress,

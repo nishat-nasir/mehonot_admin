@@ -26,7 +26,7 @@ class PrsmLocationButton extends StatelessWidget {
         onLongPress: onLongPress,
         child: Container(
             decoration: BoxDecoration(
-              gradient: MehonotColorsCommon.locationContainerColor,
+              gradient: PrsmColorsCommon.locationContainerColor,
               borderRadius: BorderRadius.all(Radius.circular(14.r)),
             ),
             padding: EdgeInsets.symmetric(horizontal: 32.w),

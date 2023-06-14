@@ -39,7 +39,7 @@ class PrsmThreeRowButtons extends StatelessWidget {
       child: ElevatedButton(
           style: ButtonStyle(
             backgroundColor:
-                MaterialStateProperty.all(MehonotColorsCommon.buttonColor),
+            MaterialStateProperty.all(PrsmColorsCommon.buttonColor),
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: borderRadius(
                     leftRadius: leftRadius, rightRadius: rightRadius))),

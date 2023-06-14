@@ -37,7 +37,7 @@ class _PrsmTagState extends State<PrsmTag> {
             color: isActive
                 ? ThemeColors.lightblue500
                 : isDark
-                    ? MehonotColorsDark.canvasColor
+                    ? PrsmColorsDark.canvasColor
                     : ThemeColors.white,
             borderRadius: BorderRadius.circular(12.r),
             border: Border.all(

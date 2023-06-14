@@ -223,7 +223,7 @@ class _Settings01PageState extends State<Settings01Page> {
         .brightness == Brightness.dark;
     return Container(
       decoration: BoxDecoration(
-        color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+        color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
         borderRadius: BorderRadius.circular(8.r),
         border: Border.all(
             color: isDark ? ThemeColors.bluegray600 : ThemeColors.gray200,
@@ -263,7 +263,7 @@ class _Settings01PageState extends State<Settings01Page> {
             height: 180.h,
             width: width,
             decoration: BoxDecoration(
-              color: isDark ? MehonotColorsDark.canvasColor : ThemeColors.white,
+              color: isDark ? PrsmColorsDark.canvasColor : ThemeColors.white,
               borderRadius: BorderRadius.circular(8.r),
               border: Border.all(
                   color: isDark ? ThemeColors.bluegray600 : ThemeColors.gray200,

@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
-import '../template/template.dart';
+import 'package:mehonot_admin/presentation/widgets/photo_widgets/shimmer_loader.dart';
+import '../../template/template.dart';
 
 class PrsmCarouselImageWidget extends StatefulWidget {
   final List<String> imageList;
@@ -57,12 +59,24 @@ class _PrsmCarouselImageWidgetState extends State<PrsmCarouselImageWidget> {
             scrollDirection: Axis.horizontal,
           ),
           items: widget.imageList
-              .map((e) =>
-              ClipRRect(
+              .map((e) => ClipRRect(
                   borderRadius: BorderRadius.circular(16.r),
                   child: (widget.showFromNetwork == true)
-                      ? Image.network(e, fit: BoxFit.fitWidth, width: 1000.w)
-                      : Image.asset(e, fit: BoxFit.fitWidth, width: 1000.w)))
+                      ? CachedNetworkImage(
+                          imageUrl: e,
+                          fit: BoxFit.fitWidth,
+                          width: 1000.w,
+                          placeholder: (context, url) => ShimmerImgLoader(
+                              width: 1000.w, height: widget.height.h),
+                          errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/png/error_img.png',
+                              fit: BoxFit.fitWidth,
+                              width: 1000.w),
+                        )
+                      : Image(
+                          image: CachedNetworkImageProvider(e),
+                          fit: BoxFit.fitWidth,
+                          width: 1000.w)))
               .toList(),
         ),
         carouselDots()
@@ -169,20 +183,26 @@ class _PrsmCarouselUploadImgWidgetState
 
     if (widget.imageFiles.isNotEmpty) {
       items.addAll(
-        widget.imageFiles.map((e) =>
-            Center(
+        widget.imageFiles.map((e) => Center(
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Image.file(
-                      e,
-                      fit: BoxFit.fitWidth,
-                      height: widget.height.h,
-                      width: 1000.w,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: CachedNetworkImage(
+                          imageUrl: e.path,
+                          fit: BoxFit.fitWidth,
+                          height: widget.height.h,
+                          width: 1000.w,
+                          placeholder: (context, url) => ShimmerImgLoader(
+                                width: 1000.w,
+                                height: widget.height.h,
+                              ),
+                          errorWidget: (context, url, error) => Image.asset(
+                                'assets/images/png/error_img.png',
+                                fit: BoxFit.fitWidth,
+                                width: 1000.w,
+                              ))),
                   Positioned(
                     top: 1,
                     right: 0,
@@ -204,20 +224,25 @@ class _PrsmCarouselUploadImgWidgetState
 
     if (widget.imageNetworkUrls.isNotEmpty) {
       items.addAll(
-        widget.imageNetworkUrls.map((url) =>
-            Center(
+        widget.imageNetworkUrls.map((url) => Center(
               child: Stack(
                 alignment: Alignment.center,
                 children: [
                   ClipRRect(
-                    borderRadius: BorderRadius.circular(16.r),
-                    child: Image.network(
-                      url,
-                      fit: BoxFit.fitWidth,
-                      height: widget.height.h,
-                      width: 1000.w,
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(16.r),
+                      child: CachedNetworkImage(
+                          imageUrl: url,
+                          fit: BoxFit.fitWidth,
+                          height: widget.height.h,
+                          width: 1000.w,
+                          placeholder: (context, url) => ShimmerImgLoader(
+                                width: 1000.w,
+                                height: widget.height.h,
+                              ),
+                          errorWidget: (context, url, error) => Image.asset(
+                              'assets/images/png/error_img.png',
+                              fit: BoxFit.fitWidth,
+                              width: 1000.w))),
                   Positioned(
                     top: 1,
                     right: 0,
@@ -263,12 +288,12 @@ class _PrsmCarouselUploadImgWidgetState
                 ),
                 child: Center(
                     child: HeroIcon(
-                      HeroIcons.plus,
-                      size: 200.w,
-                      color: isDark(context)
-                          ? ThemeColors.blue200
-                          : ThemeColors.coolgray700,
-                    )))));
+                  HeroIcons.plus,
+                  size: 200.w,
+                  color: isDark(context)
+                      ? ThemeColors.blue200
+                      : ThemeColors.coolgray700,
+                )))));
   }
 
   Widget carouselDots() {
@@ -302,13 +327,13 @@ class PrsmCarouselBannerWidget extends StatefulWidget {
   final List<String> imageList;
   final double height;
   final bool autoPlay;
-  final VoidCallback? onTap;
+  final Function(int)? onTap;
   final bool? showImgFromNetwork;
 
   const PrsmCarouselBannerWidget({
     Key? key,
     required this.imageList,
-    this.height = 350,
+    this.height = 120,
     this.autoPlay = false,
     this.onTap,
     this.showImgFromNetwork = false,
@@ -338,32 +363,43 @@ class _PrsmCarouselBannerWidgetState extends State<PrsmCarouselBannerWidget> {
         CarouselSlider(
           carouselController: _carouselCntr,
           options: CarouselOptions(
+            pauseAutoPlayOnManualNavigate: true,
             onPageChanged: (index, reason) {
               setState(() {
                 _currentImg = widget.imageList[index];
               });
             },
-            height: widget.height.h,
+            height: widget.height,
             viewportFraction: 1,
             enlargeCenterPage: true,
-            autoPlay: widget.autoPlay,
-            autoPlayInterval: const Duration(seconds: 3),
-            autoPlayAnimationDuration: const Duration(milliseconds: 800),
+            autoPlayInterval: const Duration(seconds: 10),
+            autoPlay: true,
+            autoPlayAnimationDuration: const Duration(seconds: 1),
             autoPlayCurve: Curves.fastOutSlowIn,
             enableInfiniteScroll: true,
             scrollDirection: Axis.horizontal,
           ),
           items: widget.imageList
-              .map((e) =>
-              InkWell(
-                  onTap: widget.onTap,
+              .map((e) => InkWell(
+                  onTap: () {
+                    widget.onTap!(widget.imageList.indexOf(e));
+                  },
                   child: ClipRRect(
                       borderRadius: BorderRadius.circular(16.r),
                       child: widget.showImgFromNetwork == true
-                          ? Image.network(e,
-                          fit: BoxFit.fitWidth, width: 1000.w)
+                          ? CachedNetworkImage(
+                              imageUrl: e,
+                              fit: BoxFit.fitWidth,
+                              width: 1000.w,
+                              placeholder: (context, url) => ShimmerImgLoader(
+                                  width: 1000.w, height: widget.height.h),
+                              errorWidget: (context, url, error) => Image.asset(
+                                  'assets/images/png/error_img.png',
+                                  fit: BoxFit.fitWidth,
+                                  width: 1000.w),
+                            )
                           : Image.asset(e,
-                          fit: BoxFit.fitWidth, width: 1000.w))))
+                              fit: BoxFit.fitWidth, width: 1000.w))))
               .toList(),
         ),
         carouselDots()

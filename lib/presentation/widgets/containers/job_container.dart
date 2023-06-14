@@ -1,5 +1,6 @@
 import 'package:mehonot_admin/presentation/template/template.dart';
 import '../../../manager/models/model_exporter.dart';
+import '../photo_widgets/company_logo_loader.dart';
 
 class PrsmJobContainer extends StatelessWidget {
   final JobModel jobModel;
@@ -23,32 +24,14 @@ class PrsmJobContainer extends StatelessWidget {
         onTap: onTap,
         child: Container(
           padding: EdgeInsets.symmetric(vertical: 10.h),
-          color: isDark
-              ? MehonotColorsDark.formContainerBgColor
-              : ThemeColors.white,
+          color:
+              isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
           child: SpacedRow(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               horizontalSpace: 20,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 16.w),
-                  child: ClipRRect(
-                      borderRadius: borderRadius,
-                      child: (jobModel.companyLogo != null &&
-                              jobModel.companyLogo!.isNotEmpty)
-                          ? Image.network(jobModel.companyLogo!,
-                              errorBuilder: (context, error, stackTrace) =>
-                                  Image.asset('assets/images/png/error_img.png',
-                                      fit: BoxFit.fill,
-                                      width: 150.w,
-                                      height: 150.h),
-                              fit: BoxFit.fill,
-                              width: 150.w,
-                              height: 150.h)
-                          : Image.asset('assets/images/png/no_img.png',
-                              fit: BoxFit.fill, width: 150.w, height: 150.h)),
-                ),
+                CompanyLogoLoader(companyLogoUrl: jobModel.companyLogo),
                 Container(
                     width: 1.w, height: 170.h, color: ThemeColors.coolgray500),
                 SpacedColumn(

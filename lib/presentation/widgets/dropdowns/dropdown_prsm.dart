@@ -64,12 +64,14 @@ class _PrsmDropdownState extends State<PrsmDropdown> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
 
     Color fillColor = widget.bgColor ??
-        (isDark ? MehonotColorsDark.formFillColor : ThemeColors.white);
+        (isDark ? PrsmColorsDark.formFillColor : ThemeColors.white);
     Color borderColor =
-        isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray200;
+    isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray200;
     Color textColor = isDark ? ThemeColors.gray100 : ThemeColors.gray800;
     logger(widget.bgColor);
     return DropdownButtonHideUnderline(
@@ -97,8 +99,8 @@ class _PrsmDropdownState extends State<PrsmDropdown> {
                   size: widget.dropdownSize == DropdownSize.SIZE1
                       ? 42.h
                       : widget.dropdownSize == DropdownSize.SIZE5
-                          ? 43.h
-                          : 32.h,
+                      ? 43.h
+                      : 32.h,
                 ),
               ),
               items: _addDividersAfterItems(textColor),
@@ -115,7 +117,7 @@ class _PrsmDropdownState extends State<PrsmDropdown> {
                   vertical: widget.buttonVerticalPadding.h,
                   horizontal: widget.buttonHorizontalPadding.w),
               dropdownPadding:
-                  EdgeInsets.symmetric(horizontal: 0.w, vertical: 14.h),
+              EdgeInsets.symmetric(horizontal: 0.w, vertical: 14.h),
               dropdownElevation: 2),
         ),
       ),

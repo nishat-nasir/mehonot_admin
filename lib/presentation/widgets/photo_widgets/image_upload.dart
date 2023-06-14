@@ -2,8 +2,8 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart'; // Added import for image_cropper
-import 'package:mehonot_admin/presentation/widgets/caousel_widget.dart';
-import '../template/template.dart';
+import 'package:mehonot_admin/presentation/widgets/photo_widgets/caousel_widget.dart';
+import '../../template/template.dart';
 
 class PrsmImageUpload extends StatefulWidget {
   Function(List<File>, List<String>) onImageSelected;
@@ -112,18 +112,18 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
       sourcePath: imagePath.path,
       compressFormat: ImageCompressFormat.jpg,
       compressQuality: 100,
-      aspectRatio: const CropAspectRatio(ratioX: 18, ratioY: 8),
+      aspectRatio: const CropAspectRatio(ratioX: 15, ratioY: 8),
       cropStyle: CropStyle.rectangle,
       aspectRatioPresets: [CropAspectRatioPreset.ratio16x9],
       uiSettings: [
         AndroidUiSettings(
-            toolbarTitle: '',
+            toolbarTitle: 'Crop Image',
             backgroundColor: isDark(context)
-                ? MehonotColorsDark.canvasColor
-                : MehonotColorsLight.canvasColor,
+                ? PrsmColorsDark.canvasColor
+                : PrsmColorsLight.canvasColor,
             toolbarColor: isDark(context)
-                ? MehonotColorsDark.canvasColor
-                : MehonotColorsLight.canvasColor,
+                ? PrsmColorsDark.canvasColor
+                : PrsmColorsLight.canvasColor,
             toolbarWidgetColor:
                 isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
             activeControlsWidgetColor:
@@ -131,8 +131,8 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
             cropFrameColor:
                 isDark(context) ? ThemeColors.coolgray100 : ThemeColors.blue900,
             statusBarColor: isDark(context)
-                ? MehonotColorsDark.canvasColor
-                : MehonotColorsLight.canvasColor,
+                ? PrsmColorsDark.canvasColor
+                : PrsmColorsLight.canvasColor,
             lockAspectRatio: true),
         IOSUiSettings(
           title: '',
@@ -156,5 +156,92 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
       return croppedFile;
     }
     return null;
+  }
+}
+
+class PrsmCompanyLogoUpload extends StatefulWidget {
+  Function(File, String) onImageSelected;
+
+  PrsmCompanyLogoUpload({
+    Key? key,
+    required this.onImageSelected,
+  }) : super(key: key);
+
+  @override
+  _PrsmCompanyLogoUploadState createState() => _PrsmCompanyLogoUploadState();
+}
+
+class _PrsmCompanyLogoUploadState extends State<PrsmCompanyLogoUpload> {
+  File? _image;
+
+  Future<void> getImage() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? selectedImage =
+        await picker.pickImage(source: ImageSource.gallery);
+    if (selectedImage != null) {
+      final croppedImage = await _cropImage(File(selectedImage.path));
+
+      if (croppedImage != null) {
+        setState(() {
+          _image = File(croppedImage.path);
+        });
+      }
+    }
+
+    widget.onImageSelected(_image!, _image!.path.split('/').last);
+  }
+
+  Future<CroppedFile?> _cropImage(File image) async {
+    final croppedImage = await ImageCropper().cropImage(
+        sourcePath: image.path,
+        compressFormat: ImageCompressFormat.jpg,
+        compressQuality: 100,
+        aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+        uiSettings: [
+          AndroidUiSettings(
+            toolbarTitle: 'Crop Image',
+            toolbarColor: Colors.blue,
+            toolbarWidgetColor: Colors.white,
+            statusBarColor: Colors.blue,
+            backgroundColor: Colors.white,
+          ),
+          IOSUiSettings(
+            title: 'Crop Image',
+          ),
+        ]);
+
+    if (croppedImage != null) {
+      return croppedImage;
+    }
+    return null;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: getImage,
+      child: Container(
+        width: 50,
+        height: 50,
+        decoration: BoxDecoration(
+          color:
+              isDark(context) ? ThemeColors.coolgray800 : ThemeColors.blue100,
+          borderRadius: BorderRadius.circular(8.r),
+          image: _image != null
+              ? DecorationImage(
+                  image: FileImage(_image!),
+                  fit: BoxFit.cover,
+                )
+              : null,
+        ),
+        child: _image == null
+            ? const Icon(
+                Icons.camera_alt,
+                size: 40,
+                color: Colors.white,
+              )
+            : null,
+      ),
+    );
   }
 }

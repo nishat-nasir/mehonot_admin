@@ -2,6 +2,7 @@ import '../template/template.dart';
 
 class PrsmBottomSheetContainer extends StatelessWidget {
   final Widget child;
+
   const PrsmBottomSheetContainer({Key? key, required this.child})
       : super(key: key);
 
@@ -12,7 +13,7 @@ class PrsmBottomSheetContainer extends StatelessWidget {
     return Container(
         decoration: BoxDecoration(
             color: isDark
-                ? MehonotColorsDark.formContainerBgColor
+                ? PrsmColorsDark.formContainerBgColor
                 : ThemeColors.gray50,
             borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(24.r),
