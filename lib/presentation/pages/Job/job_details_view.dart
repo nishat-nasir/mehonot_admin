@@ -23,18 +23,19 @@ class JobDetailsView extends StatefulWidget {
   bool? showStatus;
   VoidCallback? onTapApplicationList;
 
-  JobDetailsView({required this.jobModel,
-    required this.jobDetailModel,
-    this.iconList,
-    this.onPress1,
-    this.onPress2,
-    this.onPress3,
-    this.bottomBtn,
-    this.onTapCross,
-    this.showXMark,
-    this.showStatus,
-    this.onTapApplicationList,
-    Key? key})
+  JobDetailsView(
+      {required this.jobModel,
+      required this.jobDetailModel,
+      this.iconList,
+      this.onPress1,
+      this.onPress2,
+      this.onPress3,
+      this.bottomBtn,
+      this.onTapCross,
+      this.showXMark,
+      this.showStatus,
+      this.onTapApplicationList,
+      Key? key})
       : super(key: key);
 
   @override
@@ -44,18 +45,13 @@ class JobDetailsView extends StatefulWidget {
 class _JobDetailsViewState extends State<JobDetailsView> {
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme
-        .of(context)
-        .brightness == Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     String jobWage = widget.jobModel.wageAmount.toString();
     String jobWageType = widget.jobDetailModel.workCondition.wageType!;
     String jobDuration = widget.jobDetailModel.workCondition.period!;
 
     return SizedBox(
-      height: MediaQuery
-          .of(context)
-          .size
-          .height - 120,
+      height: MediaQuery.of(context).size.height - 120,
       child: SingleChildScrollView(
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 52.w),
@@ -79,7 +75,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                                     alignment: Alignment.centerRight,
                                     child: InkWell(
                                       onTap: widget.onTapCross ??
-                                              () {
+                                          () {
                                             context.router.popTop();
                                           },
                                       child: HeroIcon(HeroIcons.xMark,
@@ -97,11 +93,10 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                             maxLines: 3),
                       ]),
                   _buildTopJobInfoSec(jobWage, jobWageType, jobDuration),
-                  if (widget.jobModel.images != null &&
-                      widget.jobModel.images!.isNotEmpty)
+                  if (widget.jobDetailModel.images.isNotEmpty)
                     PrsmCarouselImageWidget(
                       showFromNetwork: true,
-                      imageList: widget.jobModel.images!,
+                      imageList: widget.jobDetailModel.images!,
                       // imageList: widget.jobModel.images ??
                       //     ["assets/images/png/apple_store_1.png"],
                     ),
@@ -121,8 +116,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     );
   }
 
-  Widget _buildTopJobInfoSec(String jobWage, String jobWageType,
-      String jobDuration) {
+  Widget _buildTopJobInfoSec(
+      String jobWage, String jobWageType, String jobDuration) {
     return SpacedColumn(verticalSpace: 5, children: [
       const Divider(color: ThemeColors.coolgray400, thickness: 1),
       SpacedRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -137,9 +132,10 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     ]);
   }
 
-  Widget _buildCompanyTitleSec({required String companyName,
-    required String companyLogo,
-    required bool isDark}) {
+  Widget _buildCompanyTitleSec(
+      {required String companyName,
+      required String companyLogo,
+      required bool isDark}) {
     return Padding(
         padding: EdgeInsets.all(8.w),
         child: Container(
@@ -201,9 +197,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
       decoration: BoxDecoration(
-          color: isDark
-              ? PrsmColorsDark.formContainerBgColor
-              : ThemeColors.white,
+          color:
+              isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -223,14 +218,13 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     return Container(
       width: double.infinity,
       height: widget.jobDetailModel.moreDetails == null ||
-          widget.jobDetailModel.moreDetails!.length < 100
+              widget.jobDetailModel.moreDetails!.length < 100
           ? 280.h
           : 440,
       padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 42.h),
       decoration: BoxDecoration(
-          color: isDark
-              ? PrsmColorsDark.formContainerBgColor
-              : ThemeColors.white,
+          color:
+              isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -311,8 +305,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           infoHelper(
               title: S(context).workDays,
               desc:
-              "${widget.jobDetailModel.workCondition.workStartDay}-${widget
-                  .jobDetailModel.workCondition.workFinishDay}"),
+                  "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
           infoHelper(
               title: S(context).wages,
               desc: "${widget.jobModel.wageAmount} BDT"),

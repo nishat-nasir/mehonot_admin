@@ -239,8 +239,9 @@ class _Search01PageState extends State<Search01Page> {
                           city: currentJob.address.city,
                           district: currentJob.address.district,
                         ),
-                        images: currentJob.images,
                         companyLogo: currentJob.companyLogo,
+                        category: currentJob.category,
+                        tags: currentJob.tags,
                         postedByUserId: currentJob.postedByUserId,
                         type: currentJob.type,
                         workStartTime: currentJob.workStartTime,
@@ -264,7 +265,8 @@ class _Search01PageState extends State<Search01Page> {
                         workCondition: currentJobDetails.workCondition,
                         ownerName: currentJobDetails.ownerName,
                         recruitCondition: currentJobDetails.recruitCondition,
-                        category: currentJobDetails.category,
+                        images: currentJobDetails.images,
+                        moreDetails: currentJobDetails.moreDetails,
                       ));
                 }),
               ]));

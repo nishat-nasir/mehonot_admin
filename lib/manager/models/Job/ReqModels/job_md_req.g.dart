@@ -9,8 +9,9 @@ part of 'job_md_req.dart';
 JobModelReq _$JobModelReqFromJson(Map json) => JobModelReq(
       title: json['title'] as String,
       companyName: json['companyName'] as String,
-      images:
-          (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      category:
+          (json['category'] as List<dynamic>).map((e) => e as String).toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       companyLogo: json['companyLogo'] as String?,
       address: AddressModel.fromJson(json['address'] as Map),
       type: json['type'] as String,
@@ -26,7 +27,8 @@ Map<String, dynamic> _$JobModelReqToJson(JobModelReq instance) =>
     <String, dynamic>{
       'title': instance.title,
       'companyName': instance.companyName,
-      'images': instance.images,
+      'category': instance.category,
+      'tags': instance.tags,
       'companyLogo': instance.companyLogo,
       'address': instance.address,
       'type': instance.type,

@@ -73,7 +73,7 @@ class JobsState {
         website: '',
         email: '',
         description: '',
-        category: '',
+        images: [],
         moreDetails: '',
       ),
       searchJobList: const [],

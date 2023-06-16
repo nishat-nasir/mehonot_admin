@@ -13,11 +13,11 @@ class JobDetailModel {
   String? email;
   String phone;
   String? website;
-  String? category;
   RecruitConModel recruitCondition;
   WorkConModel workCondition;
   String? moreDetails;
   List<String>? appliedBy;
+  List<String> images;
 
   @override
   JobDetailModel({
@@ -26,9 +26,9 @@ class JobDetailModel {
     this.ownerName,
     this.description,
     this.email,
+    required this.images,
     required this.phone,
     this.website,
-    this.category,
     required this.recruitCondition,
     required this.workCondition,
     this.moreDetails,

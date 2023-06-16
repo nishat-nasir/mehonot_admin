@@ -209,7 +209,8 @@ class _Saved01PageState extends State<Saved01Page> {
                       },
                       jobModel: JobModel(
                         title: currentJob.title,
-                        images: currentJob.images,
+                        tags: currentJob.tags,
+                        category: currentJob.category,
                         companyLogo: currentJob.companyLogo,
                         address: AddressModel(
                           area: currentJob.address.area,
@@ -240,7 +241,9 @@ class _Saved01PageState extends State<Saved01Page> {
                         workCondition: currentJobDetails.workCondition,
                         ownerName: currentJobDetails.ownerName,
                         recruitCondition: currentJobDetails.recruitCondition,
-                        category: currentJobDetails.category,
+                        images: currentJobDetails.images,
+                        moreDetails: currentJobDetails.moreDetails,
+                        appliedBy: currentJobDetails.appliedBy,
                       ));
                 }),
               ]));

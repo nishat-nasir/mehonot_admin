@@ -246,9 +246,8 @@ Future<bool> _getJobAdsDetailAction(
             timestamp: value['timestamp'],
             wageAmount: value['wageAmount'],
             jobDetailsId: value['jobDetailsId'],
-            images: value["images"] != null && value["images"].isNotEmpty
-                ? List<String>.from(value["images"].map((e) => e.toString()))
-                : [],
+            tags: value['tags'],
+            category: value['category'],
             companyLogo: value["companyLogo"]);
         return jobModel;
       });

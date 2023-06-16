@@ -24,7 +24,8 @@ class JobModel {
   String jobDetailsId;
   String title;
   String companyName;
-  List<String>? images;
+  List<String> category;
+  List<String> tags;
   String? companyLogo;
   AddressModel address;
   String type;
@@ -41,8 +42,9 @@ class JobModel {
     required this.jobDetailsId,
     required this.title,
     required this.companyName,
-    this.images,
     this.companyLogo,
+    required this.category,
+    required this.tags,
     required this.address,
     required this.type,
     required this.workStartTime,
