@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:mehonot_admin/manager/models/Job/recruit_con_md.dart';
-import 'package:mehonot_admin/manager/models/Job/work_con_md.dart';
+import './recruit_con_md.dart';
+import './work_con_md.dart';
 
 part 'job_dtl_md.g.dart';
 

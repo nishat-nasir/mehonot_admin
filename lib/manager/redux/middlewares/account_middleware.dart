@@ -203,12 +203,14 @@ Future<bool> _getRemoveFromMyJobsIdsAction(AppState state,
     GetRemoveFromMyJobsIdsAction action, NextDispatcher next) async {
   try {
     logger("GetRemoveFromMyJobsIdsAction -- Called");
+    bool success = false;
 
-    bool success = await appStore.dispatch(GetDeleteJobAction(
-        jobId: action.jobId,
-        division: action.division,
-        jobStatus: action.status,
-        jobDetailsId: action.jobDetailsId));
+    if (action.removingFromMyJobs == true) {
+      success = await appStore.dispatch(GetDeleteJobAction(
+          jobModel: action.jobModel, jobDetailModel: action.jobDetailModel));
+    } else {
+      success = true;
+    }
 
     if (success) {
       await FirebaseKit()
@@ -217,7 +219,7 @@ Future<bool> _getRemoveFromMyJobsIdsAction(AppState state,
           .collection(userProfileJobRelationsFbDb)
           .doc(state.userState.userProfileData.userJobRelationId)
           .update({
-        "myJobsIds": FieldValue.arrayRemove([action.jobId]),
+        "myJobsIds": FieldValue.arrayRemove([action.jobModel.jobId]),
       }).then((value) async {
         appStore.dispatch(UpdateUserStateAction(
           userJobRelationData: UserJobRelationMd(
@@ -225,10 +227,12 @@ Future<bool> _getRemoveFromMyJobsIdsAction(AppState state,
             appliedJobsIds: state.userState.userJobRelationData.appliedJobsIds,
             savedJobsIds: state.userState.userJobRelationData.savedJobsIds,
             myJobsIds: state.userState.userJobRelationData.myJobsIds
-              ..remove(action.jobId),
+              ..remove(action.jobModel.jobId),
           ),
         ));
       });
+    } else {
+      return false;
     }
 
     return true;

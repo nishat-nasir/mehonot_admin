@@ -2,9 +2,9 @@ import 'dart:io';
 
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:mehonot_admin/manager/navigation/router.gr.dart';
 import '../../../manager/models/Address/address_md.dart';
 import '../../../manager/models/Job/ReqModels/job_dtl_md_req.dart';
 import '../../../manager/models/Job/ReqModels/job_md_req.dart';
@@ -15,7 +15,9 @@ import '../../template/template.dart';
 import '../../utils/common/validators.dart';
 import '../../utils/constants.dart';
 import '../../widgets/circle_head_widget.dart';
+import '../../widgets/modals/calendar_popup.dart';
 import '../../widgets/photo_widgets/image_upload.dart';
+import 'Popups/job_category_popup.dart';
 
 @RoutePage(name: "CeoJobCreateRouter")
 class CeoJobCreatePage extends StatefulWidget {
@@ -29,14 +31,23 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   bool isDark = false;
   final GlobalKey<FormState> createJobFormKey = GlobalKey<FormState>();
 
-  TextEditingController jobTitleCntr = TextEditingController();
-  TextEditingController jobCompanyNameCntr = TextEditingController();
+  bool isCreateJobLoading = false;
+
+  TextEditingController jobTitleCntr =
+      TextEditingController(text: kDebugMode ? "Job Title" : "");
+  TextEditingController jobCompanyNameCntr =
+      TextEditingController(text: kDebugMode ? "Company Name" : "");
   TextEditingController jobDescriptionCntr = TextEditingController();
-  TextEditingController jobEmailCntr = TextEditingController();
-  TextEditingController jobPhoneCntr = TextEditingController();
+  TextEditingController jobEmailCntr =
+      TextEditingController(text: kDebugMode ? "test@test.com" : "");
+  TextEditingController jobWebsiteCntr = TextEditingController(text: "");
+  TextEditingController jobPhoneCntr =
+      TextEditingController(text: kDebugMode ? "01700000000" : "");
   TextEditingController jobLocationCntr = TextEditingController();
   TextEditingController jobWagesCntr = TextEditingController(text: "0");
-  TextEditingController jobMoreInfoCntr = TextEditingController();
+  TextEditingController jobMoreInfoCntr =
+      TextEditingController(text: kDebugMode ? "More Info" : "");
+  TextEditingController createJobDeadlineCntr = TextEditingController();
   String createJobAddressDistrict = "";
   String createJobAddressCity = "";
   String createJobAddressArea = "";
@@ -47,22 +58,39 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   String createJobEducation = Constants.jobEducationList.first;
   String createJobPersonnel = Constants.jobPersonnelList.first;
   String createJobGender = "";
-  DateTime createJobDeadline = DateTime.now();
+
+  // 3 months
+  Timestamp createJobDeadline =
+      Timestamp.fromDate(DateTime.now().add(Duration(days: 90)));
   String createJobType = Constants.jobTypeList.first;
   String createJobPaymentType = Constants.jobPaymentTypeList.first;
   String createJobPeriod = Constants.jobPeriodList.first;
   String createJobStartDay = Constants.daysList.first;
   String createJobFinishDay = Constants.daysList.last;
-  int createJobAge = 0;
+  String createJobAge = Constants.jobAgeList.last;
   DateTime createWorkStartTime = DateTime.now();
   DateTime createWorkFinishTime = DateTime.now();
   String createWorkStartTimeString = "";
   String createWorkFinishTimeString = "";
 
   bool jobIsCreate = false;
-
   List<File> imageFileList = [];
   List<String> imageNameList = [];
+  List<String> selectedJobCategories = [];
+
+  File? companyLogoFile;
+  String? companyLogoName;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        createJobDeadlineCntr.text =
+            DateFormat("dd MMM yyyy").format(createJobDeadline.toDate());
+      });
+    });
+  }
 
   @override
   void dispose() {
@@ -102,6 +130,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                         _buildCircleHeadForm(context),
                         divider(),
                         PrsmImageUpload(
+                          imageNetUrls: [],
                           onImageSelected: (imageFile, image) {
                             logger("Image Selected");
                             logger(imageFile);
@@ -115,16 +144,46 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                             });
                           },
                           onRemoveNetworkImg: (int) {},
-                          imageNetUrls: [],
                         ),
                         divider(),
                         formHelper(
-                            title: S(context).companyName,
-                            widget: PrsmInputField(
-                              controller: jobCompanyNameCntr,
-                              enableShadow: false,
-                              validator: Validator(context).validateField,
-                              defaultBorderColor: ThemeColors.coolgray300,
+                            title: S(context).company,
+                            widget: SpacedRow(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                PrsmCompanyLogoUpload(
+                                  onImageSelected: (imageFile) {
+                                    setState(() {
+                                      companyLogoFile = imageFile;
+                                    });
+                                  },
+                                ),
+                                SpacedColumn(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      SizedBox(
+                                          width: 720.w,
+                                          child: PrsmInputField(
+                                            controller: jobCompanyNameCntr,
+                                            enableShadow: false,
+                                            validator: Validator(context)
+                                                .validateField,
+                                            defaultBorderColor:
+                                                ThemeColors.coolgray300,
+                                          )),
+                                      SizedText(
+                                        textAlign: TextAlign.start,
+                                        softWrap: true,
+                                        text:
+                                            "*${S(context).canNotChangeComNameOrLogo}",
+                                        textStyle: ThemeTextRegular.k10
+                                            .copyWith(
+                                                color: ThemeColors.red500),
+                                      )
+                                    ]),
+                              ],
                             )),
                         formHelper(
                             title: S(context).jobDescription,
@@ -141,16 +200,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                         divider(),
                         _buildContactFormSec(),
                         divider(),
-                        formHelper(
-                          title: S(context).moreInfo,
-                          widget: PrsmInputField(
-                            controller: jobMoreInfoCntr,
-                            maxLines: 5,
-                            enableShadow: false,
-                            validator: Validator(context).validateField,
-                            defaultBorderColor: ThemeColors.coolgray300,
-                          ),
-                        ),
+                        _buildMoreInfoFormSec(),
                         divider(),
                         PrimaryButton(
                             buttonText: S(context).post,
@@ -162,6 +212,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                                 logger("Validation Error");
                               }
                             }),
+                        SizedBox(height: 60.h)
                       ])),
             ),
           );
@@ -173,12 +224,18 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         verticalSpace: 20,
         children: [
-          SizedText(text: S(context).address, textStyle: ThemeTextSemiBold.k18),
           formHelper(
               title: S(context).email,
               widget: PrsmInputField(
                   controller: jobEmailCntr,
                   validator: Validator(context).validateEmail,
+                  defaultBorderColor: ThemeColors.coolgray300,
+                  enableShadow: false)),
+          formHelper(
+              title: S(context).website,
+              widget: PrsmInputField(
+                  controller: jobWebsiteCntr,
+                  validator: Validator(context).validateWebsite,
                   defaultBorderColor: ThemeColors.coolgray300,
                   enableShadow: false)),
           formHelper(
@@ -239,14 +296,25 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
           onChangedRight: (value) => changePersonnelList(value),
         ),
         formHelperForDropdowns(
-          listValuesLeft: [],
+          listValuesLeft: Constants.jobAgeList,
           listValuesRight: [],
-          titleLeft: S(context).gender,
+          titleLeft: S(context).age,
           titleRight: S(context).deadline,
-          valueLeft: createJobGender,
-          valueRight: createJobDeadline,
+          valueLeft: createJobAge,
+          valueRight: createJobDeadlineCntr.text,
           onChangedLeft: (value) {},
           onChangedRight: (value) {},
+          onTapRight: () {
+            showCalendarModal(
+                context: context, controller: createJobDeadlineCntr);
+            String dateString = createJobDeadlineCntr.text;
+            DateTime dateTime = DateFormat('dd MMMM yyyy').parse(dateString);
+            int timestamp = dateTime.millisecondsSinceEpoch;
+            setState(() {
+              createJobDeadline =
+                  Timestamp.fromMillisecondsSinceEpoch(timestamp);
+            });
+          },
         ),
         formHelperForDropdowns(
           listValuesLeft: Constants.jobTypeList,
@@ -271,37 +339,95 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
     required List listValuesRight,
     required String titleRight,
     dynamic valueRight,
+    VoidCallback? onTapLeft,
+    VoidCallback? onTapRight,
   }) {
     return SizedBox(
       width: double.infinity,
       child: SpacedRow(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            formHelper(
-                title: titleLeft,
-                width: (MediaQuery.of(context).size.width / 2) - 50.w,
-                widget: PrsmDropdown(
-                    listValues: listValuesLeft,
-                    enableShadow: false,
-                    enableBorder: true,
-                    value: valueLeft,
-                    bgColor: isDark
-                        ? PrsmColorsDark.formFillColor
-                        : ThemeColors.coolgray200,
-                    onChanged: onChangedLeft)),
-            formHelper(
-                title: titleRight,
-                width: (MediaQuery.of(context).size.width / 2) - 50.w,
-                widget: PrsmDropdown(
-                    dropdownSize: DropdownSize.SIZE1,
-                    listValues: listValuesRight,
-                    enableShadow: false,
-                    enableBorder: true,
-                    value: valueRight,
-                    bgColor: isDark
-                        ? PrsmColorsDark.formFillColor
-                        : ThemeColors.coolgray200,
-                    onChanged: onChangedRight)),
+            if (onTapLeft != null)
+              formHelper(
+                  title: titleRight,
+                  width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                  widget: InkWell(
+                      onTap: onTapLeft,
+                      child: Container(
+                          height: 115.h,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          decoration: BoxDecoration(
+                              color: isDark
+                                  ? PrsmColorsDark.formFillColor
+                                  : ThemeColors.coolgray200,
+                              borderRadius: BorderRadius.circular(18.r)),
+                          width:
+                              (MediaQuery.of(context).size.width / 2) - 100.w,
+                          child: SizedText(
+                            width:
+                                (MediaQuery.of(context).size.width / 2) - 140.w,
+                            text: valueLeft,
+                            overflow: TextOverflow.ellipsis,
+                            textStyle: ThemeTextRegular.k14.copyWith(
+                                color: isDark
+                                    ? ThemeColors.white
+                                    : ThemeColors.coolgray800),
+                          ))))
+            else
+              formHelper(
+                  title: titleLeft,
+                  width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                  widget: PrsmDropdown(
+                      listValues: listValuesLeft,
+                      enableShadow: false,
+                      enableBorder: true,
+                      value: valueLeft,
+                      bgColor: isDark
+                          ? PrsmColorsDark.formFillColor
+                          : ThemeColors.coolgray200,
+                      onChanged: onChangedLeft)),
+            if (onTapRight != null)
+              formHelper(
+                  title: titleRight,
+                  width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                  widget: InkWell(
+                      onTap: onTapRight,
+                      child: Container(
+                          height: 115.h,
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 20.w),
+                          decoration: BoxDecoration(
+                              color: isDark
+                                  ? PrsmColorsDark.formFillColor
+                                  : ThemeColors.coolgray200,
+                              borderRadius: BorderRadius.circular(18.r)),
+                          width:
+                              (MediaQuery.of(context).size.width / 2) - 100.w,
+                          child: SizedText(
+                            width:
+                                (MediaQuery.of(context).size.width / 2) - 140.w,
+                            text: valueRight,
+                            overflow: TextOverflow.ellipsis,
+                            textStyle: ThemeTextRegular.k14.copyWith(
+                                color: isDark
+                                    ? ThemeColors.white
+                                    : ThemeColors.coolgray800),
+                          ))))
+            else
+              formHelper(
+                  title: titleRight,
+                  width: (MediaQuery.of(context).size.width / 2) - 50.w,
+                  widget: PrsmDropdown(
+                      dropdownSize: DropdownSize.SIZE1,
+                      listValues: listValuesRight,
+                      enableShadow: false,
+                      enableBorder: true,
+                      value: valueRight,
+                      bgColor: isDark
+                          ? PrsmColorsDark.formFillColor
+                          : ThemeColors.coolgray200,
+                      onChanged: onChangedRight)),
           ]),
     );
   }
@@ -327,7 +453,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   Widget _buildCircleHeadForm(
     BuildContext context,
   ) {
-    return SpacedColumn(verticalSpace: 10, children: [
+    return SpacedColumn(verticalSpace: 30, children: [
       formTopHelper(
           circleHeadTitle: S(context).wages,
           widget: SizedBox(
@@ -353,52 +479,115 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
                   enableShadow: false))),
       formTopHelper(
           circleHeadIcon: HeroIcons.clock,
-          widget: SpacedRow(horizontalSpace: 10, children: [
-            SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
-                height: 140.h,
-                child: PrsmInputField(
-                    onTap: () => showTimePickerPopup(context, true),
-                    hintText: S(context).startTime,
-                    enabled: false,
-                    controller:
-                        TextEditingController(text: createWorkStartTimeString),
-                    defaultBorderColor: ThemeColors.white,
-                    enableShadow: false)),
-            SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
-                height: 140.h,
-                child: PrsmInputField(
-                    onTap: () => showTimePickerPopup(context, false),
-                    hintText: S(context).endTime,
-                    enabled: false,
-                    controller:
-                        TextEditingController(text: createWorkFinishTimeString),
-                    defaultBorderColor: ThemeColors.white,
-                    enableShadow: false))
-          ])),
+          widget: SizedBox(
+              width: (MediaQuery.of(context).size.width - 270.w),
+              child: SpacedRow(
+                  horizontalSpace: 10,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: (MediaQuery.of(context).size.width - 250),
+                        height: 140.h,
+                        child: PrsmInputField(
+                            onTap: () => showTimePickerPopup(context, true),
+                            hintText: S(context).startTime,
+                            enabled: false,
+                            controller: TextEditingController(
+                                text: createWorkStartTimeString),
+                            defaultBorderColor: ThemeColors.white,
+                            enableShadow: false)),
+                    SizedBox(
+                        width: (MediaQuery.of(context).size.width - 250),
+                        height: 140.h,
+                        child: PrsmInputField(
+                            onTap: () => showTimePickerPopup(context, false),
+                            hintText: S(context).endTime,
+                            enabled: false,
+                            controller: TextEditingController(
+                                text: createWorkFinishTimeString),
+                            defaultBorderColor: ThemeColors.white,
+                            enableShadow: false))
+                  ]))),
       formTopHelper(
           circleHeadIcon: HeroIcons.calendar,
-          widget: SpacedRow(horizontalSpace: 10, children: [
-            SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
-                height: 140.h,
-                child: PrsmDropdown(
-                    enableBorder: true,
-                    onChanged: (value) => changeJobStartDayList(value),
-                    listValues: Constants.daysList,
-                    value: createJobStartDay,
-                    enableShadow: false)),
-            SizedBox(
-                width: (MediaQuery.of(context).size.width - 230),
-                height: 140.h,
-                child: PrsmDropdown(
-                    enableBorder: true,
-                    onChanged: (value) => changeJobFinishDayList(value),
-                    listValues: Constants.daysList,
-                    value: createJobFinishDay,
-                    enableShadow: false))
-          ]))
+          widget: SizedBox(
+              width: (MediaQuery.of(context).size.width - 270.w),
+              child: SpacedRow(
+                  horizontalSpace: 10,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox(
+                        width: (MediaQuery.of(context).size.width - 250),
+                        height: 140.h,
+                        child: PrsmDropdown(
+                            enableBorder: true,
+                            onChanged: (value) => changeJobStartDayList(value),
+                            listValues: Constants.daysList,
+                            value: createJobStartDay,
+                            enableShadow: false)),
+                    SizedBox(
+                        width: (MediaQuery.of(context).size.width - 250),
+                        height: 140.h,
+                        child: PrsmDropdown(
+                            enableBorder: true,
+                            onChanged: (value) => changeJobFinishDayList(value),
+                            listValues: Constants.daysList,
+                            value: createJobFinishDay,
+                            enableShadow: false))
+                  ])))
+    ]);
+  }
+
+  Widget _buildMoreInfoFormSec() {
+    return SpacedColumn(children: [
+      formHelper(
+          title: S(context).jobCategory,
+          widget: SpacedColumn(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (selectedJobCategories.isNotEmpty)
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: List.generate(
+                        selectedJobCategories.length,
+                        (index) => Chip(
+                              label: Text(selectedJobCategories[index]),
+                              onDeleted: () {
+                                setState(() {
+                                  selectedJobCategories.removeAt(index);
+                                });
+                              },
+                            )),
+                  ),
+                if (selectedJobCategories.isNotEmpty)
+                  const SizedBox(
+                    height: 10,
+                  ),
+                ElevatedButton(
+                  child: const Text('Add more Categories'),
+                  onPressed: () {
+                    openJobCategoriesPopup(
+                      context: context,
+                      onSaveCat: (value) {
+                        setState(() {
+                          selectedJobCategories = value;
+                        });
+                      },
+                      selectedJobCategories: selectedJobCategories,
+                    );
+                  },
+                ),
+              ])),
+      formHelper(
+          title: S(context).moreInfo,
+          widget: PrsmInputField(
+            controller: jobMoreInfoCntr,
+            maxLines: 5,
+            enableShadow: false,
+            validator: Validator(context).validateField,
+            defaultBorderColor: ThemeColors.coolgray300,
+          ))
     ]);
   }
 
@@ -457,10 +646,19 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
   }
 
   Future ceoCreateJob(BuildContext context) async {
+    setState(() {
+      isCreateJobLoading = true;
+    });
+    //TODO: Show loading when creating job
+    final userProfileData = appStore.state.userState.userProfileData;
+
     bool success = await appStore.dispatch(GetCreateJobReqAction(
+        imageFiles: imageFileList,
+        companyLogoImg: companyLogoFile,
         jobModelReq: JobModelReq(
           title: jobTitleCntr.text,
           companyName: jobCompanyNameCntr.text,
+          companyLogo: "",
           workStartTime: createWorkStartTimeString,
           workFinishTime: createWorkFinishTimeString,
           postedByUserId: appStore.state.userState.userData.userId,
@@ -470,18 +668,18 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
             city: createJobAddressCity,
             area: createJobAddressArea,
           ),
-          tags: [],
-          category: [],
           type: createJobType,
-          wageAmount: double.parse(jobWagesCntr.text),
-          timestamp: Timestamp.now(),
           status: "pending",
+          timestamp: Timestamp.now(),
+          category: selectedJobCategories,
+          tags: [],
+          wageAmount: double.parse(jobWagesCntr.text),
         ),
         jobDetailModelReq: JobDetailModelReq(
             phone: jobPhoneCntr.text,
-            images: [],
-            ownerName: "",
-            website: "",
+            ownerName:
+                "${userProfileData.firstName} ${userProfileData.lastName}",
+            website: jobWebsiteCntr.text,
             email: jobEmailCntr.text,
             description: jobDescriptionCntr.text,
             moreDetails: jobMoreInfoCntr.text,
@@ -498,6 +696,7 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
               workStartDay: createJobStartDay,
               workFinishDay: createJobFinishDay,
             ),
+            images: [],
             createdAt: DateTime.now())));
 
     if (success) {
@@ -505,15 +704,16 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
       // onReset();
       // wait for 1 second
       // Go to Home page
-      Future.delayed(Duration(milliseconds: 500), () {
+      isCreateJobLoading = false;
+      Future.delayed(const Duration(milliseconds: 500), () {
         if (mounted) {
           setState(() {
             jobIsCreate = true;
           });
           if (jobIsCreate) {
-            context.replaceRoute(GeneralWrapperRouter(
-                // children: [Home01Route()],
-                ));
+            // context.replaceRoute(GeneralWrapperRouter(
+            //   children: [Home01Route()],
+            // ));
           }
         }
       });
@@ -539,13 +739,13 @@ class _CeoJobCreatePageState extends State<CeoJobCreatePage> {
       createJobEducation = Constants.jobEducationList.first;
       createJobPersonnel = Constants.jobPersonnelList.first;
       createJobGender = "";
-      createJobDeadline = DateTime.now();
+      createJobDeadline = Timestamp.now();
       createJobType = Constants.jobTypeList.first;
       createJobPaymentType = Constants.jobPaymentTypeList.first;
       createJobPeriod = Constants.jobPeriodList.first;
       createJobStartDay = Constants.daysList.first;
       createJobFinishDay = Constants.daysList.last;
-      createJobAge = 0;
+      createJobAge = Constants.jobAgeList.last;
     });
   }
 

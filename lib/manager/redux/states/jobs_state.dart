@@ -1,9 +1,9 @@
-import 'package:hive/hive.dart';
 import 'package:mehonot_admin/manager/hive_client.dart';
+import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../../presentation/template/template.dart';
 import '../../../presentation/utils/constants.dart';
-import '../../models/Address/address_md.dart';
 import '../../models/Job/ReqModels/job_dtl_md_req.dart';
 import '../../models/Job/ReqModels/job_md_req.dart';
 import '../../models/Job/job_dtl_md.dart';
@@ -63,9 +63,9 @@ class JobsState {
         phone: '',
         ownerName: '',
         recruitCondition: RecruitConModel(
-          deadline: '',
+          deadline: Timestamp.now(),
           education: '',
-          age: 0,
+          age: '',
           personnel: "1",
           gender: '',
         ),
@@ -187,10 +187,14 @@ class GetJobDetailsAction {
 class GetCreateJobReqAction {
   final JobModelReq jobModelReq;
   final JobDetailModelReq jobDetailModelReq;
+  List<File>? imageFiles;
+  File? companyLogoImg;
 
   GetCreateJobReqAction({
     required this.jobModelReq,
     required this.jobDetailModelReq,
+    this.imageFiles,
+    this.companyLogoImg,
   });
 }
 
@@ -207,32 +211,33 @@ class GetCreateJobAction {
 class GetUpdateJobAction {
   final JobModel jobModel;
   final JobDetailModel jobDetailModel;
+  List<File>? imageFilesToAdd;
+  List<String>? imageUrlsToAdd;
+  List<String>? imageUrlsToDelete;
 
   GetUpdateJobAction({
     required this.jobModel,
     required this.jobDetailModel,
+    this.imageFilesToAdd,
+    this.imageUrlsToAdd,
+    this.imageUrlsToDelete,
   });
 }
 
 class GetDeleteJobAction {
-  final String jobId;
-  final String jobDetailsId;
-  final Division division;
-  final String jobStatus;
+  JobModel jobModel;
+  JobDetailModel jobDetailModel;
 
-  GetDeleteJobAction({
-    required this.jobId,
-    required this.jobDetailsId,
-    required this.division,
-    required this.jobStatus,
-  });
+  GetDeleteJobAction({required this.jobModel, required this.jobDetailModel});
 }
 
 class GetJobSearchAction {
   final String searchText;
+  final List<String> searchCategory;
 
   GetJobSearchAction({
     required this.searchText,
+    required this.searchCategory,
   });
 }
 

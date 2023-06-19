@@ -11,16 +11,18 @@ RecruitConModelReq _$RecruitConModelReqFromJson(Map json) => RecruitConModelReq(
       personnel: json['personnel'] as String?,
       deadline: json['deadline'] == null
           ? null
-          : DateTime.parse(json['deadline'] as String),
+          : const TimestampConverter().fromJson(json['deadline'] as Timestamp),
       gender: json['gender'] as String?,
-      age: json['age'] as int?,
+      age: json['age'] as String?,
     );
 
 Map<String, dynamic> _$RecruitConModelReqToJson(RecruitConModelReq instance) =>
     <String, dynamic>{
       'education': instance.education,
       'personnel': instance.personnel,
-      'deadline': instance.deadline?.toIso8601String(),
+      'deadline': instance.deadline == null
+          ? null
+          : const TimestampConverter().toJson(instance.deadline as Timestamp),
       'gender': instance.gender,
       'age': instance.age,
     };

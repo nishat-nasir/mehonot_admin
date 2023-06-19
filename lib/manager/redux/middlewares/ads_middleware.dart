@@ -382,7 +382,7 @@ Future<bool> _getUpdatedBannersAction(
     if (action.imageUrlsToDelete != null &&
         action.imageUrlsToDelete!.isNotEmpty) {
       for (int i = 0; i < action.imageUrlsToDelete!.length; i++) {
-        await fbDeleteJobImg(postImageId: action.imageUrlsToDelete![i]);
+        await fbDeleteJobImg(imageId: action.imageUrlsToDelete![i]);
       }
     }
 

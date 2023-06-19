@@ -2,16 +2,16 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_cropper/image_cropper.dart'; // Added import for image_cropper
-import 'package:mehonot_admin/presentation/widgets/photo_widgets/caousel_widget.dart';
+import 'package:mehonot_admin/presentation/widgets/photo_widgets/carousel_widget.dart';
 import '../../template/template.dart';
 
 class PrsmImageUpload extends StatefulWidget {
-  Function(List<File>, List<String>) onImageSelected;
-  Function(int) onRemoveNetworkImg;
+  final Function(List<File>, List<String>) onImageSelected;
+  final Function(int) onRemoveNetworkImg;
   final List<String> imageNetUrls;
-  int? maxImageCount;
+  final int? maxImageCount;
 
-  PrsmImageUpload(
+  const PrsmImageUpload(
       {Key? key,
       required this.onImageSelected,
       required this.onRemoveNetworkImg,
@@ -160,9 +160,9 @@ class _PrsmImageUploadState extends State<PrsmImageUpload> {
 }
 
 class PrsmCompanyLogoUpload extends StatefulWidget {
-  Function(File, String) onImageSelected;
+  final Function(File) onImageSelected;
 
-  PrsmCompanyLogoUpload({
+  const PrsmCompanyLogoUpload({
     Key? key,
     required this.onImageSelected,
   }) : super(key: key);
@@ -188,7 +188,7 @@ class _PrsmCompanyLogoUploadState extends State<PrsmCompanyLogoUpload> {
       }
     }
 
-    widget.onImageSelected(_image!, _image!.path.split('/').last);
+    widget.onImageSelected(_image!);
   }
 
   Future<CroppedFile?> _cropImage(File image) async {

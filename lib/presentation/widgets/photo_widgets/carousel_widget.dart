@@ -184,40 +184,26 @@ class _PrsmCarouselUploadImgWidgetState
     if (widget.imageFiles.isNotEmpty) {
       items.addAll(
         widget.imageFiles.map((e) => Center(
-              child: Stack(
-                alignment: Alignment.center,
-                children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(16.r),
-                      child: CachedNetworkImage(
-                          imageUrl: e.path,
-                          fit: BoxFit.fitWidth,
-                          height: widget.height.h,
-                          width: 1000.w,
-                          placeholder: (context, url) => ShimmerImgLoader(
-                                width: 1000.w,
-                                height: widget.height.h,
-                              ),
-                          errorWidget: (context, url, error) => Image.asset(
-                                'assets/images/png/error_img.png',
-                                fit: BoxFit.fitWidth,
-                                width: 1000.w,
-                              ))),
-                  Positioned(
+              child: Stack(alignment: Alignment.center, children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(16.r),
+                  child: Image.file(
+                    e,
+                    fit: BoxFit.fitWidth,
+                    height: widget.height.h,
+                    width: 1000.w,
+                  ),
+                ),
+                Positioned(
                     top: 1,
                     right: 0,
                     child: InkWell(
-                      onTap: () {
-                        widget.onRemoveImg!(widget.imageFiles.indexOf(e));
-                      },
-                      child: const HeroIcon(
-                        HeroIcons.xMark,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+                        onTap: () {
+                          widget.onRemoveImg!(widget.imageFiles.indexOf(e));
+                        },
+                        child: const HeroIcon(HeroIcons.xMark,
+                            color: Colors.white)))
+              ]),
             )),
       );
     }

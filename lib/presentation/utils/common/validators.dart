@@ -42,6 +42,18 @@ class Validator {
     return null;
   }
 
+  String? validateWebsite(String? value) {
+    const pattern = r'^(http(s)?:\/\/)?[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,}(\/\S*)?$';
+
+    RegExp regExp = RegExp(pattern);
+    if (value != null && value.trim().isEmpty) {
+      return null; // Return null if the value is empty or blank
+    } else if (value != null && !regExp.hasMatch(value)) {
+      return 'Invalid website link';
+    }
+    return null;
+  }
+
   String? validateField(String? value) {
     if (value != null && value.isEmpty) {
       return S(context).fieldCanNotEmpty;

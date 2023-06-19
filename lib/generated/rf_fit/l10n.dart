@@ -1030,6 +1030,16 @@ class AppIntl {
     );
   }
 
+  /// `Please check your internet connection and try again`
+  String get noInternetCheck {
+    return Intl.message(
+      'Please check your internet connection and try again',
+      name: 'noInternetCheck',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `No Data Found!`
   String get noData {
     return Intl.message(
@@ -1570,6 +1580,26 @@ class AppIntl {
     );
   }
 
+  /// `Got any idea to work on? \nPost it here and get the best candidates for your company.`
+  String get noJobPostsDescription {
+    return Intl.message(
+      'Got any idea to work on? \nPost it here and get the best candidates for your company.',
+      name: 'noJobPostsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No More Job Found`
+  String get noMoreJobFound {
+    return Intl.message(
+      'No More Job Found',
+      name: 'noMoreJobFound',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Old Password`
   String get oldPassword {
     return Intl.message(
@@ -1600,11 +1630,811 @@ class AppIntl {
     );
   }
 
+  /// `Dismiss`
+  String get dismiss {
+    return Intl.message(
+      'Dismiss',
+      name: 'dismiss',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Submit`
+  String get submit {
+    return Intl.message(
+      'Submit',
+      name: 'submit',
+      desc: '',
+      args: [],
+    );
+  }
+
   /// `Change ID`
   String get changeId {
     return Intl.message(
       'Change ID',
       name: 'changeId',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We are always looking for ways to improve our app. Please share your feedback with us.`
+  String get feedbackComment {
+    return Intl.message(
+      'We are always looking for ways to improve our app. Please share your feedback with us.',
+      name: 'feedbackComment',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter your feedback`
+  String get enterYourFeedback {
+    return Intl.message(
+      'Enter your feedback',
+      name: 'enterYourFeedback',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Your feedback is valuable to us. Please share your thoughts about our app.`
+  String get feedbackCommentHint {
+    return Intl.message(
+      'Your feedback is valuable to us. Please share your thoughts about our app.',
+      name: 'feedbackCommentHint',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Amazing`
+  String get amazing {
+    return Intl.message(
+      'Amazing',
+      name: 'amazing',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Excellent`
+  String get excellent {
+    return Intl.message(
+      'Excellent',
+      name: 'excellent',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Good`
+  String get good {
+    return Intl.message(
+      'Good',
+      name: 'good',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Okay`
+  String get okay {
+    return Intl.message(
+      'Okay',
+      name: 'okay',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Bad`
+  String get bad {
+    return Intl.message(
+      'Bad',
+      name: 'bad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Very Bad`
+  String get veryBad {
+    return Intl.message(
+      'Very Bad',
+      name: 'veryBad',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Terrible`
+  String get terrible {
+    return Intl.message(
+      'Terrible',
+      name: 'terrible',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thanks! 🫶 Feedback submitted successfully.\n We will try to improve our app.`
+  String get feedbackCommentSuccess {
+    return Intl.message(
+      'Thanks! 🫶 Feedback submitted successfully.\n We will try to improve our app.',
+      name: 'feedbackCommentSuccess',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to change your division?`
+  String get changeDivisionConfirmation {
+    return Intl.message(
+      'Are you sure to change your division?',
+      name: 'changeDivisionConfirmation',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `My Job Applications List`
+  String get myJobApplicationsList {
+    return Intl.message(
+      'My Job Applications List',
+      name: 'myJobApplicationsList',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Job Applications Found`
+  String get noJobApplications {
+    return Intl.message(
+      'No Job Applications Found',
+      name: 'noJobApplications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have not applied for any job yet. \nApply for a job and get hired.`
+  String get noJobApplicationsDescription {
+    return Intl.message(
+      'You have not applied for any job yet. \nApply for a job and get hired.',
+      name: 'noJobApplicationsDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply to Jobs`
+  String get applyToJobs {
+    return Intl.message(
+      'Apply to Jobs',
+      name: 'applyToJobs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply`
+  String get apply {
+    return Intl.message(
+      'Apply',
+      name: 'apply',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Applied`
+  String get applied {
+    return Intl.message(
+      'Applied',
+      name: 'applied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Already Applied`
+  String get alreadyApplied {
+    return Intl.message(
+      'Already Applied',
+      name: 'alreadyApplied',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have already applied for this job. \nPlease wait for the recruiter to contact you.`
+  String get alreadyAppliedDescription {
+    return Intl.message(
+      'You have already applied for this job. \nPlease wait for the recruiter to contact you.',
+      name: 'alreadyAppliedDescription',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Apply to Job`
+  String get applyToJob {
+    return Intl.message(
+      'Apply to Job',
+      name: 'applyToJob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to apply for this job?`
+  String get areYouSureToApplyJob {
+    return Intl.message(
+      'Are you sure to apply for this job?',
+      name: 'areYouSureToApplyJob',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Withdraw Application`
+  String get withdrawApplication {
+    return Intl.message(
+      'Withdraw Application',
+      name: 'withdrawApplication',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Success`
+  String get success {
+    return Intl.message(
+      'Success',
+      name: 'success',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile updated successfully`
+  String get profileUpdatedSuccessfully {
+    return Intl.message(
+      'Profile updated successfully',
+      name: 'profileUpdatedSuccessfully',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Error`
+  String get error {
+    return Intl.message(
+      'Error',
+      name: 'error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Something went wrong`
+  String get somethingWentWrong {
+    return Intl.message(
+      'Something went wrong',
+      name: 'somethingWentWrong',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Profile update failed`
+  String get profileUpdateFailed {
+    return Intl.message(
+      'Profile update failed',
+      name: 'profileUpdateFailed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Save Profile`
+  String get saveProfile {
+    return Intl.message(
+      'Save Profile',
+      name: 'saveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to save profile?`
+  String get areYouSureToSaveProfile {
+    return Intl.message(
+      'Are you sure to save profile?',
+      name: 'areYouSureToSaveProfile',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search Jobs`
+  String get searchJobs {
+    return Intl.message(
+      'Search Jobs',
+      name: 'searchJobs',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App will restart again`
+  String get appWillRestartAgain {
+    return Intl.message(
+      'App will restart again',
+      name: 'appWillRestartAgain',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `App is resetting`
+  String get appIsResetting {
+    return Intl.message(
+      'App is resetting',
+      name: 'appIsResetting',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dhaka`
+  String get divDhk {
+    return Intl.message(
+      'Dhaka',
+      name: 'divDhk',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Chittagong`
+  String get divCtg {
+    return Intl.message(
+      'Chittagong',
+      name: 'divCtg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Khulna`
+  String get divKhl {
+    return Intl.message(
+      'Khulna',
+      name: 'divKhl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rajshahi`
+  String get divRaj {
+    return Intl.message(
+      'Rajshahi',
+      name: 'divRaj',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Barisal`
+  String get divBar {
+    return Intl.message(
+      'Barisal',
+      name: 'divBar',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sylhet`
+  String get divSyl {
+    return Intl.message(
+      'Sylhet',
+      name: 'divSyl',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Rangpur`
+  String get divRng {
+    return Intl.message(
+      'Rangpur',
+      name: 'divRng',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mymensingh`
+  String get divMym {
+    return Intl.message(
+      'Mymensingh',
+      name: 'divMym',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Part Time`
+  String get partTimeStr {
+    return Intl.message(
+      'Part Time',
+      name: 'partTimeStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Full Time`
+  String get fullTimeStr {
+    return Intl.message(
+      'Full Time',
+      name: 'fullTimeStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Contractual`
+  String get contractualStr {
+    return Intl.message(
+      'Contractual',
+      name: 'contractualStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `One Day Job`
+  String get oneDayJobStr {
+    return Intl.message(
+      'One Day Job',
+      name: 'oneDayJobStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Internship`
+  String get internshipStr {
+    return Intl.message(
+      'Internship',
+      name: 'internshipStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Volunteer`
+  String get volunteerStr {
+    return Intl.message(
+      'Volunteer',
+      name: 'volunteerStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Remote`
+  String get remoteStr {
+    return Intl.message(
+      'Remote',
+      name: 'remoteStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Website`
+  String get website {
+    return Intl.message(
+      'Website',
+      name: 'website',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Change Email`
+  String get changeEmail {
+    return Intl.message(
+      'Change Email',
+      name: 'changeEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Current Email`
+  String get currentEmail {
+    return Intl.message(
+      'Current Email',
+      name: 'currentEmail',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Company Logo`
+  String get companyLogo {
+    return Intl.message(
+      'Company Logo',
+      name: 'companyLogo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Company`
+  String get company {
+    return Intl.message(
+      'Company',
+      name: 'company',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you sure to delete this job?`
+  String get deleteJobConfirm {
+    return Intl.message(
+      'Are you sure to delete this job?',
+      name: 'deleteJobConfirm',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can't change company name`
+  String get canNotChangeComName {
+    return Intl.message(
+      'You can\'t change company name',
+      name: 'canNotChangeComName',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You can't change the Company name\nor Logo after posting the job.`
+  String get canNotChangeComNameOrLogo {
+    return Intl.message(
+      'You can\'t change the Company name\nor Logo after posting the job.',
+      name: 'canNotChangeComNameOrLogo',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Hourly`
+  String get hourlyStr {
+    return Intl.message(
+      'Hourly',
+      name: 'hourlyStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Daily`
+  String get dailyStr {
+    return Intl.message(
+      'Daily',
+      name: 'dailyStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Weekly`
+  String get weeklyStr {
+    return Intl.message(
+      'Weekly',
+      name: 'weeklyStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Monthly`
+  String get monthlyStr {
+    return Intl.message(
+      'Monthly',
+      name: 'monthlyStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yearly`
+  String get yearlyStr {
+    return Intl.message(
+      'Yearly',
+      name: 'yearlyStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Yesterday`
+  String get yesterdayStr {
+    return Intl.message(
+      'Yesterday',
+      name: 'yesterdayStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `days ago`
+  String get daysAgoStr {
+    return Intl.message(
+      'days ago',
+      name: 'daysAgoStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Today`
+  String get todayStr {
+    return Intl.message(
+      'Today',
+      name: 'todayStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Deadline has passed`
+  String get deadlineHasPassed {
+    return Intl.message(
+      'Deadline has passed',
+      name: 'deadlineHasPassed',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `month(s) left`
+  String get monthLeft {
+    return Intl.message(
+      'month(s) left',
+      name: 'monthLeft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `day(s) left`
+  String get dayLeft {
+    return Intl.message(
+      'day(s) left',
+      name: 'dayLeft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `week(s) left`
+  String get weekLeft {
+    return Intl.message(
+      'week(s) left',
+      name: 'weekLeft',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Male`
+  String get male {
+    return Intl.message(
+      'Male',
+      name: 'male',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Female`
+  String get female {
+    return Intl.message(
+      'Female',
+      name: 'female',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Refresh`
+  String get refresh {
+    return Intl.message(
+      'Refresh',
+      name: 'refresh',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sat`
+  String get satStr {
+    return Intl.message(
+      'Sat',
+      name: 'satStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sun`
+  String get sunStr {
+    return Intl.message(
+      'Sun',
+      name: 'sunStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Mon`
+  String get monStr {
+    return Intl.message(
+      'Mon',
+      name: 'monStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Tue`
+  String get tueStr {
+    return Intl.message(
+      'Tue',
+      name: 'tueStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Wed`
+  String get wedStr {
+    return Intl.message(
+      'Wed',
+      name: 'wedStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Thu`
+  String get thuStr {
+    return Intl.message(
+      'Thu',
+      name: 'thuStr',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Fri`
+  String get friStr {
+    return Intl.message(
+      'Fri',
+      name: 'friStr',
       desc: '',
       args: [],
     );

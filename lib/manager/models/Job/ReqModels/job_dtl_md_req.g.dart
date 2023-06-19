@@ -35,9 +35,9 @@ Map<String, dynamic> _$JobDetailModelReqToJson(JobDetailModelReq instance) =>
       'email': instance.email,
       'phone': instance.phone,
       'website': instance.website,
-      'images': instance.images,
       'recruitCondition': instance.recruitCondition,
       'workCondition': instance.workCondition,
       'moreDetails': instance.moreDetails,
       'appliedBy': instance.appliedBy,
+      'images': instance.images,
     };

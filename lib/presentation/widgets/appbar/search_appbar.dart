@@ -1,5 +1,3 @@
-import 'package:auto_route/auto_route.dart';
-
 import '../../template/template.dart';
 
 class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -10,6 +8,7 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   final VoidCallback? onRightIconPress;
   final VoidCallback? onLeftIconPress;
   final TextEditingController? searchController;
+  final Function(String)? onSearch;
 
   const PrsmSearchAppBar({
     Key? key,
@@ -20,13 +19,12 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.onRightIconPress,
     this.onLeftIconPress,
     this.searchController,
+    this.onSearch,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme
-        .of(context)
-        .brightness == Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return Container(
         height: ThemeSizeStyle.appBarHeight.h,
         decoration: BoxDecoration(
@@ -41,7 +39,7 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
                         ? PrsmColorsDark.appBarColor
                         : ThemeColors.coolgray300))),
         padding:
-        EdgeInsets.symmetric(horizontal: 15.w, vertical: paddingTop ?? 3.h),
+            EdgeInsets.symmetric(horizontal: 15.w, vertical: paddingTop ?? 3.h),
         child: SafeArea(
             right: false,
             left: false,
@@ -50,27 +48,23 @@ class PrsmSearchAppBar extends StatelessWidget implements PreferredSizeWidget {
   }
 
   Widget _getActions(BuildContext context) {
-    bool isDark = Theme
-        .of(context)
-        .brightness == Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
     return SpacedRow(
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const SizedBox(),
           SizedBox(
-              width: MediaQuery
-                  .of(context)
-                  .size
-                  .width - 300.w,
+              width: MediaQuery.of(context).size.width - 300.w,
               height: 100.h,
               child: PrsmInputField(
                 enableShadow: false,
                 controller: searchController,
+                onFieldSubmitted: onSearch,
                 fillColor:
-                isDark ? PrsmColorsDark.formFillColor : ThemeColors.gray50,
+                    isDark ? PrsmColorsDark.formFillColor : ThemeColors.gray50,
                 defaultBorderColor:
-                isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray300,
+                    isDark ? ThemeColors.coolgray500 : ThemeColors.coolgray300,
               )),
           IconButton(
               onPressed: onRightIconPress,

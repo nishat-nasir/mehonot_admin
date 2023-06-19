@@ -2,9 +2,9 @@ import 'package:flutter/services.dart';
 import '../../template/template.dart';
 
 class PrsmInputField extends StatefulWidget {
-  Color? defaultBorderColor;
-  HeroIcons? rightIcon;
-  HeroIcons? leftIcon;
+  final Color? defaultBorderColor;
+  final HeroIcons? rightIcon;
+  final HeroIcons? leftIcon;
   String? hintText;
   final TextEditingController? controller;
   double? width;
@@ -23,7 +23,7 @@ class PrsmInputField extends StatefulWidget {
   final Color? fillColor;
   final bool? enableShadow;
   final List<TextInputFormatter>? formatter;
-  final ValueChanged<String>? onSubmit;
+  final void Function(String)? onFieldSubmitted;
 
   PrsmInputField({
     Key? key,
@@ -48,7 +48,7 @@ class PrsmInputField extends StatefulWidget {
     this.fillColor,
     this.enableShadow = true,
     this.formatter,
-    this.onSubmit,
+    this.onFieldSubmitted,
   }) : super(key: key) {
     hintText ??= 'Enter your text';
     width ??= 300;
@@ -64,15 +64,12 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
 
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme
-        .of(context)
-        .brightness == Brightness.dark;
+    bool isDark = Theme.of(context).brightness == Brightness.dark;
 
-    Color fillColor = isDark ? PrsmColorsDark.formFillColor : ThemeColors
-        .white;
+    Color fillColor = isDark ? PrsmColorsDark.formFillColor : ThemeColors.white;
 
     Color borderColor =
-    isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white;
+        isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white;
     Color textColor = isDark ? ThemeColors.gray100 : ThemeColors.gray400;
 
     BorderRadius borderRadius = BorderRadius.circular(18.r);
@@ -83,18 +80,18 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
       child: Container(
         decoration: !isDark
             ? widget.enableShadow!
-            ? BoxDecoration(
-          border:
-          Border.all(width: 1, color: ThemeColors.coolgray100),
-          boxShadow: ThemeShadows.shadowSm,
-          borderRadius: borderRadius,
-        )
-            : null
+                ? BoxDecoration(
+                    border:
+                        Border.all(width: 1, color: ThemeColors.coolgray100),
+                    boxShadow: ThemeShadows.shadowSm,
+                    borderRadius: borderRadius,
+                  )
+                : null
             : null,
         child: TextFormField(
-          onFieldSubmitted: widget.onSubmit,
           autovalidateMode: widget.autoValidateMode,
           validator: widget.validator,
+          onFieldSubmitted: widget.onFieldSubmitted,
           onChanged: widget.onChange,
           obscureText: widget.isPassword ? _obscureText : false,
           onTap: widget.onTap,
@@ -109,15 +106,15 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
           style: widget.disableAll
               ? ThemeTextRegular.k14.copyWith(color: ThemeColors.gray700)
               : ThemeTextRegular.k14.copyWith(
-              color: isDark
-                  ? PrsmColorsDark.textColor
-                  : PrsmColorsLight.textColor),
+                  color: isDark
+                      ? PrsmColorsDark.textColor
+                      : PrsmColorsLight.textColor),
           decoration: InputDecoration(
             errorMaxLines: 2,
             fillColor: widget.fillColor ?? fillColor,
             filled: widget.disableAll ? false : true,
             contentPadding:
-            EdgeInsets.symmetric(horizontal: 24.w, vertical: 5.h),
+                EdgeInsets.symmetric(horizontal: 24.w, vertical: 5.h),
             enabledBorder: OutlineInputBorder(
                 borderRadius: borderRadius,
                 borderSide: BorderSide(
@@ -135,8 +132,8 @@ class _PrsmInputFieldState extends State<PrsmInputField> {
                     color: widget.disableAll
                         ? ThemeColors.gray800
                         : isDark
-                        ? ThemeColors.coolgray500
-                        : ThemeColors.coolgray300)),
+                            ? ThemeColors.coolgray500
+                            : ThemeColors.coolgray300)),
             // border: OutlineInputBorder(borderRadius: BorderRadius.circular(5.r)),
             suffixIcon: _getRightIcon(),
             prefixIcon: _getLeftIcon(),

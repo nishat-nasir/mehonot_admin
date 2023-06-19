@@ -1,6 +1,6 @@
 import '../../../presentation/template/template.dart';
-import '../../../presentation/utils/constants.dart';
 import '../../models/Job/job_md.dart';
+import '../../models/Job/job_dtl_md.dart';
 
 @immutable
 class AccountState {
@@ -79,15 +79,12 @@ class GetRemoveJobApplicationAction {
 }
 
 class GetRemoveFromMyJobsIdsAction {
-  String jobId;
-  String jobDetailsId;
-  Division division;
-  String status;
+  JobModel jobModel;
+  JobDetailModel jobDetailModel;
+  bool? removingFromMyJobs;
 
-  GetRemoveFromMyJobsIdsAction({
-    required this.jobId,
-    required this.jobDetailsId,
-    required this.division,
-    required this.status,
-  });
+  GetRemoveFromMyJobsIdsAction(
+      {required this.jobModel,
+      required this.jobDetailModel,
+      this.removingFromMyJobs = true});
 }

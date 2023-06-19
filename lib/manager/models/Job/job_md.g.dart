@@ -12,6 +12,9 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       title: json['title'] as String,
       companyName: json['companyName'] as String,
       companyLogo: json['companyLogo'] as String?,
+      category:
+          (json['category'] as List<dynamic>).map((e) => e as String).toList(),
+      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       address: AddressModel.fromJson(json['address'] as Map),
       type: json['type'] as String,
       workStartTime: json['workStartTime'] as String,
@@ -19,9 +22,6 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       postedByUserId: json['postedByUserId'] as String,
       status: json['status'] as String,
       wageAmount: (json['wageAmount'] as num).toDouble(),
-      category:
-          (json['category'] as List<dynamic>).map((e) => e as String).toList(),
-      tags: (json['tags'] as List<dynamic>).map((e) => e as String).toList(),
       timestamp: const TimestampConverter().fromJson(json['timestamp']),
     );
 

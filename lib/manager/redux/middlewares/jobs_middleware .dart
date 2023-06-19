@@ -1,14 +1,18 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mehonot_admin/manager/models/Address/address_md.dart';
 import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart';
 import 'package:mehonot_admin/manager/models/Job/recruit_con_md.dart';
 
 import '../../../presentation/template/template.dart';
+import '../../../presentation/utils/common/helper_function.dart';
 import '../../../presentation/utils/constants.dart';
 import '../../firebase/firebase_kit.dart';
 import '../../models/Job/job_md.dart';
 import '../../models/Job/work_con_md.dart';
 import '../states/account_state.dart';
+import '../states/ads_state.dart';
 import '../states/jobs_state.dart';
 import 'package:uuid/uuid.dart';
 
@@ -66,7 +70,7 @@ Future<Division> _getLocationAction(
 Future<bool> _getJobsAction(
     AppState state, GetJobsAction action, NextDispatcher next) async {
   try {
-    logger("GetJobsAction -- Called");
+    logger("GetJobsAction -- Called -- ${action.division.name}");
     List<JobModel> allJobs = [];
 
     CollectionReference jobFromDivision =
@@ -96,27 +100,31 @@ Future<bool> _getJobsAction(
     jobSnapshot.docs.map((e) {
       logger(e.data(), hint: 'GetJobsAction MAP DATA');
       JobModel job = JobModel(
-        jobId: e["jobId"],
-        jobDetailsId: e["jobDetailsId"],
-        title: e["title"],
-        address: AddressModel(
-          division: e["address"]["division"],
-          district: e["address"]["district"],
-          area: e["address"]["area"],
-          city: e["address"]["city"],
-        ),
-        companyName: e["companyName"],
-        tags: e["tags"],
-        category: e["category"],
-        companyLogo: e["companyLogo"],
-        type: e["type"],
-        workFinishTime: e["workFinishTime"],
-        workStartTime: e["workStartTime"],
-        postedByUserId: e["postedByUserId"],
-        status: e["status"],
-        timestamp: e["timestamp"],
-        wageAmount: e["wageAmount"],
-      );
+          jobId: e["jobId"],
+          jobDetailsId: e["jobDetailsId"],
+          title: e["title"],
+          address: AddressModel(
+            division: e["address"]["division"],
+            district: e["address"]["district"],
+            area: e["address"]["area"],
+            city: e["address"]["city"],
+          ),
+          companyName: e["companyName"],
+          // Convert from List<dynamic> to List<String>, also check null or empty
+          tags: e["tags"] != null && e["tags"].isNotEmpty
+              ? e["tags"].cast<String>()
+              : [],
+          category: e["category"] != null && e["category"].isNotEmpty
+              ? e["category"].cast<String>()
+              : [],
+          companyLogo: e["companyLogo"] ?? '',
+          type: e["type"],
+          workFinishTime: e["workFinishTime"],
+          workStartTime: e["workStartTime"],
+          postedByUserId: e["postedByUserId"],
+          status: e["status"],
+          timestamp: e["timestamp"],
+          wageAmount: double.parse(e["wageAmount"].toString()));
       allJobs.add(job);
     }).toList();
 
@@ -177,6 +185,8 @@ Future<bool> _getJobsAction(
       currentLocationJobsList: allJobs,
     ));
 
+    // TODO:
+    // HomeController.to.updateJobsOfCurrentLoc(allJobs);
     return true;
   } catch (e) {
     logger(e.toString(), hint: 'GetJobsAction CATCH ERROR');
@@ -191,11 +201,24 @@ Future<JobModel?> _getJobDataByIdAction(
     // Fetch Job Data by action.jobDivision and action.jobId
 
     JobModel? jobModel;
+    CollectionReference jobFromCollection;
 
-    CollectionReference jobFromDivision =
-        getDivisionCollection(action.jobDivision);
+    bool availableInRequested = false;
 
-    await jobFromDivision.doc(action.jobId).get().then((value) {
+    for (int i = 0; i < state.jobsState.allRequestedJobs.length; i++) {
+      if (state.jobsState.allRequestedJobs[i].jobId == action.jobId) {
+        availableInRequested = true;
+        break;
+      }
+    }
+
+    if (availableInRequested) {
+      jobFromCollection = FirebaseKit().requestedJobsCollection;
+    } else {
+      jobFromCollection = getDivisionCollection(action.jobDivision);
+    }
+
+    await jobFromCollection.doc(action.jobId).get().then((value) {
       logger(value.data(), hint: 'GetJobDataByIdAction MAP DATA');
       jobModel = JobModel(
         jobId: value["jobId"],
@@ -208,9 +231,16 @@ Future<JobModel?> _getJobDataByIdAction(
           city: value["address"]["city"],
         ),
         companyName: value["companyName"],
-        tags: value["tags"],
-        category: value["category"],
-        companyLogo: value["companyLogo"],
+        // Convert from List<dynamic> to List<String>, also check null or empty
+        tags: value["tags"] != null
+            ? value["tags"].cast<String>().toList()
+            : <String>[],
+        // Convert from List<dynamic> to List<String>, also check null or empty
+        category: value["category"] != null
+            ? value["category"].cast<String>().toList()
+            : <String>[],
+
+        companyLogo: value["companyLogo"] ?? '',
         type: value["type"],
         workFinishTime: value["workFinishTime"],
         workStartTime: value["workStartTime"],
@@ -224,13 +254,14 @@ Future<JobModel?> _getJobDataByIdAction(
     return jobModel;
   } catch (e) {
     logger(e.toString(), hint: 'GetJobDataByIdAction CATCH ERROR');
+    logger(action.jobId, hint: 'GetJobDataByIdAction_error_id');
     return null;
   }
 }
 
 // ------------------------------------------------------------------------------
 
-Future<bool> _getJobDetailsAction(
+Future<JobDetailModel?> _getJobDetailsAction(
     AppState state, GetJobDetailsAction action, NextDispatcher next) async {
   try {
     logger("GetJobDetailsAction -- Called");
@@ -251,12 +282,14 @@ Future<bool> _getJobDetailsAction(
         jobId: value["jobId"],
         phone: value["phone"],
         jobDetailsId: value["jobDetailsId"],
-        images: value["images"] != null && value["images"].isNotEmpty
-            ? List<String>.from(
-                value["images"].map((value) => value.toString()))
+        images: value["images"] != null
+            ? List<String>.from(value["images"].map((e) => e.toString()))
             : [],
         description: value["description"],
         email: value["email"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
+            : [],
         website: value["website"],
         workCondition: WorkConModel(
           period: value["workCondition"]["period"],
@@ -273,19 +306,16 @@ Future<bool> _getJobDetailsAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
-        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
-            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
-            : [],
       );
     });
 
     appStore.dispatch(UpdateJobsStateAction(
       selectedJobDetailModel: jobDetailModel,
     ));
-    return true;
+    return jobDetailModel;
   } catch (e) {
     logger(e.toString(), hint: 'GetJobDetailsAction CATCH ERROR');
-    return false;
+    return null;
   }
 }
 
@@ -313,8 +343,12 @@ Future<bool> _getReqJobsAction(
             city: e["address"]["city"],
           ),
           companyName: e["companyName"],
-          category: e["category"],
-          tags: e["tags"],
+          category: e["category"] != null && e["category"].isNotEmpty
+              ? List<String>.from(e["category"])
+              : [],
+          tags: e["tags"] != null && e["tags"].isNotEmpty
+              ? List<String>.from(e["tags"])
+              : [],
           companyLogo: e["companyLogo"],
           type: e["type"],
           workFinishTime: e["workFinishTime"],
@@ -344,22 +378,83 @@ Future<bool> _getCreateJobReqAction(
     AppState state, GetCreateJobReqAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobReqAction -- Called");
-    // Show loading
-    String jobUid = generateJobUuid(
-      division: action.jobModelReq.address.division,
-    );
-    String jobDetailsUid =
+
+    final jobUid =
+        generateJobUuidForReq(division: action.jobModelReq.address.division);
+    final jobDetailsUid =
         generateJobDetailsUuid(division: action.jobModelReq.address.division);
 
-    ////TODO: FOR Images
-    // String? downUrl;
-    // if (action.jobModelReqRes.images != null) {
-    //   downUrl = await appStore.dispatch(GetImageDownloadLinkAction(
-    //     action.jobModelReqRes.images!,
-    //     postId: _jobUid,
-    //     postType: _jobPostUid,
-    //   ));
-    // }
+    final imageUrls = <String>[];
+
+    if (action.imageFiles != null && action.imageFiles!.isNotEmpty) {
+      List<File?> imageToUpload = [];
+
+      for (int i = 0; i < action.imageFiles!.length; i++) {
+        imageToUpload.add(await compressImageFunc(action.imageFiles![i]));
+      }
+
+      for (int i = 0; i < imageToUpload.length; i++) {
+        final jobImgId =
+            generateJobImageName(division: action.jobModelReq.address.division);
+
+        logger('Image Files_count: ${imageToUpload.length}');
+        logger(jobImgId);
+
+        String? imgLink = await fbUploadJobImgAndGetLink(
+          imageFile: imageToUpload[i]!,
+          postImageId: jobImgId,
+        );
+        if (imgLink != null) {
+          imageUrls.add(imgLink);
+          logger('Image Upload Success $imgLink');
+        } else {
+          logger('Image Upload Failed');
+        }
+      }
+    }
+
+    String companyLogoUrl = "";
+    logger('Image Upload ---------111Logo ${action.companyLogoImg.toString()}');
+
+    if (action.companyLogoImg != null) {
+      // File? imageToUpload = await compressImageFunc(action.companyLogoImg!);
+      // logger('Image Upload ---------Logo${imageToUpload.toString()}');
+
+      if (action.companyLogoImg != null) {
+        final companyLogoLink = generateCompanyLogImageName(
+            companyName: action.jobModelReq.companyName,
+            division: action.jobModelReq.address.division);
+        logger(companyLogoLink, hint: 'companyLogoLink');
+
+        String? imgLink = await fbUploadCompanyLogoAndGetLink(
+          imageFile: action.companyLogoImg!,
+          postImageId: companyLogoLink,
+        );
+
+        if (imgLink != null) {
+          companyLogoUrl = imgLink;
+          logger('Image Upload Logo Success $imgLink');
+        } else {
+          logger('Image Upload Logo Failed');
+        }
+      }
+    }
+
+    logger('Image Upload Success--- $companyLogoUrl');
+
+    //Create tags
+    String text = action.jobModelReq.title;
+    List<String> tags = [];
+
+    String cleanedText = text.replaceAll(RegExp(r'[^\w\s]'), '').toLowerCase();
+
+    List<String> words = cleanedText.split(' ');
+
+    for (String word in words) {
+      if (word.length > 3) {
+        tags.add(word);
+      }
+    }
 
     CollectionReference requestedJobsCollection =
         FirebaseKit().requestedJobsCollection;
@@ -370,15 +465,17 @@ Future<bool> _getCreateJobReqAction(
       "postedByUserId": action.jobModelReq.postedByUserId,
       "title": action.jobModelReq.title,
       "companyName": action.jobModelReq.companyName,
-      'tags': action.jobModelReq.tags,
-      "category": action.jobModelReq.category,
-      "companyLogo": action.jobModelReq.companyLogo,
+      "companyLogo": companyLogoUrl,
       "address": action.jobModelReq.address.toJson(),
       "type": action.jobModelReq.type,
       "workStartTime": action.jobModelReq.workStartTime,
       "workFinishTime": action.jobModelReq.workFinishTime,
-      "status": action.jobModelReq.status,
+      "status": "pending",
+      "timestamp": action.jobModelReq.timestamp,
       "wageAmount": action.jobModelReq.wageAmount,
+      "category":
+          action.jobModelReq.category.map((e) => e.toLowerCase()).toList(),
+      "tags": tags,
     });
     logger('Job Created');
 
@@ -389,8 +486,7 @@ Future<bool> _getCreateJobReqAction(
         .set({
       "jobId": jobUid,
       "jobDetailsId": jobDetailsUid,
-      "images": action.jobDetailModelReq.images,
-      "createdAt": action.jobDetailModelReq.createdAt,
+      "images": imageUrls.isEmpty ? null : imageUrls,
       "description": action.jobDetailModelReq.description,
       "email": action.jobDetailModelReq.email,
       "ownerName": action.jobDetailModelReq.ownerName,
@@ -399,15 +495,15 @@ Future<bool> _getCreateJobReqAction(
       "website": action.jobDetailModelReq.website,
       "workCondition": action.jobDetailModelReq.workCondition!.toJson(),
       "moreDetails": action.jobDetailModelReq.moreDetails,
-      "appliedBy": action.jobDetailModelReq.appliedBy
+      "appliedBy": action.jobDetailModelReq.appliedBy,
     });
     // Update "myJobsIds" in user profile
     await appStore.dispatch(GetAddToMyJobsIdsAction(
       jobId: jobUid,
     ));
-    //TODO: ADD JOB STATUS
-    // await appStore.dispatch(GetUpdateUserAction(postId: _postUid));
-    // closeLoading();
+
+    next(appStore.dispatch(GetReqJobsAction()));
+
     return true;
   } catch (e) {
     // closeLoading();
@@ -436,7 +532,9 @@ Future<bool> _getAcceptReqJobAction(
         jobId: value["jobId"],
         phone: value["phone"],
         jobDetailsId: value["jobDetailsId"],
-        images: value["images"],
+        images: value["images"] != null && value["images"].isNotEmpty
+            ? List<String>.from(value["images"])
+            : [],
         description: value["description"],
         email: value["email"],
         website: value["website"],
@@ -455,7 +553,9 @@ Future<bool> _getAcceptReqJobAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
-        appliedBy: value["appliedBy"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(value["appliedBy"])
+            : [],
       );
     });
 
@@ -504,9 +604,14 @@ Future<bool> _getReqJobDetailsAction(
         jobId: value["jobId"],
         phone: value["phone"],
         jobDetailsId: value["jobDetailsId"],
-        images: value["images"],
+        images: value["images"] != null
+            ? List<String>.from(value["images"].map((e) => e.toString()))
+            : [],
         description: value["description"],
         email: value["email"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
+            : [],
         website: value["website"],
         workCondition: WorkConModel(
           period: value["workCondition"]["period"],
@@ -523,9 +628,6 @@ Future<bool> _getReqJobDetailsAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
-        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
-            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
-            : [],
       );
     });
 
@@ -661,30 +763,84 @@ _getUpdateJobAction(
 Future<bool> _getDeleteJobAction(
     AppState state, GetDeleteJobAction action, NextDispatcher next) async {
   try {
-    String jobId = action.jobId;
+    logger("GetDeleteJobAction -- Called");
+    // =====================================
+    //  Check job pending/published
+    //  Get from job req collection if pending
+    //  Get from division collection if published
+    //  Delete job details
+    //  Delete job
+    //  Delete job images
+    //  Delete job logo
+    //  My job ids from profile
+    //  Also check from applied jobs && Saved jobs from profile
+    //  , if job can not be found with that id
+    //  , delete from profile list
+    //  , if found in ads list delete from ads list
+    // =====================================
 
-    CollectionReference jobFromDivisionCollection =
-        getDivisionCollection(action.division);
+    CollectionReference jobFromCollection;
 
-    await jobFromDivisionCollection
-        .doc(jobId)
+    JobModel job = action.jobModel;
+    JobDetailModel jobDtl = action.jobDetailModel;
+    Division curDiv = convertStringToDivision(action.jobModel.address.division);
+
+    if (job.status == "pending") {
+      jobFromCollection = FirebaseKit().requestedJobsCollection;
+    } else {
+      jobFromCollection = getDivisionCollection(curDiv);
+    }
+
+    //delete job details
+    await jobFromCollection
+        .doc(job.jobId)
         .collection(jobDetailsFbDb)
-        .doc(action.jobDetailsId)
+        .doc(job.jobDetailsId)
         .delete()
         .then((value) async {
-      await jobFromDivisionCollection.doc(jobId).delete().then((value) async {
-        // remove job from state.jobsState.currentLocationJobsList
+      //    delete job
+      await jobFromCollection.doc(job.jobId).delete().then((value) async {
+        //delete images
+        if (jobDtl.images.isNotEmpty) {
+          for (int i = 0; i < jobDtl.images.length; i++) {
+            await fbDeleteJobImg(imageId: jobDtl.images[i]);
+          }
+        }
+
+        //delete logo
+        if (job.companyLogo != null && job.companyLogo!.isNotEmpty) {
+          await fbDeleteCompanyLogo(logoId: job.companyLogo!);
+        }
+
+        // deleting from my jobs list
+        await appStore.dispatch(GetRemoveFromMyJobsIdsAction(
+            jobModel: job, removingFromMyJobs: false, jobDetailModel: jobDtl));
+
+        //delete if contains in job ads list
+        await appStore.dispatch(GetRemoveJobAdsAction(
+          jobId: job.jobId,
+          division: curDiv,
+        ));
+
+        //return if pending
+        if (job.status == "pending") {
+          return true;
+        }
+
+        // =====================================
+        //  Updating states of the app
+        // =====================================
         List<JobModel> currentLocationJobsList =
             state.jobsState.currentLocationJobsList;
 
         currentLocationJobsList
-            .removeWhere((element) => element.jobId == jobId);
+            .removeWhere((element) => element.jobId == job.jobId);
 
         appStore.dispatch(UpdateJobsStateAction(
           currentLocationJobsList: currentLocationJobsList,
         ));
 
-        switch (action.division) {
+        switch (curDiv) {
           case Division.Dhaka:
             appStore.dispatch(UpdateJobsStateAction(
               dhakaJobs: currentLocationJobsList,
@@ -745,26 +901,51 @@ Future<bool> _getJobSearchAction(
         getDivisionCollection(state.jobsState.currentDivision);
 
     List<JobModel> searchResult = [];
+    List<String> tags = [];
+    if (action.searchText.isNotEmpty) {
+      tags.add(action.searchText);
+    }
+    logger(action.searchCategory, hint: "action.searchCategory");
+    logger(tags, hint: "tags");
+    List<String> category =
+        action.searchCategory.map((e) => e.toLowerCase()).toList();
 
-    await jobFromDivisionCollection
-        .where("title", isGreaterThanOrEqualTo: action.searchText.toLowerCase())
-        .where("title", isGreaterThanOrEqualTo: action.searchText.toUpperCase())
-        .get()
-        .then((value) {
-      for (var element in value.docs) {
-        searchResult
-            .add(JobModel.fromJson(element.data() as Map<String, dynamic>));
+    if (action.searchCategory.isNotEmpty) {
+      await jobFromDivisionCollection
+          .where("category", arrayContainsAny: category)
+          .get()
+          .then((value) {
+        logger(value.docs, hint: "111-----------------------------111");
+        for (var element in value.docs) {
+          JobModel jobModel =
+              JobModel.fromJson(element.data() as Map<String, dynamic>);
+          if (!searchResult.contains(jobModel)) {
+            searchResult.add(jobModel);
+            logger("searchResult: $searchResult");
+          }
+        }
+      });
+    }
 
-        next(UpdateJobsStateAction(
-          searchJobList: searchResult,
-        ));
-      }
-    });
+    if (tags.isNotEmpty) {
+      await jobFromDivisionCollection
+          .where("tags", arrayContainsAny: tags)
+          .get()
+          .then((value) {
+        logger(value.docs, hint: "111-----------------------------111");
+        for (var element in value.docs) {
+          JobModel jobModel =
+              JobModel.fromJson(element.data() as Map<String, dynamic>);
+          if (!searchResult.contains(jobModel)) {
+            searchResult.add(jobModel);
+            logger("searchResult: $searchResult");
+          }
+        }
+      });
+    }
 
-    appStore.dispatch(UpdateJobsStateAction(
-      searchJobList: searchResult,
-    ));
-
+    next(UpdateJobsStateAction(searchJobList: []));
+    next(UpdateJobsStateAction(searchJobList: searchResult));
     return true;
   } catch (e) {
     logger(e.toString(), hint: 'GetJobSearchAction CATCH ERROR');

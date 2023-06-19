@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../manager/models/Job/job_dtl_md.dart';
 import '../../../manager/models/Job/job_md.dart';
@@ -7,8 +8,10 @@ import '../../template/template.dart';
 import '../../utils/common/helper_function.dart';
 import '../../widgets/buttons/three_row_buttons.dart';
 import '../../widgets/circle_head_widget.dart';
+import '../../widgets/photo_widgets/carousel_widget.dart';
+import '../../widgets/photo_widgets/company_logo_loader.dart';
 import '../../widgets/containers/job_status.dart';
-import '../../widgets/photo_widgets/caousel_widget.dart';
+import '../../utils/common/helper_function.dart';
 
 class JobDetailsView extends StatefulWidget {
   final JobModel jobModel;
@@ -49,6 +52,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     String jobWage = widget.jobModel.wageAmount.toString();
     String jobWageType = widget.jobDetailModel.workCondition.wageType!;
     String jobDuration = widget.jobDetailModel.workCondition.period!;
+    String jobLocation = widget.jobModel.address.division;
 
     return SizedBox(
       height: MediaQuery.of(context).size.height - 120,
@@ -68,8 +72,9 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (widget.showStatus == true)
-                                JobStatusChip(
-                                    jobStatus: widget.jobModel.status),
+                                JobStatusChip(jobStatus: widget.jobModel.status)
+                              else
+                                const SizedBox(),
                               if (widget.showXMark ?? false)
                                 Align(
                                     alignment: Alignment.centerRight,
@@ -83,7 +88,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                                     )),
                             ]),
                         SizedText(
-                            text: calculateDuration(widget.jobModel.timestamp),
+                            text: calculateDuration(
+                                widget.jobModel.timestamp, context),
                             textStyle: ThemeTextRegular.k10
                                 .copyWith(color: ThemeColors.coolgray500)),
                         SizedText(
@@ -92,23 +98,24 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                             softWrap: true,
                             maxLines: 3),
                       ]),
-                  _buildTopJobInfoSec(jobWage, jobWageType, jobDuration),
+                  _buildTopJobInfoSec(
+                      jobWage, jobWageType, jobDuration, jobLocation),
                   if (widget.jobDetailModel.images.isNotEmpty)
                     PrsmCarouselImageWidget(
                       showFromNetwork: true,
-                      imageList: widget.jobDetailModel.images!,
+                      imageList: widget.jobDetailModel.images,
                       // imageList: widget.jobModel.images ??
                       //     ["assets/images/png/apple_store_1.png"],
                     ),
                   _buildCompanyTitleSec(
-                      companyLogo: "assets/images/png/nft.jpg",
+                      companyLogo: widget.jobModel.companyLogo ?? "",
                       companyName: widget.jobModel.companyName,
                       isDark: isDark),
                   _buildJobDescSec(
                       jobDescription: widget.jobDetailModel.description,
                       isDark: isDark),
                   _buildJobOtherInfoSec(isDark),
-                  _buildMoreInfoSec(isDark),
+                  _buildMoreInfoSec(),
                   _buildBottomButtons(context),
                   SizedBox(height: 60.h)
                 ])),
@@ -116,8 +123,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     );
   }
 
-  Widget _buildTopJobInfoSec(
-      String jobWage, String jobWageType, String jobDuration) {
+  Widget _buildTopJobInfoSec(String jobWage, String jobWageType,
+      String jobDuration, String jobLocation) {
     return SpacedColumn(verticalSpace: 5, children: [
       const Divider(color: ThemeColors.coolgray400, thickness: 1),
       SpacedRow(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -125,7 +132,10 @@ class _JobDetailsViewState extends State<JobDetailsView> {
             title: S(context).wages,
             detailText: "${jobWage}TK/${jobWageType.replaceAll("ly", "")}"),
         CircleHeadWidget(title: S(context).duration, detailText: jobDuration),
-        CircleHeadWidget(icon: HeroIcons.clock, detailText: "Dhaka"),
+        CircleHeadWidget(
+            icon: HeroIcons.mapPin,
+            detailText:
+                trLocationName(locationName: jobLocation, context: context)),
         CircleHeadWidget(icon: HeroIcons.calendar, detailText: "10:00-05:00"),
       ]),
       const Divider(color: ThemeColors.coolgray400, thickness: 1),
@@ -152,16 +162,13 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 horizontalSpace: 40,
                 children: [
-                  ClipRRect(
-                      borderRadius: BorderRadius.circular(18.r),
-                      child: Image.asset(companyLogo,
-                          fit: BoxFit.fill, width: 120.w, height: 120.h)),
+                  CompanyLogoLoader(companyLogoUrl: companyLogo, size: 120.h),
                   SizedText(
                     textAlign: TextAlign.start,
                     width: 700.w,
-                    height: 120.h,
                     text: companyName,
                     softWrap: true,
+                    overflow: TextOverflow.ellipsis,
                     textStyle: ThemeTextSemiBold.k14,
                     maxLines: 2,
                   )
@@ -214,31 +221,65 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     );
   }
 
-  Widget _buildMoreInfoSec(isDark) {
+  Widget _buildMoreInfoSec() {
     return Container(
       width: double.infinity,
-      height: widget.jobDetailModel.moreDetails == null ||
-              widget.jobDetailModel.moreDetails!.length < 100
-          ? 280.h
-          : 440,
+      // height: widget.jobDetailModel.moreDetails == null ||
+      //         widget.jobDetailModel.moreDetails!.length < 100
+      //     ? widget.jobDetailModel.website != ""
+      //         ? 680.h
+      //         : 280.h
+      //     : 640.h,
       padding: EdgeInsets.symmetric(horizontal: 42.w, vertical: 42.h),
       decoration: BoxDecoration(
-          color:
-              isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
+          color: isDark(context)
+              ? PrsmColorsDark.formContainerBgColor
+              : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
           crossAxisAlignment: CrossAxisAlignment.start,
           verticalSpace: 44,
           children: [
-            SizedText(text: S(context).moreInfo, textStyle: ThemeTextBold.k18),
+            SizedText(
+                text: S(context).moreInfo, textStyle: ThemeTextMedium.k16),
             SizedText(
               // textAlign: widget.jobDetailModel.moreDetails == null
               //     ? TextAlign.center
               //     : TextAlign.start,
               text: widget.jobDetailModel.moreDetails ?? "-",
+              textStyle: ThemeTextRegular.k14,
               softWrap: true,
-            )
+            ),
+            if (widget.jobDetailModel.website != null &&
+                widget.jobDetailModel.website != "")
+              const Divider(),
+            if (widget.jobDetailModel.website != null &&
+                widget.jobDetailModel.website != "")
+              SpacedRow(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedText(
+                        text: "Website :  ", textStyle: ThemeTextMedium.k12),
+                    InkWell(
+                        onTap: () {
+                          final Uri toLaunch = Uri(
+                              scheme: 'https',
+                              host: widget.jobDetailModel.website);
+                          _launchInWebViewOrVC(toLaunch);
+                        },
+                        child: SizedText(
+                            text: widget.jobModel.companyName,
+                            textStyle: ThemeTextSemiBold.k12.copyWith(
+                              color: isDark(context)
+                                  ? ThemeColors.blue400
+                                  : ThemeColors.blue700,
+                              decoration: TextDecoration.underline,
+                              decorationColor: isDark(context)
+                                  ? ThemeColors.blue400
+                                  : ThemeColors.blue700,
+                            )))
+                  ])
           ]),
     );
   }
@@ -278,20 +319,19 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           infoHelper(
               title: S(context).personnel,
               desc: widget.jobDetailModel.recruitCondition.personnel!),
-          infoHelper(
+          deadlineInfoHelper(
               title: S(context).deadline,
-              desc: convertTimeStampToDate(convertStringToTimeStamp(
-                  widget.jobDetailModel.recruitCondition.deadline))),
+              desc: calculateRemainingTime(
+                  deadline: widget.jobDetailModel.recruitCondition.deadline,
+                  context: context)),
           infoHelper(
               title: S(context).gender,
               desc: widget.jobDetailModel.recruitCondition.gender!.isEmpty
-                  ? "Male"
+                  ? S(context).male
                   : "-"),
           infoHelper(
               title: S(context).age,
-              desc: widget.jobDetailModel.recruitCondition.age == 0
-                  ? "Any"
-                  : widget.jobDetailModel.recruitCondition.age.toString()),
+              desc: widget.jobDetailModel.recruitCondition.age.toString()),
         ]);
   }
 
@@ -300,7 +340,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         verticalSpace: 10,
         children: [
-          SizedText(text: "Work Condition", textStyle: ThemeTextBold.k18),
+          SizedText(
+              text: S(context).workCondition, textStyle: ThemeTextBold.k18),
           SizedBox(height: 20.h),
           infoHelper(
               title: S(context).workDays,
@@ -325,7 +366,9 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           SizedBox(height: 20.h),
           infoHelper(
               title: S(context).division,
-              desc: widget.jobModel.address.division),
+              desc: trLocationName(
+                  locationName: widget.jobModel.address.division,
+                  context: context)),
           infoHelper(
               title: S(context).district,
               desc: widget.jobModel.address.district!.isEmpty
@@ -355,6 +398,53 @@ class _JobDetailsViewState extends State<JobDetailsView> {
             softWrap: true,
             width: 340.w,
             textStyle: ThemeTextSemiBold.k14)
+      ])
+    ]);
+  }
+
+  Future<void> _launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(
+          headers: <String, String>{'my_header_key': 'my_header_value'}),
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  Widget deadlineInfoHelper({required String title, required String desc}) {
+    int remainingDays = calculateRemainingTimeInDays(
+        widget.jobDetailModel.recruitCondition.deadline);
+
+    Color textColor() {
+      if (remainingDays == 0) {
+        return ThemeColors.red500;
+      } else if (remainingDays < 7 && remainingDays > 0) {
+        return ThemeColors.red500;
+      } else if (remainingDays < 30 && remainingDays > 7) {
+        return ThemeColors.amber600;
+      } else if (remainingDays > 30) {
+        return ThemeColors.emerald500;
+      }
+      return ThemeColors.black;
+    }
+
+    return SpacedRow(crossAxisAlignment: CrossAxisAlignment.start, children: [
+      SizedText(
+          text: title,
+          maxLines: 2,
+          softWrap: true,
+          overflow: TextOverflow.fade,
+          width: 280.w),
+      SpacedRow(horizontalSpace: 40, children: [
+        SizedText(text: ":"),
+        SizedText(
+            text: desc,
+            maxLines: 3,
+            softWrap: true,
+            width: 340.w,
+            textStyle: ThemeTextSemiBold.k14.copyWith(color: textColor()))
       ])
     ]);
   }

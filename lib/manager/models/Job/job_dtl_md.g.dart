@@ -12,10 +12,10 @@ JobDetailModel _$JobDetailModelFromJson(Map json) => JobDetailModel(
       ownerName: json['ownerName'] as String?,
       description: json['description'] as String?,
       email: json['email'] as String?,
-      phone: json['phone'] as String,
-      website: json['website'] as String?,
       images:
           (json['images'] as List<dynamic>).map((e) => e as String).toList(),
+      phone: json['phone'] as String,
+      website: json['website'] as String?,
       recruitCondition:
           RecruitConModel.fromJson(json['recruitCondition'] as Map),
       workCondition: WorkConModel.fromJson(json['workCondition'] as Map),
@@ -34,9 +34,9 @@ Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
       'email': instance.email,
       'phone': instance.phone,
       'website': instance.website,
-      'images': instance.images,
       'recruitCondition': instance.recruitCondition,
       'workCondition': instance.workCondition,
       'moreDetails': instance.moreDetails,
       'appliedBy': instance.appliedBy,
+      'images': instance.images,
     };

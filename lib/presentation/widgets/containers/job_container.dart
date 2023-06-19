@@ -7,6 +7,9 @@ class PrsmJobContainer extends StatelessWidget {
   final VoidCallback onTap;
   final VoidCallback? onReqAccept;
   final VoidCallback? onReqDecline;
+  final bool? showStatus;
+  final VoidCallback? onShowFullItem;
+  final VoidCallback? onEditItem;
 
   const PrsmJobContainer({
     Key? key,
@@ -14,6 +17,9 @@ class PrsmJobContainer extends StatelessWidget {
     required this.onTap,
     this.onReqAccept,
     this.onReqDecline,
+    this.onShowFullItem,
+    this.onEditItem,
+    this.showStatus,
   }) : super(key: key);
 
   @override

@@ -1,11 +1,11 @@
 name: mehonot_admin
 description: A new Flutter project.
-publish_to: 'none'
+publish_to: "none"
 
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   flutter:
@@ -47,6 +47,9 @@ dependencies:
   flutter_image_compress: ^2.0.3
   image_cropper: ^4.0.1
   url_launcher: ^6.1.11
+  webview_flutter: ^3.0.3
+  connectivity_plus: ^4.0.1
+  share_plus: ^7.0.2
 
   firebase_core: ^2.13.0
   firebase_storage: ^11.2.1
@@ -65,7 +68,6 @@ dev_dependencies:
   json_annotation: ^4.8.0
   auto_route_generator: ^7.0.0
 
-
 #First configure flutter_intl
 flutter_intl:
   enabled: true
@@ -73,8 +75,6 @@ flutter_intl:
   arb_dir: "lib/l10n"
   main_locale: "en" # main locale, default "en"
   output_dir: "lib/generated/rf_fit" # Generated i10n files location
-
-
 
 flutter:
   uses-material-design: true
@@ -86,7 +86,6 @@ flutter:
     - assets/images/svg/
     - assets/lottie/
     - assets/icons/
-
 
   fonts:
     - family: PoppinsBold
@@ -113,4 +112,3 @@ flutter:
     - family: PoppinsExtraBold
       fonts:
         - asset: assets/fonts/Poppins-ExtraBold.ttf
-

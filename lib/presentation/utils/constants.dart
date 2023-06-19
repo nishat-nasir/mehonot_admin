@@ -102,7 +102,34 @@ class Constants {
     "9 + persons",
   ];
 
+  static List<String> jobAgeList = [
+    "14-18",
+    "18-25",
+    "25-35",
+    "35-45",
+    "45-55",
+    "55+",
+    "Any age"
+  ];
+
   static Division currentlySelectedDivision = Division.Dhaka;
+
+  static List<String> jobCategoriesList = [
+    "IT",
+    "Restaurant",
+    "Service",
+    "Hospitality",
+    "Engineering",
+    "Telecommunication",
+    "Marketing",
+    "Sales",
+    "Garments",
+    "Education",
+    "Medical",
+    "Driving",
+    "Security",
+    "Others",
+  ];
 }
 
 enum Division {
@@ -114,4 +141,14 @@ enum Division {
   Sylhet,
   Rangpur,
   Mymensingh
+}
+
+enum JobStatus {
+  pending,
+  published,
+  rejected,
+  expired,
+  completed,
+  cancelled,
+  deleted
 }
