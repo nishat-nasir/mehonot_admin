@@ -35,8 +35,8 @@ class AuthMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getLoginAction(AppState state, GetLoginAction action,
-    NextDispatcher next) async {
+Future<bool> _getLoginAction(
+    AppState state, GetLoginAction action, NextDispatcher next) async {
   try {
     logger("GetLoginAction -- Called");
 
@@ -83,8 +83,8 @@ Future<bool> _getLoginAction(AppState state, GetLoginAction action,
   }
 }
 
-Future<bool> _getExistedUserAction(AppState state, GetExistedUserAction action,
-    NextDispatcher next) async {
+Future<bool> _getExistedUserAction(
+    AppState state, GetExistedUserAction action, NextDispatcher next) async {
   try {
     logger("GetExistedUserAction -- Called");
 
@@ -134,8 +134,8 @@ Future<bool> _getExistedUserAction(AppState state, GetExistedUserAction action,
   }
 }
 
-Future<bool> _getRegisterAction(AppState state, GetRegisterAction action,
-    NextDispatcher next) async {
+Future<bool> _getRegisterAction(
+    AppState state, GetRegisterAction action, NextDispatcher next) async {
   try {
     logger("GetRegisterAction -- Called");
 
@@ -218,8 +218,8 @@ Future<bool> _getCheckPhoneNumExistsAction(AppState state,
   return isExist;
 }
 
-Future<String> _getChangePassAction(AppState state, GetChangePassAction action,
-    NextDispatcher next) async {
+Future<String> _getChangePassAction(
+    AppState state, GetChangePassAction action, NextDispatcher next) async {
   try {
     logger("GetChangePassAction -- Called");
 
@@ -247,12 +247,12 @@ Future<String> _getChangePassAction(AppState state, GetChangePassAction action,
     }).then((value) {
       appStore.dispatch(UpdateUserStateAction(
           userData: UserModel(
-            userId: state.userState.userData.userId,
-            userProfileId: state.userState.userData.userProfileId,
-            password: state.userState.userData.password,
-            phoneNumber: newPassword,
-            isAdmin: state.userState.userData.isAdmin,
-          )));
+        userId: state.userState.userData.userId,
+        userProfileId: state.userState.userData.userProfileId,
+        password: state.userState.userData.password,
+        phoneNumber: newPassword,
+        isAdmin: state.userState.userData.isAdmin,
+      )));
     });
 
     return "Password changed successfully";
@@ -262,8 +262,8 @@ Future<String> _getChangePassAction(AppState state, GetChangePassAction action,
   }
 }
 
-_getChangeLoginIdAction(AppState state, GetChangeLoginIdAction action,
-    NextDispatcher next) async {
+_getChangeLoginIdAction(
+    AppState state, GetChangeLoginIdAction action, NextDispatcher next) async {
   try {
     logger("GetChangeLoginIdAction -- Called");
     await FirebaseKit()
@@ -274,12 +274,12 @@ _getChangeLoginIdAction(AppState state, GetChangeLoginIdAction action,
     }).then((value) {
       appStore.dispatch(UpdateUserStateAction(
           userData: UserModel(
-            userId: state.userState.userData.userId,
-            userProfileId: state.userState.userData.userProfileId,
-            password: state.userState.userData.password,
-            phoneNumber: action.newLoginId,
-            isAdmin: state.userState.userData.isAdmin,
-          )));
+        userId: state.userState.userData.userId,
+        userProfileId: state.userState.userData.userProfileId,
+        password: state.userState.userData.password,
+        phoneNumber: action.newLoginId,
+        isAdmin: state.userState.userData.isAdmin,
+      )));
     });
 
     return true;
