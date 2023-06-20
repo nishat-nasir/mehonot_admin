@@ -268,3 +268,18 @@ class GetAcceptReqJobAction {
 
   GetAcceptReqJobAction({required this.jobMd});
 }
+
+class GetRejectOrSupplementReqJobAction {
+  JobModel jobMd;
+  bool? isRejction;
+  bool? isNeedSuppliment;
+  String? rejectReason;
+  String? suppplementDesc;
+
+  GetRejectOrSupplementReqJobAction(
+      {required this.jobMd,
+      this.isNeedSuppliment,
+      this.isRejction,
+      this.rejectReason,
+      this.suppplementDesc});
+}

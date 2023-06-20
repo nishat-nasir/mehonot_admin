@@ -23,6 +23,7 @@ JobDetailModel _$JobDetailModelFromJson(Map json) => JobDetailModel(
       appliedBy: (json['appliedBy'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      statusDesc: json['statusDesc'] as String?,
     );
 
 Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
@@ -39,4 +40,5 @@ Map<String, dynamic> _$JobDetailModelToJson(JobDetailModel instance) =>
       'moreDetails': instance.moreDetails,
       'appliedBy': instance.appliedBy,
       'images': instance.images,
+      'statusDesc': instance.statusDesc,
     };

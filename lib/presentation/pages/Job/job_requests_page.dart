@@ -20,6 +20,7 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
   JobModel? currentJob;
   JobDetailModel? currentJobDetail;
   final TextEditingController _reasonController = TextEditingController();
+  List<JobModel> allReqJobs = [];
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +38,10 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
 
   Widget _buildJobRequestList(AppState state) {
     List<Widget> list = [];
-    List<JobModel> allReqJobs = state.jobsState.allRequestedJobs;
+    allReqJobs = state.jobsState.allRequestedJobs;
+    if (allReqJobs.isEmpty) {
+      return Container();
+    }
     list.add(Align(
         alignment: Alignment.topLeft,
         child: SizedText(
@@ -45,56 +49,15 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
             textStyle: ThemeTextRegular.k12)));
     for (int i = 0; i < allReqJobs.length; i++) {
       if (!allReqJobs[i].status.contains("test")) {
+        JobModel job = allReqJobs[i];
+
         list.add(PrsmJobContainer(
-          jobModel: JobModel(
-            jobId: allReqJobs[i].jobId,
-            jobDetailsId: allReqJobs[i].jobDetailsId,
-            postedByUserId: allReqJobs[i].postedByUserId,
-            address: AddressModel(
-              division: allReqJobs[i].address.division,
-              area: allReqJobs[i].address.area,
-              district: allReqJobs[i].address.district,
-              city: allReqJobs[i].address.city,
-            ),
-            title: allReqJobs[i].title,
-            companyName: allReqJobs[i].companyName,
-            type: allReqJobs[i].type,
-            tags: allReqJobs[i].tags,
-            category: allReqJobs[i].category,
-            companyLogo: allReqJobs[i].companyLogo,
-            workFinishTime: allReqJobs[i].workFinishTime,
-            workStartTime: allReqJobs[i].workStartTime,
-            status: allReqJobs[i].status,
-            timestamp: allReqJobs[i].timestamp,
-            wageAmount: allReqJobs[i].wageAmount,
-          ),
+          jobModel: job,
           onReqAccept: () {
-            _onReqAccept(
-                jobMd: JobModel(
-              jobId: allReqJobs[i].jobId,
-              jobDetailsId: allReqJobs[i].jobDetailsId,
-              postedByUserId: allReqJobs[i].postedByUserId,
-              category: allReqJobs[i].category,
-              tags: allReqJobs[i].tags,
-              companyLogo: allReqJobs[i].companyLogo,
-              address: AddressModel(
-                division: allReqJobs[i].address.division,
-                area: allReqJobs[i].address.area,
-                district: allReqJobs[i].address.district,
-                city: allReqJobs[i].address.city,
-              ),
-              title: allReqJobs[i].title,
-              companyName: allReqJobs[i].companyName,
-              type: allReqJobs[i].type,
-              workFinishTime: allReqJobs[i].workFinishTime,
-              workStartTime: allReqJobs[i].workStartTime,
-              status: allReqJobs[i].status,
-              wageAmount: allReqJobs[i].wageAmount,
-              timestamp: allReqJobs[i].timestamp,
-            ));
+            _onReqAccept(jobMd: job);
           },
           onReqDecline: () {
-            popupForRejectJob();
+            popupForRejectJob(job: job);
           },
           onTap: () {
             context.pushRoute(JobDetailsRouter(
@@ -102,28 +65,7 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
                 buttonText: "Move to Job ADS",
                 onPressed: onMoveToJobAds,
               ),
-              jobModel: JobModel(
-                jobId: allReqJobs[i].jobId,
-                jobDetailsId: allReqJobs[i].jobDetailsId,
-                postedByUserId: allReqJobs[i].postedByUserId,
-                address: AddressModel(
-                  division: allReqJobs[i].address.division,
-                  area: allReqJobs[i].address.area,
-                  district: allReqJobs[i].address.district,
-                  city: allReqJobs[i].address.city,
-                ),
-                title: allReqJobs[i].title,
-                companyName: allReqJobs[i].companyName,
-                type: allReqJobs[i].type,
-                workFinishTime: allReqJobs[i].workStartTime,
-                workStartTime: allReqJobs[i].workStartTime,
-                status: allReqJobs[i].status,
-                timestamp: allReqJobs[i].timestamp,
-                wageAmount: allReqJobs[i].wageAmount,
-                tags: allReqJobs[i].tags,
-                category: allReqJobs[i].tags,
-                companyLogo: allReqJobs[i].companyLogo,
-              ),
+              jobModel: job,
             ));
           },
         ));
@@ -183,7 +125,7 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
     ));
   }
 
-  popupForRejectJob() {
+  popupForRejectJob({required JobModel job}) {
     return showDialog(
         context: context,
         builder: (context) {
@@ -223,7 +165,15 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
               TextButton(
                   onPressed: () {
                     sureToDoPopup(
-                        desc: "reject the job", bgColor: ThemeColors.red300);
+                        desc: "reject the job",
+                        bgColor: ThemeColors.red300,
+                        onYes: () async {
+                          await appStore.dispatch(
+                              GetRejectOrSupplementReqJobAction(
+                                  jobMd: job,
+                                  isRejction: true,
+                                  rejectReason: _reasonController.text));
+                        });
                   },
                   child: Text("Reject",
                       style: ThemeTextMedium.k14
@@ -232,6 +182,13 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
                   onPressed: () {
                     sureToDoPopup(
                         desc: "ask for modification",
+                        onYes: () async {
+                          await appStore.dispatch(
+                              GetRejectOrSupplementReqJobAction(
+                                  jobMd: job,
+                                  isNeedSuppliment: true,
+                                  suppplementDesc: _reasonController.text));
+                        },
                         bgColor: ThemeColors.yellow300);
                   },
                   child: Text("Modification",

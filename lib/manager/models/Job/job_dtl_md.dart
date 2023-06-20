@@ -18,6 +18,7 @@ class JobDetailModel {
   String? moreDetails;
   List<String>? appliedBy;
   List<String> images;
+  String? statusDesc;
 
   @override
   JobDetailModel({
@@ -33,6 +34,7 @@ class JobDetailModel {
     required this.workCondition,
     this.moreDetails,
     this.appliedBy,
+    this.statusDesc,
   });
 
   factory JobDetailModel.fromJson(Map json) => _$JobDetailModelFromJson(json);

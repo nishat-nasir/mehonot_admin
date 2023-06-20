@@ -51,6 +51,8 @@ class JobsMiddleware extends MiddlewareClass<AppState> {
         return _getReqJobDetailsAction(store.state, action, next);
       case GetAcceptReqJobAction:
         return _getAcceptReqJobAction(store.state, action, next);
+      case GetRejectOrSupplementReqJobAction:
+        return _getRejectOrSupplementReqJobAction(store.state, action, next);
 
       default:
         return next(action);
@@ -584,6 +586,49 @@ Future<bool> _getAcceptReqJobAction(
   }
 }
 
+Future<bool> _getRejectOrSupplementReqJobAction(AppState state,
+    GetRejectOrSupplementReqJobAction action, NextDispatcher next) async {
+  try {
+    logger("GetRejectOrSupplementReqJobAction -- Called");
+
+    CollectionReference requestedJobColl =
+        FirebaseKit().requestedJobsCollection;
+
+    if (action.isRejction == true) {
+      await requestedJobColl
+          .doc(action.jobMd.jobId)
+          .update({"status": "rejected"}).then((value) async {
+        await requestedJobColl
+            .doc(action.jobMd.jobId)
+            .collection(jobDetailsFbDb)
+            .doc(action.jobMd.jobDetailsId)
+            .set(
+          {"statusDesc": action.rejectReason},
+          SetOptions(merge: true),
+        );
+      });
+    } else {
+      await requestedJobColl
+          .doc(action.jobMd.jobId)
+          .update({"status": "suppliment"}).then((value) async {
+        await requestedJobColl
+            .doc(action.jobMd.jobId)
+            .collection(jobDetailsFbDb)
+            .doc(action.jobMd.jobDetailsId)
+            .set(
+          {"statusDesc": action.suppplementDesc},
+          SetOptions(merge: true),
+        );
+      });
+    }
+
+    return true;
+  } catch (e) {
+    logger(e.toString(), hint: 'GetRejectOrSupplementReqJobAction CATCH ERROR');
+    return false;
+  }
+}
+
 Future<bool> _getReqJobDetailsAction(
     AppState state, GetReqJobDetailsAction action, NextDispatcher next) async {
   try {
@@ -628,6 +673,9 @@ Future<bool> _getReqJobDetailsAction(
         ),
         ownerName: value["ownerName"],
         moreDetails: value["moreDetails"],
+        statusDesc: value.data().toString().contains("statusDesc")
+            ? value["statusDesc"]
+            : "",
       );
     });
 
