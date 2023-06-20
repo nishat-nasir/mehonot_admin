@@ -132,9 +132,9 @@ class _PrsmToggleState extends State<PrsmToggle>
                       gradient: widget.value
                           ? PrsmColorsCommon.secondaryContainerColor
                           : const LinearGradient(colors: [
-                        ThemeColors.lightblue100,
-                        ThemeColors.lightblue200,
-                      ])),
+                              ThemeColors.lightblue100,
+                              ThemeColors.lightblue200,
+                            ])),
                   child: Stack(
                     children: <Widget>[
                       Align(

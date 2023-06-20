@@ -3,16 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SpacedRow extends StatelessWidget {
   //Do not add screenUtil, Just pass double value
-  double? horizontalSpace;
-  List<Widget> children;
-  MainAxisAlignment? mainAxisAlignment;
-  CrossAxisAlignment? crossAxisAlignment;
+  final double? horizontalSpace;
+  final List<Widget> children;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
 
-  SpacedRow(
+  const SpacedRow(
       {this.horizontalSpace = 0.0,
       required this.children,
       this.mainAxisAlignment = MainAxisAlignment.start,
-      this.crossAxisAlignment = CrossAxisAlignment.start});
+      this.crossAxisAlignment = CrossAxisAlignment.start,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

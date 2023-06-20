@@ -3,16 +3,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SpacedColumn extends StatelessWidget {
   //Do not add screenUtil, Just pass double value
-  double? verticalSpace;
-  List<Widget> children;
-  MainAxisAlignment? mainAxisAlignment;
-  CrossAxisAlignment? crossAxisAlignment;
+  final double? verticalSpace;
+  final List<Widget> children;
+  final MainAxisAlignment? mainAxisAlignment;
+  final CrossAxisAlignment? crossAxisAlignment;
 
-  SpacedColumn(
+  const SpacedColumn(
       {this.verticalSpace = 0.0,
       required this.children,
       this.mainAxisAlignment = MainAxisAlignment.start,
-      this.crossAxisAlignment = CrossAxisAlignment.center});
+      this.crossAxisAlignment = CrossAxisAlignment.center,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

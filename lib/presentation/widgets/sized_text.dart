@@ -4,7 +4,7 @@ class SizedText extends StatelessWidget {
   final double? width;
   final double? height;
   final dynamic text;
-  TextStyle? textStyle;
+  final TextStyle? textStyle;
   final bool useLocaleText;
   final bool softWrap;
   final TextOverflow overflow;
@@ -16,21 +16,22 @@ class SizedText extends StatelessWidget {
   // final FontWeight? fontWeight;
   // final String? fontFamily;
 
-  SizedText({
-    this.width,
-    this.height,
-    required this.text,
-    this.textStyle,
-    this.useLocaleText = true,
-    this.softWrap = false,
-    this.overflow = TextOverflow.visible,
-    this.textAlign = TextAlign.left,
-    this.maxLines,
-    // this.color,
-    // this.fontSize,
-    // this.fontWeight,
-    // this.fontFamily,
-  });
+  const SizedText(
+      {this.width,
+      this.height,
+      required this.text,
+      this.textStyle,
+      this.useLocaleText = true,
+      this.softWrap = false,
+      this.overflow = TextOverflow.visible,
+      this.textAlign = TextAlign.left,
+      this.maxLines,
+      // this.color,
+      // this.fontSize,
+      // this.fontWeight,
+      // this.fontFamily,
+      Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
