@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:mehonot_admin/presentation/utils/constants.dart';
 import '../Address/address_md.dart';
 
 part 'job_md.g.dart';
@@ -32,7 +33,7 @@ class JobModel {
   String workStartTime;
   String workFinishTime;
   String postedByUserId;
-  String status;
+  JobStatus status;
   double wageAmount;
   @TimestampConverter()
   Timestamp timestamp;

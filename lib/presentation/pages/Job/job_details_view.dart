@@ -72,7 +72,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               if (widget.showStatus == true)
-                                JobStatusChip(jobStatus: widget.jobModel.status)
+                                JobStatusChip(
+                                    jobStatus: widget.jobModel.status.name)
                               else
                                 const SizedBox(),
                               if (widget.showXMark ?? false)

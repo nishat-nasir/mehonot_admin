@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import '../../../manager/firebase/firebase_kit.dart';
 import '../../../manager/redux/states/init_state.dart';
 import '../../template/template.dart';
+import '../constants.dart';
 import 'log_tester.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
@@ -239,6 +240,33 @@ int calculateRemainingTimeInDays(Timestamp deadline) {
     return 0;
   }
   return remainingDuration.inDays;
+}
+
+JobStatus getStatus(String status) {
+  switch (status) {
+    case "pending":
+      return JobStatus.pending;
+    case "published":
+      return JobStatus.published;
+    case "rejected":
+      return JobStatus.rejected;
+    case "expired":
+      return JobStatus.expired;
+    case "completed":
+      return JobStatus.completed;
+    case "cancelled":
+      return JobStatus.cancelled;
+    case "deleted":
+      return JobStatus.deleted;
+    case "resubmitted":
+      return JobStatus.resubmitted;
+    case "suppliment":
+      return JobStatus.suppliment;
+    case "test":
+      return JobStatus.test;
+    default:
+      throw Exception("Invalid status: $status");
+  }
 }
 
 trLocationName({required String locationName, required BuildContext context}) {

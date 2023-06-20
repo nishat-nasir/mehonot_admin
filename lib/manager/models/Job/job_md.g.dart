@@ -20,7 +20,7 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       workStartTime: json['workStartTime'] as String,
       workFinishTime: json['workFinishTime'] as String,
       postedByUserId: json['postedByUserId'] as String,
-      status: json['status'] as String,
+      status: json['status'] as JobStatus,
       wageAmount: (json['wageAmount'] as num).toDouble(),
       timestamp: const TimestampConverter().fromJson(json['timestamp']),
     );

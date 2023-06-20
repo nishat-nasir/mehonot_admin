@@ -149,6 +149,9 @@ enum JobStatus {
   rejected,
   expired,
   completed,
+  test,
   cancelled,
-  deleted
+  deleted,
+  resubmitted,
+  suppliment,
 }

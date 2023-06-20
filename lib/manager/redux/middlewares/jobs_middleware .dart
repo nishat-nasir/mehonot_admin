@@ -124,7 +124,7 @@ Future<bool> _getJobsAction(
           workFinishTime: e["workFinishTime"],
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
-          status: e["status"],
+          status: getStatus(e["status"]),
           timestamp: e["timestamp"],
           wageAmount: double.parse(e["wageAmount"].toString()));
       allJobs.add(job);
@@ -356,7 +356,7 @@ Future<bool> _getReqJobsAction(
           workFinishTime: e["workFinishTime"],
           workStartTime: e["workStartTime"],
           postedByUserId: e["postedByUserId"],
-          status: e["status"],
+          status: getStatus(e["status"]),
           timestamp: e["timestamp"],
           wageAmount: e["wageAmount"],
         );
@@ -472,7 +472,7 @@ Future<bool> _getCreateJobReqAction(
       "type": action.jobModelReq.type,
       "workStartTime": action.jobModelReq.workStartTime,
       "workFinishTime": action.jobModelReq.workFinishTime,
-      "status": "pending",
+      "status": JobStatus.pending.name,
       "timestamp": action.jobModelReq.timestamp,
       "wageAmount": action.jobModelReq.wageAmount,
       "category":
@@ -597,7 +597,7 @@ Future<bool> _getRejectOrSupplementReqJobAction(AppState state,
     if (action.isRejction == true) {
       await requestedJobColl
           .doc(action.jobMd.jobId)
-          .update({"status": "rejected"}).then((value) async {
+          .update({"status": JobStatus.rejected.name}).then((value) async {
         await requestedJobColl
             .doc(action.jobMd.jobId)
             .collection(jobDetailsFbDb)
@@ -610,7 +610,7 @@ Future<bool> _getRejectOrSupplementReqJobAction(AppState state,
     } else {
       await requestedJobColl
           .doc(action.jobMd.jobId)
-          .update({"status": "suppliment"}).then((value) async {
+          .update({"status": JobStatus.suppliment.name}).then((value) async {
         await requestedJobColl
             .doc(action.jobMd.jobId)
             .collection(jobDetailsFbDb)
@@ -721,7 +721,7 @@ Future<bool> _getCreateJobAction(
       "type": action.jobModel.type,
       "workStartTime": action.jobModel.workStartTime,
       "workFinishTime": action.jobModel.workFinishTime,
-      "status": "published",
+      "status": JobStatus.published.name,
       "timestamp": action.jobModel.timestamp,
       "wageAmount": action.jobModel.wageAmount,
     });
@@ -833,7 +833,7 @@ Future<bool> _getDeleteJobAction(
     JobDetailModel jobDtl = action.jobDetailModel;
     Division curDiv = convertStringToDivision(action.jobModel.address.division);
 
-    if (job.status == "pending") {
+    if (job.status.name == JobStatus.pending.name) {
       jobFromCollection = FirebaseKit().requestedJobsCollection;
     } else {
       jobFromCollection = getDivisionCollection(curDiv);
@@ -871,7 +871,7 @@ Future<bool> _getDeleteJobAction(
         ));
 
         //return if pending
-        if (job.status == "pending") {
+        if (job.status.name == JobStatus.pending.name) {
           return true;
         }
 

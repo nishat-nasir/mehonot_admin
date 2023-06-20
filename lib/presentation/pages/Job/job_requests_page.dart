@@ -3,6 +3,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:mehonot_admin/manager/models/Address/address_md.dart';
 import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
+import 'package:mehonot_admin/presentation/utils/constants.dart';
 import '../../../manager/navigation/router.gr.dart';
 import '../../../manager/redux/states/ads_state.dart';
 import '../../../manager/redux/states/jobs_state.dart';
@@ -48,11 +49,12 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
             text: "Job req : ${state.jobsState.allRequestedJobs.length - 1}",
             textStyle: ThemeTextRegular.k12)));
     for (int i = 0; i < allReqJobs.length; i++) {
-      if (!allReqJobs[i].status.contains("test")) {
+      if (allReqJobs[i].status.name != JobStatus.test.name) {
         JobModel job = allReqJobs[i];
 
         list.add(PrsmJobContainer(
           jobModel: job,
+          showStatus: true,
           onReqAccept: () {
             _onReqAccept(jobMd: job);
           },
