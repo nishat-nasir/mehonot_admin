@@ -744,7 +744,8 @@ Future<bool> _getCreateJobAction(
       "website": action.jobDetailModel.website,
       "workCondition": action.jobDetailModel.workCondition.toJson(),
       "moreDetails": action.jobDetailModel.moreDetails,
-      "appliedBy": action.jobDetailModel.appliedBy
+      "appliedBy": action.jobDetailModel.appliedBy,
+      "statusDesc": null,
     });
     // Update "myJobsIds" in user profile
 
