@@ -41,7 +41,7 @@ class JobStatusChip extends StatelessWidget {
         return ThemeColors.red800;
       case JobStatus.resubmitted:
         return ThemeColors.green800;
-      case JobStatus.suppliment:
+      case JobStatus.supplement:
         return ThemeColors.yellow600;
       default:
         return ThemeColors.green800;
@@ -68,7 +68,7 @@ class JobStatusChip extends StatelessWidget {
         return ThemeColors.red700;
       case JobStatus.resubmitted:
         return ThemeColors.green700;
-      case JobStatus.suppliment:
+      case JobStatus.supplement:
         return ThemeColors.yellow600;
       default:
         return ThemeColors.green700;
@@ -95,7 +95,7 @@ class JobStatusChip extends StatelessWidget {
         return ThemeColors.red800;
       case JobStatus.resubmitted:
         return ThemeColors.green800;
-      case JobStatus.suppliment:
+      case JobStatus.supplement:
         return ThemeColors.yellow800;
       default:
         return ThemeColors.green800;

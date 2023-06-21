@@ -260,8 +260,8 @@ JobStatus getStatus(String status) {
       return JobStatus.deleted;
     case "resubmitted":
       return JobStatus.resubmitted;
-    case "suppliment":
-      return JobStatus.suppliment;
+    case "supplement":
+      return JobStatus.supplement;
     case "test":
       return JobStatus.test;
     default:

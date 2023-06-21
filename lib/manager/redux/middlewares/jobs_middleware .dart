@@ -610,7 +610,7 @@ Future<bool> _getRejectOrSupplementReqJobAction(AppState state,
     } else {
       await requestedJobColl
           .doc(action.jobMd.jobId)
-          .update({"status": JobStatus.suppliment.name}).then((value) async {
+          .update({"status": JobStatus.supplement.name}).then((value) async {
         await requestedJobColl
             .doc(action.jobMd.jobId)
             .collection(jobDetailsFbDb)

@@ -88,7 +88,8 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
       if (mounted) {
         showDialog(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) =>
+                AlertDialog(
                   title: const Text("Job Accepted"),
                   content: const Text("Job Accepted Successfully"),
                   actions: [
@@ -104,7 +105,8 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
       if (mounted) {
         showDialog(
             context: context,
-            builder: (context) => AlertDialog(
+            builder: (context) =>
+                AlertDialog(
                   title: const Text("Job Accepted"),
                   content: const Text("Job Accepted Failed"),
                   actions: [
@@ -188,7 +190,7 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
                           await appStore.dispatch(
                               GetRejectOrSupplementReqJobAction(
                                   jobMd: job,
-                                  isNeedSuppliment: true,
+                                  isNeedsupplement: true,
                                   suppplementDesc: _reasonController.text));
                         },
                         bgColor: ThemeColors.yellow300);
@@ -201,11 +203,10 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
         });
   }
 
-  sureToDoPopup(
-      {VoidCallback? onYes,
-      VoidCallback? onNo,
-      String? desc = "",
-      Color? bgColor}) {
+  sureToDoPopup({VoidCallback? onYes,
+    VoidCallback? onNo,
+    String? desc = "",
+    Color? bgColor}) {
     return showDialog(
         context: context,
         builder: (context) {

@@ -153,5 +153,5 @@ enum JobStatus {
   cancelled,
   deleted,
   resubmitted,
-  suppliment,
+  supplement,
 }
