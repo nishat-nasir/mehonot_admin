@@ -1,5 +1,6 @@
+import 'package:mehonot_admin/presentation/utils/constants.dart';
+
 import '../../template/template.dart';
-import '../../utils/constants.dart';
 
 class JobStatusChip extends StatelessWidget {
   final JobStatus jobStatus;
@@ -26,25 +27,25 @@ class JobStatusChip extends StatelessWidget {
       case JobStatus.pending:
         return ThemeColors.yellow400;
       case JobStatus.published:
-        return ThemeColors.lime500;
+        return ThemeColors.lime400;
       case JobStatus.rejected:
-        return ThemeColors.red500;
+        return ThemeColors.red400;
       case JobStatus.expired:
-        return ThemeColors.red800;
+        return ThemeColors.red400;
       case JobStatus.completed:
-        return ThemeColors.green800;
+        return ThemeColors.green400;
       case JobStatus.test:
-        return ThemeColors.cyan700;
+        return ThemeColors.cyan400;
       case JobStatus.cancelled:
-        return ThemeColors.red800;
+        return ThemeColors.red400;
       case JobStatus.deleted:
-        return ThemeColors.red800;
+        return ThemeColors.red400;
       case JobStatus.resubmitted:
-        return ThemeColors.green800;
+        return ThemeColors.green400;
       case JobStatus.supplement:
-        return ThemeColors.yellow600;
+        return ThemeColors.yellow400;
       default:
-        return ThemeColors.green800;
+        return ThemeColors.green400;
     }
   }
 
@@ -57,48 +58,48 @@ class JobStatusChip extends StatelessWidget {
       case JobStatus.rejected:
         return ThemeColors.red200;
       case JobStatus.expired:
-        return ThemeColors.red700;
+        return ThemeColors.red200;
       case JobStatus.completed:
-        return ThemeColors.green700;
+        return ThemeColors.green200;
       case JobStatus.test:
-        return ThemeColors.cyan700;
+        return ThemeColors.cyan200;
       case JobStatus.cancelled:
-        return ThemeColors.red700;
+        return ThemeColors.red200;
       case JobStatus.deleted:
-        return ThemeColors.red700;
+        return ThemeColors.red200;
       case JobStatus.resubmitted:
-        return ThemeColors.green700;
+        return ThemeColors.green200;
       case JobStatus.supplement:
-        return ThemeColors.yellow600;
+        return ThemeColors.yellow200;
       default:
-        return ThemeColors.green700;
+        return ThemeColors.green200;
     }
   }
 
   Color chipTextColor() {
     switch (jobStatus) {
       case JobStatus.pending:
-        return ThemeColors.yellow800;
+        return ThemeColors.yellow900;
       case JobStatus.published:
-        return ThemeColors.lime800;
+        return ThemeColors.lime900;
       case JobStatus.rejected:
-        return ThemeColors.red800;
+        return ThemeColors.red900;
       case JobStatus.expired:
-        return ThemeColors.red800;
+        return ThemeColors.red900;
       case JobStatus.completed:
-        return ThemeColors.green800;
+        return ThemeColors.green900;
       case JobStatus.test:
-        return ThemeColors.cyan800;
+        return ThemeColors.cyan900;
       case JobStatus.cancelled:
-        return ThemeColors.red800;
+        return ThemeColors.red900;
       case JobStatus.deleted:
-        return ThemeColors.red800;
+        return ThemeColors.red900;
       case JobStatus.resubmitted:
-        return ThemeColors.green800;
+        return ThemeColors.green900;
       case JobStatus.supplement:
-        return ThemeColors.yellow800;
+        return ThemeColors.yellow900;
       default:
-        return ThemeColors.green800;
+        return ThemeColors.green900;
     }
   }
 }
