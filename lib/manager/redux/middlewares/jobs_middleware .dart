@@ -247,7 +247,7 @@ Future<JobModel?> _getJobDataByIdAction(
         workFinishTime: value["workFinishTime"],
         workStartTime: value["workStartTime"],
         postedByUserId: value["postedByUserId"],
-        status: value["status"],
+        status: getStatus(value["status"]),
         timestamp: value["timestamp"],
         wageAmount: value["wageAmount"],
       );
@@ -629,10 +629,10 @@ Future<bool> _getRejectOrSupplementReqJobAction(AppState state,
   }
 }
 
-Future<bool> _getReqJobDetailsAction(
+Future<JobDetailModel?> _getReqJobDetailsAction(
     AppState state, GetReqJobDetailsAction action, NextDispatcher next) async {
   try {
-    logger("GetJobDetailsAction -- Called");
+    logger("GetReqJobDetailsAction -- Called");
 
     JobDetailModel jobDetailModel;
 
@@ -649,15 +649,17 @@ Future<bool> _getReqJobDetailsAction(
         jobId: value["jobId"],
         phone: value["phone"],
         jobDetailsId: value["jobDetailsId"],
-        images: value["images"] != null
-            ? List<String>.from(value["images"].map((e) => e.toString()))
+        images: value["images"] != null && value["images"].isNotEmpty
+            ? List<String>.from(
+                value["images"].map((value) => value.toString()))
             : [],
         description: value["description"],
         email: value["email"],
-        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
-            ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
-            : [],
         website: value["website"],
+        appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
+            ? List<String>.from(
+                value["appliedBy"].map((value) => value.toString()))
+            : [],
         workCondition: WorkConModel(
           period: value["workCondition"]["period"],
           wageType: value["workCondition"]["wageType"],
@@ -682,10 +684,10 @@ Future<bool> _getReqJobDetailsAction(
     appStore.dispatch(UpdateJobsStateAction(
       selectedJobDetailModel: jobDetailModel,
     ));
-    return true;
+    return jobDetailModel;
   } catch (e) {
-    logger(e.toString(), hint: 'GetJobDetailsAction CATCH ERROR');
-    return false;
+    logger(e.toString(), hint: 'GetReqJobDetailsAction CATCH ERROR');
+    return null;
   }
 }
 
@@ -964,15 +966,37 @@ Future<bool> _getJobSearchAction(
           .where("category", arrayContainsAny: category)
           .get()
           .then((value) {
-        logger(value.docs, hint: "111-----------------------------111");
-        for (var element in value.docs) {
-          JobModel jobModel =
-              JobModel.fromJson(element.data() as Map<String, dynamic>);
+        value.docs.map((e) {
+          JobModel jobModel = JobModel(
+              jobId: e["jobId"],
+              jobDetailsId: e["jobDetailsId"],
+              title: e["title"],
+              address: AddressModel(
+                division: e["address"]["division"],
+                district: e["address"]["district"],
+                area: e["address"]["area"],
+                city: e["address"]["city"],
+              ),
+              companyName: e["companyName"],
+              // Convert from List<dynamic> to List<String>, also check null or empty
+              category: e["category"] != null
+                  ? e["category"].cast<String>().toList()
+                  : [],
+              tags: e["tags"] != null ? e["tags"].cast<String>().toList() : [],
+              companyLogo: e["companyLogo"] ?? '',
+              type: e["type"],
+              workFinishTime: e["workFinishTime"],
+              workStartTime: e["workStartTime"],
+              postedByUserId: e["postedByUserId"],
+              status: getStatus(e["status"]),
+              timestamp: e["timestamp"],
+              wageAmount: double.parse(e["wageAmount"].toString()));
+
           if (!searchResult.contains(jobModel)) {
             searchResult.add(jobModel);
             logger("searchResult: $searchResult");
           }
-        }
+        }).toList();
       });
     }
 
@@ -981,15 +1005,36 @@ Future<bool> _getJobSearchAction(
           .where("tags", arrayContainsAny: tags)
           .get()
           .then((value) {
-        logger(value.docs, hint: "111-----------------------------111");
-        for (var element in value.docs) {
-          JobModel jobModel =
-              JobModel.fromJson(element.data() as Map<String, dynamic>);
+        value.docs.map((e) {
+          JobModel jobModel = JobModel(
+              jobId: e["jobId"],
+              jobDetailsId: e["jobDetailsId"],
+              title: e["title"],
+              address: AddressModel(
+                division: e["address"]["division"],
+                district: e["address"]["district"],
+                area: e["address"]["area"],
+                city: e["address"]["city"],
+              ),
+              companyName: e["companyName"],
+              category: e["category"] != null
+                  ? e["category"].cast<String>().toList()
+                  : [],
+              tags: e["tags"] != null ? e["tags"].cast<String>().toList() : [],
+              companyLogo: e["companyLogo"] ?? '',
+              type: e["type"],
+              workFinishTime: e["workFinishTime"],
+              workStartTime: e["workStartTime"],
+              postedByUserId: e["postedByUserId"],
+              status: getStatus(e["status"]),
+              timestamp: e["timestamp"],
+              wageAmount: double.parse(e["wageAmount"].toString()));
+
           if (!searchResult.contains(jobModel)) {
             searchResult.add(jobModel);
             logger("searchResult: $searchResult");
           }
-        }
+        }).toList();
       });
     }
 

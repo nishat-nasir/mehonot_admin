@@ -229,26 +229,34 @@ Future<bool> _getJobAdsDetailAction(
       JobModel job =
           await jobFromDivision.doc(curLocAds[i]).get().then((value) {
         JobModel jobModel = JobModel(
-            jobId: value['jobId'],
-            postedByUserId: value['postedByUserId'],
-            workStartTime: value['workStartTime'],
-            workFinishTime: value['workFinishTime'],
-            address: AddressModel(
-              division: value['address']['division'],
-              city: value['address']['city'],
-              district: value['address']['district'],
-              area: value['address']['area'],
-            ),
-            type: value['type'],
-            status: value['status'],
-            companyName: value['companyName'],
-            title: value['title'],
-            timestamp: value['timestamp'],
-            wageAmount: value['wageAmount'],
-            jobDetailsId: value['jobDetailsId'],
-            tags: value['tags'],
-            category: value['category'],
-            companyLogo: value["companyLogo"]);
+          jobId: value["jobId"],
+          jobDetailsId: value["jobDetailsId"],
+          title: value["title"],
+          address: AddressModel(
+            division: value["address"]["division"],
+            district: value["address"]["district"],
+            area: value["address"]["area"],
+            city: value["address"]["city"],
+          ),
+          companyName: value["companyName"],
+          // Convert from List<dynamic> to List<String>, also check null or empty
+          tags: value["tags"] != null
+              ? value["tags"].cast<String>().toList()
+              : <String>[],
+          // Convert from List<dynamic> to List<String>, also check null or empty
+          category: value["category"] != null
+              ? value["category"].cast<String>().toList()
+              : <String>[],
+
+          companyLogo: value["companyLogo"] ?? '',
+          type: value["type"],
+          workFinishTime: value["workFinishTime"],
+          workStartTime: value["workStartTime"],
+          postedByUserId: value["postedByUserId"],
+          status: getStatus(value["status"]),
+          timestamp: value["timestamp"],
+          wageAmount: value["wageAmount"],
+        );
         return jobModel;
       });
       allAds.add(job);

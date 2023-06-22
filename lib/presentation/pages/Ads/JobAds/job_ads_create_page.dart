@@ -7,6 +7,7 @@ import 'package:mehonot_admin/manager/redux/states/ads_state.dart';
 import 'package:mehonot_admin/manager/redux/states/jobs_state.dart';
 import '../../../template/template.dart';
 import '../../../utils/constants.dart';
+import '../../../widgets/tag.dart';
 import 'ads_helper_functions.dart';
 
 @RoutePage(name: "JobAdCreateRoute")
@@ -25,6 +26,7 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
   List<JobModel> currentLocJobList = [];
   String screenText = "";
   bool showSeeMoreBtn = false;
+  List<String> searchCategory = [];
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +43,7 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _buildTopSec(state),
+                  categorySuggestions(),
                   _buildJobList(),
                   if (showSeeMoreBtn) _buildSeeMoreButton(),
                 ],
@@ -143,55 +146,66 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
             : const SizedBox();
   }
 
+  Widget categorySuggestions() {
+    List<Widget> list = [];
+
+    for (var i = 0; i < Constants.jobCategoriesList.length; i++) {
+      list.add(PrsmTag(
+        tagName: Constants.jobCategoriesList[i],
+        onTap: (searchText) {
+          String searchTxt = Constants.jobCategoriesList[i];
+
+          if (searchCategory.contains(searchTxt)) {
+            searchCategory.remove(searchTxt);
+          } else {
+            searchCategory.add(searchTxt);
+          }
+
+          if (searchCategory.isNotEmpty) {
+            _searchJob();
+          }
+        },
+      ));
+    }
+
+    return Padding(
+      padding:
+          EdgeInsets.only(left: 32.w, right: 32.w, top: 24.h, bottom: 18.h),
+      child: SizedBox(
+          width: double.infinity,
+          child: Wrap(spacing: 12.w, runSpacing: 15.h, children: list)),
+    );
+  }
+
   Future<void> _searchJob() async {
     setState(() {
       isLoading = true;
       currentLocJobList.clear();
     });
-    if (_searchController.text.isEmpty) {
-      bool success = await appStore.dispatch(GetJobsAction(
-        division: selectedDivision,
-      ));
-      if (success) {
+
+    bool success = await appStore.dispatch(GetJobSearchAction(
+      searchText: _searchController.text.toLowerCase(),
+      searchCategory:
+          searchCategory.map((category) => category.toLowerCase()).toList(),
+    ));
+
+    if (success) {
+      List<JobModel> jobs = appStore.state.jobsState.searchJobList;
+      for (int i = 0; i < jobs.length; i++) {
         setState(() {
           isLoading = false;
-          currentLocJobList
-              .addAll(appStore.state.jobsState.currentLocationJobsList);
+          currentLocJobList.add(jobs[i]);
         });
-      }
-      if (currentLocJobList.isEmpty) {
-        setState(() {
-          screenText = "No Jobs Found";
-        });
-      } else {
-        setState(() {
-          screenText = "";
-          isLoading = false;
-          if (currentLocJobList.length > 10) {
-            showSeeMoreBtn = true;
-          }
-        });
-      }
-    } else {
-      bool success = await appStore.dispatch(GetJobSearchAction(
-        searchText: _searchController.text,
-        searchCategory: [],
-      ));
-      if (success) {
-        if (currentLocJobList.isEmpty) {
-          setState(() {
-            screenText =
-                "Couldn't found job with \"${_searchController.text}\" title";
-          });
-        } else {
-          setState(() {
-            screenText = "";
-            currentLocJobList
-                .addAll(appStore.state.jobsState.currentLocationJobsList);
-          });
-        }
       }
     }
+    await Future.delayed(const Duration(seconds: 7), () {
+      if (context.mounted) {
+        setState(() {
+          isLoading = false;
+          screenText = "No Jobs Found";
+        });
+      }
+    });
   }
 
   Future<void> fetchMoreData() async {

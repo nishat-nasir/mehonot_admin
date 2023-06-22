@@ -112,11 +112,12 @@ class _Saved01PageState extends State<Saved01Page> {
       {required String jobId,
       required String jobDetailsId,
       required Division division}) async {
-    bool success = await appStore.dispatch(GetJobDetailsAction(
+    JobDetailModel? jobDtlMd;
+    jobDtlMd = await appStore.dispatch(GetJobDetailsAction(
         division: division, jobId: jobId, jobDetailsId: jobDetailsId));
     logger(appStore.state.jobsState.selectedJobDetailModel.toJson(),
         hint: "selectedJobDetailModel__title");
-    return success;
+    return jobDtlMd != null ? true : false;
   }
 
   showJobModalDetails({
