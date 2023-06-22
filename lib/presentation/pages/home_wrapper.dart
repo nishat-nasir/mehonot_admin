@@ -155,7 +155,7 @@ class GeneralWrapper extends StatelessWidget {
       return Future.value(false);
     } else {
       logger("NOW EXIT NOT");
-      SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+      // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
       return Future.value(false);
     }
   }

@@ -1,9 +1,6 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:mehonot_admin/manager/models/Address/address_md.dart';
 import 'package:mehonot_admin/manager/models/Job/job_md.dart';
 import 'package:mehonot_admin/manager/navigation/router.gr.dart';
-import 'package:mehonot_admin/manager/redux/states/ads_state.dart';
 import 'package:mehonot_admin/manager/redux/states/jobs_state.dart';
 import '../../../template/template.dart';
 import '../../../utils/constants.dart';
