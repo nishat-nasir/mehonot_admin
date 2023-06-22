@@ -16,14 +16,12 @@ class GeneralWrapper extends StatelessWidget {
 
   GlobalKey<ScaffoldState> generalWrapperGlobalKey = GlobalKey<ScaffoldState>();
 
-  DateTime timeBackPressed = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     bool isDark = Theme.of(context).brightness == Brightness.dark;
     return WillPopScope(
         onWillPop: () {
-          return _onWillPop(context);
+          return Future.value(false);
         },
         child: AutoTabsScaffold(
             backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
@@ -134,29 +132,5 @@ class GeneralWrapper extends StatelessWidget {
               JobAdsRouter(),
               FeedbackRouter(),
             ]));
-  }
-
-  Future<bool> _onWillPop(BuildContext context) {
-    final difference = DateTime.now().difference(timeBackPressed);
-    final isExitWarning = difference >= const Duration(seconds: 2);
-
-    timeBackPressed = DateTime.now();
-
-    if (isExitWarning) {
-      logger("NOW EXIT");
-      String message = S(context).pressBackAgainToExit;
-      // Fluttertoast.showToast(
-      //     msg: message,
-      //     fontSize: 14,
-      //     backgroundColor:
-      //         isDark(context) ? ThemeColors.indigo700 : ThemeColors.indigo300,
-      //     textColor:
-      //         isDark(context) ? ThemeColors.white : ThemeColors.indigo900);
-      return Future.value(false);
-    } else {
-      logger("NOW EXIT NOT");
-      // SystemChannels.platform.invokeMethod('SystemNavigator.pop');
-      return Future.value(false);
-    }
   }
 }
