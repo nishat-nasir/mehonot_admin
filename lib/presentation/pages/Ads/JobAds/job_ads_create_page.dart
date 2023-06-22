@@ -108,23 +108,26 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: currentLocJobList.length,
                 itemBuilder: (context, index) {
-                  return PrsmJobContainer(
-                    jobModel: currentLocJobList.elementAt(index),
-                    onTap: () async {
-                      context.pushRoute(JobDetailsRouter(
-                          bottomWidget: PrimaryButton(
-                            onPressed: () async {
-                              await createOrRmvJobAdFunc(
-                                  context: context,
-                                  job: currentLocJobList.elementAt(index));
-                            },
-                            buttonText: await getTheBtnText(
-                                job: currentLocJobList.elementAt(index)),
-                            buttonType: ButtonType.Ghost,
-                          ),
-                          jobModel: currentLocJobList.elementAt(index)));
-                    },
-                  );
+                  return SpacedColumn(children: [
+                    PrsmJobContainer(
+                      jobModel: currentLocJobList.elementAt(index),
+                      onTap: () async {
+                        context.pushRoute(JobDetailsRouter(
+                            bottomWidget: PrimaryButton(
+                              onPressed: () async {
+                                await createOrRmvJobAdFunc(
+                                    context: context,
+                                    job: currentLocJobList.elementAt(index));
+                              },
+                              buttonText: await getTheBtnText(
+                                  job: currentLocJobList.elementAt(index)),
+                              buttonType: ButtonType.Ghost,
+                            ),
+                            jobModel: currentLocJobList.elementAt(index)));
+                      },
+                    ),
+                    SizedBox(height: 20.h),
+                  ]);
                 },
               );
   }
