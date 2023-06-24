@@ -29,60 +29,51 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
   Widget build(BuildContext context) {
     logger('JobAdCreatePage ${currentLocJobList.length}', hint: '----------');
     return StoreConnector<AppState, AppState>(
-      converter: (store) => store.state,
-      builder: (_, state) {
-        return SizedBox(
-          height: MediaQuery.of(context).size.height - 300,
-          child: Padding(
-            padding: EdgeInsets.all(20.w),
-            child: SingleChildScrollView(
-              child: SpacedColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildTopSec(state),
-                  categorySuggestions(),
-                  _buildJobList(),
-                  if (showSeeMoreBtn) _buildSeeMoreButton(),
-                ],
-              ),
-            ),
-          ),
-        );
-      },
-    );
+        converter: (store) => store.state,
+        builder: (_, state) {
+          return SizedBox(
+              height: MediaQuery.of(context).size.height - 300,
+              child: Padding(
+                  padding: EdgeInsets.all(20.w),
+                  child: SingleChildScrollView(
+                      child: SpacedColumn(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                        _buildTopSec(state),
+                        categorySuggestions(),
+                        _buildJobList(),
+                        if (showSeeMoreBtn) _buildSeeMoreButton(),
+                      ]))));
+        });
   }
 
   Widget _buildTopSec(AppState state) {
     return SpacedRow(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: 400.w,
-          child: PrsmDropdown(
-            listValues: Constants.jobDivisionList.map((e) => e.name).toList(),
-            value: selectedDivision.name,
-            onChanged: (value) {
-              setState(() {
-                selectedDivision = Constants.jobDivisionList
-                    .firstWhere((element) => element.name == value);
-              });
-            },
-          ),
-        ),
-        SizedBox(
-          width: 600.w,
-          height: 120.h,
-          child: PrsmInputField(
-            leftIcon: HeroIcons.magnifyingGlass,
-            controller: _searchController,
-            onFieldSubmitted: (value) {
-              _searchJob();
-            },
-          ),
-        ),
-      ],
-    );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+              width: 400.w,
+              child: PrsmDropdown(
+                  listValues:
+                      Constants.jobDivisionList.map((e) => e.name).toList(),
+                  value: selectedDivision.name,
+                  onChanged: (value) {
+                    setState(() {
+                      selectedDivision = Constants.jobDivisionList
+                          .firstWhere((element) => element.name == value);
+                    });
+                  })),
+          SizedBox(
+              width: 600.w,
+              height: 120.h,
+              child: PrsmInputField(
+                  leftIcon: HeroIcons.magnifyingGlass,
+                  controller: _searchController,
+                  onFieldSubmitted: (value) {
+                    _searchJob();
+                  }))
+        ]);
   }
 
   Widget _buildJobList() {
@@ -132,18 +123,16 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
   Widget _buildSeeMoreButton() {
     return isLoadingMore
         ? const Center(child: CircularProgressIndicator())
-        : currentLocJobList.length < currentLocJobList.length
-            ? Center(
-                child: PrimaryButton(
-                  buttonText: "See More",
-                  buttonType: ButtonType.Link,
-                  buttonSize: ButtonSize.L,
-                  onPressed: () {
-                    fetchMoreData();
-                  },
-                ),
-              )
-            : const SizedBox();
+        : Center(
+            child: PrimaryButton(
+              buttonText: "See More",
+              buttonType: ButtonType.Link,
+              buttonSize: ButtonSize.L,
+              onPressed: () {
+                fetchMoreData();
+              },
+            ),
+          );
   }
 
   Widget categorySuggestions() {
@@ -183,21 +172,38 @@ class _JobAdCreatePageState extends State<JobAdCreatePage> {
       currentLocJobList.clear();
     });
 
-    bool success = await appStore.dispatch(GetJobSearchAction(
-      searchText: _searchController.text.toLowerCase(),
-      searchCategory:
-          searchCategory.map((category) => category.toLowerCase()).toList(),
-    ));
-
-    if (success) {
-      List<JobModel> jobs = appStore.state.jobsState.searchJobList;
+    if (_searchController.text.isEmpty && searchCategory.isEmpty) {
+      logger("GET ALL JOBS IN SEARCH FOR ADS");
+      await appStore.dispatch(GetJobsAction(
+        division: selectedDivision,
+      ));
+      List<JobModel> jobs = appStore.state.jobsState.currentLocationJobsList;
       for (int i = 0; i < jobs.length; i++) {
         setState(() {
           isLoading = false;
           currentLocJobList.add(jobs[i]);
         });
       }
+      setState(() {
+        showSeeMoreBtn = true;
+      });
+    } else {
+      bool success = await appStore.dispatch(GetJobSearchAction(
+        searchText: _searchController.text.toLowerCase(),
+        searchCategory:
+            searchCategory.map((category) => category.toLowerCase()).toList(),
+      ));
+      if (success) {
+        List<JobModel> jobs = appStore.state.jobsState.searchJobList;
+        for (int i = 0; i < jobs.length; i++) {
+          setState(() {
+            isLoading = false;
+            currentLocJobList.add(jobs[i]);
+          });
+        }
+      }
     }
+
     await Future.delayed(const Duration(seconds: 7), () {
       if (context.mounted) {
         setState(() {
