@@ -23,120 +23,123 @@ class GeneralWrapper extends StatelessWidget {
         onWillPop: () {
           return Future.value(false);
         },
-        child: AutoTabsScaffold(
-            backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
-            animationCurve: Curves.easeInOutCubicEmphasized,
-            drawerEnableOpenDragGesture: false,
-            scaffoldKey: generalWrapperGlobalKey,
-            drawer: const DefaultSidebar(),
-            resizeToAvoidBottomInset: true,
-            appBarBuilder: (appBarCtx, tabsRouter) {
-              logger(appBarCtx.topRoute.name, hint: '----------');
-              switch (appBarCtx.topRoute.name) {
-                case DashboardRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Mehonot",
-                  );
-                case JobRequestsRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Job Requests",
-                  );
-                case BannerHomeListRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Home banners",
-                  );
-                case BannerSetListRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Setting banners",
-                  );
-
-                case BannerCreateRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Create banner",
-                    leftIcon: HeroIcons.xMark,
-                    onLeftIconPress: () {
-                      context.router.popTop();
-                    },
-                  );
-                case BannerEditRoute.name:
-                  return PrsmDefaultAppBar(
-                    titleText: "Edit banner",
-                    leftIcon: HeroIcons.xMark,
-                    onLeftIconPress: () {
-                      context.router.popTop();
-                    },
-                  );
-                case FeedbackListRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Feedback",
-                  );
-                case QuillTestRoute.name:
-                  return PrsmDefaultAppBar(
-                    generalWrapperGlobalKey: generalWrapperGlobalKey,
-                    titleText: "Quil Test",
-                  );
-                case MyAccountRouter.name:
-                  return PrsmDefaultAppBar(
+        child: SafeArea(
+          child: AutoTabsScaffold(
+              backgroundColor: isDark ? Colors.black : ThemeColors.gray50,
+              animationCurve: Curves.easeInOutCubicEmphasized,
+              drawerEnableOpenDragGesture: false,
+              scaffoldKey: generalWrapperGlobalKey,
+              drawer: const DefaultSidebar(),
+              resizeToAvoidBottomInset: true,
+              appBarBuilder: (appBarCtx, tabsRouter) {
+                logger(appBarCtx.topRoute.name, hint: '----------');
+                switch (appBarCtx.topRoute.name) {
+                  case DashboardRoute.name:
+                    return PrsmDefaultAppBar(
                       generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      titleText: S(context).account,
+                      titleText: "Mehonot",
+                    );
+                  case JobRequestsRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Job Requests",
+                    );
+                  case BannerHomeListRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Home banners",
+                    );
+                  case BannerSetListRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Setting banners",
+                    );
+
+                  case BannerCreateRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Create banner",
                       leftIcon: HeroIcons.chevronLeft,
                       onLeftIconPress: () {
                         context.router.popTop();
-                      });
-                case CeoJobCreateRouter.name:
-                  return PrsmDefaultAppBar(
-                      generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      titleText: S(context).postJob,
-                      leftIcon: HeroIcons.xMark,
-                      onLeftIconPress: () {
-                        context.back();
-                      });
-                case CeoJobEditRouter.name:
-                  return PrsmDefaultAppBar(
-                      generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      titleText: "Edit Job",
-                      leftIcon: HeroIcons.xMark,
-                      onLeftIconPress: () {
-                        context.back();
-                      });
-                case JobDetailsRouter.name:
-                  return PrsmDefaultAppBar(
-                      generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      titleText: "Job Details",
-                      leftIcon: HeroIcons.chevronLeft,
-                      onLeftIconPress: () {
-                        context.back();
-                      });
-                case JobAdsListRoute.name:
-                  return PrsmDefaultAppBar(
-                      generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      titleText: "Job Ads");
-
-                case JobAdCreateRoute.name:
-                  return PrsmDefaultAppBar(
-                      generalWrapperGlobalKey: generalWrapperGlobalKey,
-                      leftIcon: HeroIcons.xMark,
-                      onLeftIconPress: () {
-                        context.back();
                       },
-                      titleText: "Create Job Ads");
-                default:
-                  return const NoAppBar();
-              }
-            },
-            routes: const [
-              HomePageRouter(),
-              JobReqRouter(),
-              BannerRouter(),
-              JobAdsRouter(),
-              FeedbackRouter(),
-              QuillRouter(),
-            ]));
+                    );
+                  case BannerEditRoute.name:
+                    return PrsmDefaultAppBar(
+                      titleText: "Edit banner",
+                      leftIcon: HeroIcons.xMark,
+                      onLeftIconPress: () {
+                        context.router.popTop();
+                      },
+                    );
+                  case FeedbackListRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Feedback",
+                    );
+                  case QuillTestRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      leftIcon: HeroIcons.xMark,
+                      titleText: "Quil Test",
+                    );
+                  case MyAccountRouter.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        titleText: S(context).account,
+                        leftIcon: HeroIcons.chevronLeft,
+                        onLeftIconPress: () {
+                          context.router.popTop();
+                        });
+                  case CeoJobCreateRouter.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        titleText: S(context).postJob,
+                        leftIcon: HeroIcons.xMark,
+                        onLeftIconPress: () {
+                          context.back();
+                        });
+                  case CeoJobEditRouter.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        titleText: "Edit Job",
+                        leftIcon: HeroIcons.xMark,
+                        onLeftIconPress: () {
+                          context.back();
+                        });
+                  case JobDetailsRouter.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        titleText: "Job Details",
+                        leftIcon: HeroIcons.chevronLeft,
+                        onLeftIconPress: () {
+                          context.back();
+                        });
+                  case JobAdsListRoute.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        titleText: "Job Ads");
+
+                  case JobAdCreateRoute.name:
+                    return PrsmDefaultAppBar(
+                        generalWrapperGlobalKey: generalWrapperGlobalKey,
+                        leftIcon: HeroIcons.xMark,
+                        onLeftIconPress: () {
+                          context.back();
+                        },
+                        titleText: "Create Job Ads");
+                  default:
+                    return const NoAppBar();
+                }
+              },
+              routes: const [
+                HomePageRouter(),
+                JobReqRouter(),
+                BannerRouter(),
+                JobAdsRouter(),
+                FeedbackRouter(),
+                QuillRouter(),
+              ]),
+        ));
   }
 }

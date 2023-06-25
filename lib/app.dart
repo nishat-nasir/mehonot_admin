@@ -61,7 +61,7 @@ class MehonotAppState extends State<MehonotApp> with WidgetsBindingObserver {
                   child: child!),
               debugShowCheckedModeBanner: kDebugMode,
               theme: lightTheme,
-              darkTheme: darkTheme,
+              // darkTheme: darkTheme,
               routerDelegate: AutoRouterDelegate(
                 appRouter,
                 navigatorObservers: () => [_DefaultObserver()],

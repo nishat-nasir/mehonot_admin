@@ -12,6 +12,7 @@ class PrimaryButton extends StatelessWidget {
   VoidCallback onPressed;
   Color? linkTypeBtnColor;
   TextStyle? btnTextStyle;
+  Color? bgColor;
 
   PrimaryButton({
     super.key,
@@ -23,6 +24,7 @@ class PrimaryButton extends StatelessWidget {
     required this.onPressed,
     this.linkTypeBtnColor,
     this.btnTextStyle,
+    this.bgColor,
   });
 
   @override
@@ -76,6 +78,7 @@ class PrimaryButton extends StatelessWidget {
         return mainTypeButtonTheme(
             height: _getButtonSize().height,
             width: _getButtonSize().width,
+            buttonColor: bgColor,
             textStyle: _getTextStyle());
       case ButtonType.Ghost:
         return ghostTypeButtonTheme(

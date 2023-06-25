@@ -46,9 +46,10 @@ class _SplashPageState extends State<SplashPage> {
                     verticalSpace: 60,
                     children: [
                       SizedText(
-                        text: "السلامعليكم ورحمة الله وبركاته",
+                        text: "Loading...",
                         softWrap: true,
                         height: 200.h,
+                        textAlign: TextAlign.center,
                         width: 700.w,
                         textStyle: ThemeTextExtraBold.k28,
                       ),

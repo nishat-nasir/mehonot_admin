@@ -33,6 +33,9 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: 'banner-details', page: BannerDetailsRoute.page),
           AutoRoute(path: 'banner-create', page: BannerCreateRoute.page),
           AutoRoute(path: 'banner-edit', page: BannerEditRoute.page),
+          AutoRoute(path: 'quilltest', page: QuillRouter.page, children: [
+            AutoRoute(path: '', page: QuillTestRoute.page),
+          ]),
         ]),
         AutoRoute(path: 'job-ads', page: JobAdsRouter.page, children: [
           AutoRoute(path: '', page: JobAdsListRoute.page),
