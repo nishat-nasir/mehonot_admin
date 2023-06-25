@@ -50,6 +50,7 @@ dependencies:
   webview_flutter: ^3.0.3
   connectivity_plus: ^4.0.1
   share_plus: ^7.0.2
+  flutter_quill: ^7.2.9
 
   firebase_core: ^2.13.0
   firebase_storage: ^11.2.1

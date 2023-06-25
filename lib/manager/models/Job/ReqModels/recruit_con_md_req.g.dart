@@ -9,9 +9,7 @@ part of 'recruit_con_md_req.dart';
 RecruitConModelReq _$RecruitConModelReqFromJson(Map json) => RecruitConModelReq(
       education: json['education'] as String?,
       personnel: json['personnel'] as String?,
-      deadline: json['deadline'] == null
-          ? null
-          : const TimestampConverter().fromJson(json['deadline'] as Timestamp),
+      deadline: const TimestampConverter().fromJson(json['deadline']),
       gender: json['gender'] as String?,
       age: json['age'] as String?,
     );
@@ -20,9 +18,14 @@ Map<String, dynamic> _$RecruitConModelReqToJson(RecruitConModelReq instance) =>
     <String, dynamic>{
       'education': instance.education,
       'personnel': instance.personnel,
-      'deadline': instance.deadline == null
-          ? null
-          : const TimestampConverter().toJson(instance.deadline as Timestamp),
       'gender': instance.gender,
       'age': instance.age,
+      'deadline': _$JsonConverterToJson<dynamic, Timestamp>(
+          instance.deadline, const TimestampConverter().toJson),
     };
+
+Json? _$JsonConverterToJson<Json, Value>(
+  Value? value,
+  Json? Function(Value value) toJson,
+) =>
+    value == null ? null : toJson(value);

@@ -20,7 +20,7 @@ JobModel _$JobModelFromJson(Map json) => JobModel(
       workStartTime: json['workStartTime'] as String,
       workFinishTime: json['workFinishTime'] as String,
       postedByUserId: json['postedByUserId'] as String,
-      status: json['status'] as JobStatus,
+      status: $enumDecode(_$JobStatusEnumMap, json['status']),
       wageAmount: (json['wageAmount'] as num).toDouble(),
       timestamp: const TimestampConverter().fromJson(json['timestamp']),
     );
@@ -38,7 +38,20 @@ Map<String, dynamic> _$JobModelToJson(JobModel instance) => <String, dynamic>{
       'workStartTime': instance.workStartTime,
       'workFinishTime': instance.workFinishTime,
       'postedByUserId': instance.postedByUserId,
-      'status': instance.status,
+      'status': _$JobStatusEnumMap[instance.status]!,
       'wageAmount': instance.wageAmount,
       'timestamp': const TimestampConverter().toJson(instance.timestamp),
     };
+
+const _$JobStatusEnumMap = {
+  JobStatus.pending: 'pending',
+  JobStatus.published: 'published',
+  JobStatus.rejected: 'rejected',
+  JobStatus.expired: 'expired',
+  JobStatus.completed: 'completed',
+  JobStatus.test: 'test',
+  JobStatus.cancelled: 'cancelled',
+  JobStatus.deleted: 'deleted',
+  JobStatus.resubmitted: 'resubmitted',
+  JobStatus.supplement: 'supplement',
+};

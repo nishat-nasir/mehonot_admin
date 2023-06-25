@@ -76,6 +76,11 @@ class GeneralWrapper extends StatelessWidget {
                     generalWrapperGlobalKey: generalWrapperGlobalKey,
                     titleText: "Feedback",
                   );
+                case QuillTestRoute.name:
+                  return PrsmDefaultAppBar(
+                    generalWrapperGlobalKey: generalWrapperGlobalKey,
+                    titleText: "Quil Test",
+                  );
                 case MyAccountRouter.name:
                   return PrsmDefaultAppBar(
                       generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -131,6 +136,7 @@ class GeneralWrapper extends StatelessWidget {
               BannerRouter(),
               JobAdsRouter(),
               FeedbackRouter(),
+              QuillRouter(),
             ]));
   }
 }

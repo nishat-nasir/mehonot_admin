@@ -42,6 +42,9 @@ class AppRouter extends $AppRouter {
         AutoRoute(path: 'feedback', page: FeedbackRouter.page, children: [
           AutoRoute(path: '', page: FeedbackListRoute.page),
         ]),
+        AutoRoute(path: 'quilltest', page: QuillRouter.page, children: [
+          AutoRoute(path: '', page: QuillTestRoute.page),
+        ]),
       ]),
     ])
   ];
@@ -64,3 +67,6 @@ class JobAdsRouterPage extends AutoRouter {}
 
 @RoutePage(name: 'FeedbackRouter')
 class FeedbackRouterPage extends AutoRouter {}
+
+@RoutePage(name: 'QuillRouter')
+class QuillTestRouterPage extends AutoRouter {}
