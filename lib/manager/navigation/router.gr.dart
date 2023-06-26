@@ -9,11 +9,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i31;
-import 'package:flutter/rendering.dart' as _i36;
+import 'package:flutter/rendering.dart' as _i37;
+import 'package:flutter_quill/flutter_quill.dart' as _i34;
 import 'package:mehonot_admin/manager/models/Ads/banner_ads/banner_md.dart'
     as _i33;
-import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart' as _i35;
-import 'package:mehonot_admin/manager/models/Job/job_md.dart' as _i34;
+import 'package:mehonot_admin/manager/models/Job/job_dtl_md.dart' as _i36;
+import 'package:mehonot_admin/manager/models/Job/job_md.dart' as _i35;
 import 'package:mehonot_admin/manager/navigation/router.dart' as _i1;
 import 'package:mehonot_admin/presentation/pages/Account/account_01_page.dart'
     as _i2;
@@ -172,9 +173,14 @@ abstract class $AppRouter extends _i31.RootStackRouter {
       );
     },
     QuillTestRoute.name: (routeData) {
+      final args = routeData.argsAs<QuillTestRouteArgs>();
       return _i31.AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const _i9.QuillTest(),
+        child: _i9.QuillTest(
+          key: args.key,
+          onDone: args.onDone,
+          controller: args.controller,
+        ),
       );
     },
     JobAdCreateRoute.name: (routeData) {
@@ -597,16 +603,45 @@ class BannerSetListRoute extends _i31.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i9.QuillTest]
-class QuillTestRoute extends _i31.PageRouteInfo<void> {
-  const QuillTestRoute({List<_i31.PageRouteInfo>? children})
-      : super(
+class QuillTestRoute extends _i31.PageRouteInfo<QuillTestRouteArgs> {
+  QuillTestRoute({
+    _i32.Key? key,
+    required dynamic Function(_i34.QuillController) onDone,
+    _i34.QuillController? controller,
+    List<_i31.PageRouteInfo>? children,
+  }) : super(
           QuillTestRoute.name,
+          args: QuillTestRouteArgs(
+            key: key,
+            onDone: onDone,
+            controller: controller,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'QuillTestRoute';
 
-  static const _i31.PageInfo<void> page = _i31.PageInfo<void>(name);
+  static const _i31.PageInfo<QuillTestRouteArgs> page =
+      _i31.PageInfo<QuillTestRouteArgs>(name);
+}
+
+class QuillTestRouteArgs {
+  const QuillTestRouteArgs({
+    this.key,
+    required this.onDone,
+    this.controller,
+  });
+
+  final _i32.Key? key;
+
+  final dynamic Function(_i34.QuillController) onDone;
+
+  final _i34.QuillController? controller;
+
+  @override
+  String toString() {
+    return 'QuillTestRouteArgs{key: $key, onDone: $onDone, controller: $controller}';
+  }
 }
 
 /// generated route for
@@ -769,8 +804,8 @@ class CeoJobCreateRouter extends _i31.PageRouteInfo<void> {
 /// [_i20.CeoJobEditPage]
 class CeoJobEditRouter extends _i31.PageRouteInfo<CeoJobEditRouterArgs> {
   CeoJobEditRouter({
-    required _i34.JobModel jobModel,
-    required _i35.JobDetailModel jobDetailModel,
+    required _i35.JobModel jobModel,
+    required _i36.JobDetailModel jobDetailModel,
     _i32.Key? key,
     List<_i31.PageRouteInfo>? children,
   }) : super(
@@ -796,9 +831,9 @@ class CeoJobEditRouterArgs {
     this.key,
   });
 
-  final _i34.JobModel jobModel;
+  final _i35.JobModel jobModel;
 
-  final _i35.JobDetailModel jobDetailModel;
+  final _i36.JobDetailModel jobDetailModel;
 
   final _i32.Key? key;
 
@@ -813,8 +848,8 @@ class CeoJobEditRouterArgs {
 class JobDetailsRouter extends _i31.PageRouteInfo<JobDetailsRouterArgs> {
   JobDetailsRouter({
     _i32.Key? key,
-    required _i34.JobModel jobModel,
-    _i35.JobDetailModel? jobDetailModel,
+    required _i35.JobModel jobModel,
+    _i36.JobDetailModel? jobDetailModel,
     _i32.Widget? bottomWidget,
     List<_i31.PageRouteInfo>? children,
   }) : super(
@@ -844,9 +879,9 @@ class JobDetailsRouterArgs {
 
   final _i32.Key? key;
 
-  final _i34.JobModel jobModel;
+  final _i35.JobModel jobModel;
 
-  final _i35.JobDetailModel? jobDetailModel;
+  final _i36.JobDetailModel? jobDetailModel;
 
   final _i32.Widget? bottomWidget;
 
@@ -888,7 +923,7 @@ class Menu01Route extends _i31.PageRouteInfo<void> {
 /// [_i24.Profile01Page]
 class Profile01Route extends _i31.PageRouteInfo<Profile01RouteArgs> {
   Profile01Route({
-    _i36.Key? key,
+    _i37.Key? key,
     List<_i31.PageRouteInfo>? children,
   }) : super(
           Profile01Route.name,
@@ -905,7 +940,7 @@ class Profile01Route extends _i31.PageRouteInfo<Profile01RouteArgs> {
 class Profile01RouteArgs {
   const Profile01RouteArgs({this.key});
 
-  final _i36.Key? key;
+  final _i37.Key? key;
 
   @override
   String toString() {
