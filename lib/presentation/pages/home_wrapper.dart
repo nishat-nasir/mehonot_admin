@@ -1,11 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../manager/navigation/router.gr.dart';
-import '../../manager/redux/states/user_state.dart';
 import '../template/template.dart';
-import '../widgets/bottom_navbar.dart';
 import '../widgets/appbar/default_appbar.dart';
 import '../widgets/no_appbar.dart';
 import '../widgets/sidebar/default_sidebar.dart';
