@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../manager/models/Job/job_dtl_md.dart';
@@ -26,19 +29,18 @@ class JobDetailsView extends StatefulWidget {
   bool? showStatus;
   VoidCallback? onTapApplicationList;
 
-  JobDetailsView(
-      {required this.jobModel,
-      required this.jobDetailModel,
-      this.iconList,
-      this.onPress1,
-      this.onPress2,
-      this.onPress3,
-      this.bottomBtn,
-      this.onTapCross,
-      this.showXMark,
-      this.showStatus,
-      this.onTapApplicationList,
-      Key? key})
+  JobDetailsView({required this.jobModel,
+    required this.jobDetailModel,
+    this.iconList,
+    this.onPress1,
+    this.onPress2,
+    this.onPress3,
+    this.bottomBtn,
+    this.onTapCross,
+    this.showXMark,
+    this.showStatus,
+    this.onTapApplicationList,
+    Key? key})
       : super(key: key);
 
   @override
@@ -46,16 +48,32 @@ class JobDetailsView extends StatefulWidget {
 }
 
 class _JobDetailsViewState extends State<JobDetailsView> {
+  List<String> jobCategories = [];
+
+  QuillController quillText = QuillController.basic();
+
   @override
   Widget build(BuildContext context) {
-    bool isDark = Theme.of(context).brightness == Brightness.dark;
+    bool isDark = Theme
+        .of(context)
+        .brightness == Brightness.dark;
     String jobWage = widget.jobModel.wageAmount.toString();
     String jobWageType = widget.jobDetailModel.workCondition.wageType!;
     String jobDuration = widget.jobDetailModel.workCondition.period!;
     String jobLocation = widget.jobModel.address.division;
-
+    setState(() {
+      jobCategories =
+      widget.jobModel.category.isNotEmpty ? widget.jobModel.category : [];
+    });
+    if (widget.jobDetailModel.moreDetails != null &&
+        widget.jobDetailModel.moreDetails!.isNotEmpty) {
+      convertJsonToQuillController(widget.jobDetailModel.moreDetails!);
+    }
     return SizedBox(
-      height: MediaQuery.of(context).size.height - 120,
+      height: MediaQuery
+          .of(context)
+          .size
+          .height - 120,
       child: SingleChildScrollView(
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 52.w),
@@ -80,7 +98,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                                     alignment: Alignment.centerRight,
                                     child: InkWell(
                                       onTap: widget.onTapCross ??
-                                          () {
+                                              () {
                                             context.router.popTop();
                                           },
                                       child: HeroIcon(HeroIcons.xMark,
@@ -115,7 +133,44 @@ class _JobDetailsViewState extends State<JobDetailsView> {
                       jobDescription: widget.jobDetailModel.description,
                       isDark: isDark),
                   _buildJobOtherInfoSec(isDark),
-                  _buildMoreInfoSec(),
+                  if (widget.jobDetailModel.website != null &&
+                      widget.jobDetailModel.website != "")
+                    _buildMoreInfoSec(),
+                  SizedBox(height: 40.h),
+                  // if (widget.jobDetailModel.moreDetails != null &&
+                  //     widget.jobDetailModel.moreDetails != "" &&
+                  //     widget.jobDetailModel.moreDetails!.isNotEmpty)
+                  //   const Divider(),
+                  if (widget.jobDetailModel.moreDetails != null &&
+                      widget.jobDetailModel.moreDetails != "" &&
+                      widget.jobDetailModel.moreDetails!.isNotEmpty)
+                    SizedText(
+                      text: "${S(context).moreInfo} :",
+                      textStyle: ThemeTextSemiBold.k18,
+                    ),
+                  if (widget.jobDetailModel.moreDetails != null &&
+                      widget.jobDetailModel.moreDetails != "" &&
+                      widget.jobDetailModel.moreDetails!.isNotEmpty)
+                    Padding(
+                      padding: EdgeInsets.all(8.w),
+                      child: QuillEditor(
+                        controller: quillText,
+                        readOnly: true,
+                        focusNode: FocusNode(),
+                        scrollController: ScrollController(),
+                        scrollable: true,
+                        padding: EdgeInsets.zero,
+                        autoFocus: false,
+                        expands: false,
+                        showCursor: false,
+                      ),
+                    ),
+                  Container(
+                      height: 1.h,
+                      color: isDark
+                          ? ThemeColors.coolgray400
+                          : ThemeColors.coolgray500),
+                  if (widget.jobModel.category.isNotEmpty) _buildCatInfoSec(),
                   _buildBottomButtons(context),
                   SizedBox(height: 60.h)
                 ])),
@@ -135,17 +190,16 @@ class _JobDetailsViewState extends State<JobDetailsView> {
         CircleHeadWidget(
             icon: HeroIcons.mapPin,
             detailText:
-                trLocationName(locationName: jobLocation, context: context)),
+            trLocationName(locationName: jobLocation, context: context)),
         CircleHeadWidget(icon: HeroIcons.calendar, detailText: "10:00-05:00"),
       ]),
       const Divider(color: ThemeColors.coolgray400, thickness: 1),
     ]);
   }
 
-  Widget _buildCompanyTitleSec(
-      {required String companyName,
-      required String companyLogo,
-      required bool isDark}) {
+  Widget _buildCompanyTitleSec({required String companyName,
+    required String companyLogo,
+    required bool isDark}) {
     return Padding(
         padding: EdgeInsets.all(8.w),
         child: Container(
@@ -205,7 +259,7 @@ class _JobDetailsViewState extends State<JobDetailsView> {
       padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
       decoration: BoxDecoration(
           color:
-              isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
+          isDark ? PrsmColorsDark.formContainerBgColor : ThemeColors.white,
           borderRadius: BorderRadius.circular(18.r),
           boxShadow: ThemeShadows.shadowSm),
       child: SpacedColumn(
@@ -285,6 +339,44 @@ class _JobDetailsViewState extends State<JobDetailsView> {
   }
 
   //logger("Send Message to this owner of this job : ${widget.jobModel.companyName}");
+  Widget _buildCatInfoSec() {
+    return Container(
+        width: double.infinity,
+        padding: EdgeInsets.symmetric(horizontal: 32.w, vertical: 32.h),
+        decoration: BoxDecoration(
+            color: isDark(context)
+                ? PrsmColorsDark.formContainerBgColor
+                : ThemeColors.white,
+            borderRadius: BorderRadius.circular(18.r),
+            boxShadow: ThemeShadows.shadowSm),
+        child: SpacedColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          verticalSpace: 20,
+          children: [
+            SizedText(
+                text: S(context).jobCategory, textStyle: ThemeTextMedium.k16),
+            Wrap(
+              spacing: 10,
+              runSpacing: 10,
+              children: List.generate(
+                  jobCategories.length,
+                      (index) =>
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 14.w, vertical: 4.h),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8.r),
+                            color: isDark(context)
+                                ? PrsmColorsDark.canvasColor
+                                : ThemeColors.coolgray300),
+                        child: SizedText(
+                            text: jobCategories[index].capitalize(),
+                            textStyle: ThemeTextRegular.k10),
+                      )),
+            )
+          ],
+        ));
+  }
 
   Widget _buildBottomButtons(BuildContext context) {
     return SpacedColumn(
@@ -346,7 +438,8 @@ class _JobDetailsViewState extends State<JobDetailsView> {
           infoHelper(
               title: S(context).workDays,
               desc:
-                  "${widget.jobDetailModel.workCondition.workStartDay}-${widget.jobDetailModel.workCondition.workFinishDay}"),
+              "${widget.jobDetailModel.workCondition.workStartDay}-${widget
+                  .jobDetailModel.workCondition.workFinishDay}"),
           infoHelper(
               title: S(context).wages,
               desc: "${widget.jobModel.wageAmount} BDT"),
@@ -402,17 +495,6 @@ class _JobDetailsViewState extends State<JobDetailsView> {
     ]);
   }
 
-  Future<void> _launchInWebViewOrVC(Uri url) async {
-    if (!await launchUrl(
-      url,
-      mode: LaunchMode.inAppWebView,
-      webViewConfiguration: const WebViewConfiguration(
-          headers: <String, String>{'my_header_key': 'my_header_value'}),
-    )) {
-      throw Exception('Could not launch $url');
-    }
-  }
-
   Widget deadlineInfoHelper({required String title, required String desc}) {
     int remainingDays = calculateRemainingTimeInDays(
         widget.jobDetailModel.recruitCondition.deadline);
@@ -447,5 +529,29 @@ class _JobDetailsViewState extends State<JobDetailsView> {
             textStyle: ThemeTextSemiBold.k14.copyWith(color: textColor()))
       ])
     ]);
+  }
+
+  Future<void> _launchInWebViewOrVC(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.inAppWebView,
+      webViewConfiguration: const WebViewConfiguration(
+          headers: <String, String>{'my_header_key': 'my_header_value'}),
+    )) {
+      throw Exception('Could not launch $url');
+    }
+  }
+
+  void convertJsonToQuillController(String jsonText) {
+    String jsonString = jsonText;
+    List<dynamic> jsonList = json.decode(jsonString);
+    Delta delta = Delta.fromJson(jsonList);
+    Document document = Document.fromJson(delta.toJson());
+    setState(() {
+      quillText = QuillController(
+        document: document,
+        selection: const TextSelection.collapsed(offset: 0),
+      );
+    });
   }
 }

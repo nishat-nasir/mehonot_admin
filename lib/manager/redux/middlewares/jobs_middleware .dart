@@ -302,7 +302,10 @@ Future<JobDetailModel?> _getJobDetailsAction(
         recruitCondition: RecruitConModel(
           personnel: value["recruitCondition"]["personnel"],
           gender: value["recruitCondition"]["gender"],
-          deadline: value["recruitCondition"]["deadline"],
+          deadline: value["recruitCondition"]["deadline"].runtimeType == int
+              ? Timestamp.fromMillisecondsSinceEpoch(
+                  value["recruitCondition"]["deadline"])
+              : value["recruitCondition"]["deadline"],
           age: value["recruitCondition"]["age"],
           education: value["recruitCondition"]["education"],
         ),
@@ -549,7 +552,10 @@ Future<bool> _getAcceptReqJobAction(
         recruitCondition: RecruitConModel(
           personnel: value["recruitCondition"]["personnel"],
           gender: value["recruitCondition"]["gender"],
-          deadline: value["recruitCondition"]["deadline"],
+          deadline: value["recruitCondition"]["deadline"].runtimeType == int
+              ? Timestamp.fromMillisecondsSinceEpoch(
+                  value["recruitCondition"]["deadline"])
+              : value["recruitCondition"]["deadline"],
           age: value["recruitCondition"]["age"],
           education: value["recruitCondition"]["education"],
         ),
@@ -669,7 +675,10 @@ Future<JobDetailModel?> _getReqJobDetailsAction(
         recruitCondition: RecruitConModel(
           personnel: value["recruitCondition"]["personnel"],
           gender: value["recruitCondition"]["gender"],
-          deadline: value["recruitCondition"]["deadline"],
+          deadline: value["recruitCondition"]["deadline"].runtimeType == int
+              ? Timestamp.fromMillisecondsSinceEpoch(
+                  value["recruitCondition"]["deadline"])
+              : value["recruitCondition"]["deadline"],
           age: value["recruitCondition"]["age"],
           education: value["recruitCondition"]["education"],
         ),

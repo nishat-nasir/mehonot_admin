@@ -54,22 +54,36 @@ class AppRouter extends $AppRouter {
 }
 
 @RoutePage(name: 'AuthRouter')
-class AuthRouterPage extends AutoRouter {}
+class AuthRouterPage extends AutoRouter {
+  const AuthRouterPage({super.key});
+}
 
 @RoutePage(name: 'HomePageRouter')
-class HomePageRouterPage extends AutoRouter {}
+class HomePageRouterPage extends AutoRouter {
+  const HomePageRouterPage({super.key});
+}
 
 @RoutePage(name: 'JobReqRouter')
-class JobReqRouterPage extends AutoRouter {}
+class JobReqRouterPage extends AutoRouter {
+  const JobReqRouterPage({super.key});
+}
 
 @RoutePage(name: 'BannerRouter')
-class BannerRouterPage extends AutoRouter {}
+class BannerRouterPage extends AutoRouter {
+  const BannerRouterPage({super.key});
+}
 
 @RoutePage(name: 'JobAdsRouter')
-class JobAdsRouterPage extends AutoRouter {}
+class JobAdsRouterPage extends AutoRouter {
+  const JobAdsRouterPage({super.key});
+}
 
 @RoutePage(name: 'FeedbackRouter')
-class FeedbackRouterPage extends AutoRouter {}
+class FeedbackRouterPage extends AutoRouter {
+  const FeedbackRouterPage({super.key});
+}
 
 @RoutePage(name: 'QuillRouter')
-class QuillTestRouterPage extends AutoRouter {}
+class QuillTestRouterPage extends AutoRouter {
+  const QuillTestRouterPage({super.key});
+}
