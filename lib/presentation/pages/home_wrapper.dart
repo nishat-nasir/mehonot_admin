@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/services.dart';
+import 'package:mehonot_admin/presentation/pages/Policies/policies_list_page.dart';
 
 import '../../manager/navigation/router.gr.dart';
 import '../template/template.dart';
@@ -74,6 +75,11 @@ class GeneralWrapper extends StatelessWidget {
                       generalWrapperGlobalKey: generalWrapperGlobalKey,
                       titleText: "Feedback",
                     );
+                  case PoliciesListRoute.name:
+                    return PrsmDefaultAppBar(
+                      generalWrapperGlobalKey: generalWrapperGlobalKey,
+                      titleText: "Policies",
+                    );
                   case QuillTestRoute.name:
                     return PrsmDefaultAppBar(
                       generalWrapperGlobalKey: generalWrapperGlobalKey,
@@ -135,6 +141,7 @@ class GeneralWrapper extends StatelessWidget {
                 BannerRouter(),
                 JobAdsRouter(),
                 FeedbackRouter(),
+                PoliciesRouter(),
                 QuillRouter(),
               ]),
         ));

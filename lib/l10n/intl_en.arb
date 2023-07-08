@@ -238,5 +238,9 @@
   "tueStr": "Tue",
   "wedStr": "Wed",
   "thuStr": "Thu",
-  "friStr": "Fri"
+  "friStr": "Fri",
+  "description": "Description",
+  "subTitle": "SubTitle",
+  "seeResult": "See Result",
+  "close": "Close"
 }

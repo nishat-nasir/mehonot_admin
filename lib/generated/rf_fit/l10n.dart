@@ -2439,6 +2439,46 @@ class AppIntl {
       args: [],
     );
   }
+
+  /// `Description`
+  String get description {
+    return Intl.message(
+      'Description',
+      name: 'description',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `SubTitle`
+  String get subTitle {
+    return Intl.message(
+      'SubTitle',
+      name: 'subTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `See Result`
+  String get seeResult {
+    return Intl.message(
+      'See Result',
+      name: 'seeResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Close`
+  String get close {
+    return Intl.message(
+      'Close',
+      name: 'close',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppIntl> {

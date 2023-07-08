@@ -1,5 +1,6 @@
 import '../../../presentation/template/template.dart';
 import '../../models/Feedback/feedback_md.dart';
+import '../../models/sync/sync_reg_terms_md.dart';
 
 @immutable
 class InitState {
@@ -13,6 +14,7 @@ class InitState {
   final int countMymJobs;
   final int countAllJobs;
   final List<FeedbackMd> feedbackList;
+  final SyncRegTermsMd syncRegTermsMd;
 
   const InitState({
     required this.countDhkJobs,
@@ -25,21 +27,31 @@ class InitState {
     required this.countMymJobs,
     required this.countAllJobs,
     required this.feedbackList,
+    required this.syncRegTermsMd,
   });
 
   factory InitState.initial() {
-    return const InitState(
-      countDhkJobs: 0,
-      countCtgJobs: 0,
-      countKhlJobs: 0,
-      countRajJobs: 0,
-      countBarJobs: 0,
-      countSylJobs: 0,
-      countRngJobs: 0,
-      countMymJobs: 0,
-      countAllJobs: 0,
-      feedbackList: [],
-    );
+    return InitState(
+        countDhkJobs: 0,
+        countCtgJobs: 0,
+        countKhlJobs: 0,
+        countRajJobs: 0,
+        countBarJobs: 0,
+        countSylJobs: 0,
+        countRngJobs: 0,
+        countMymJobs: 0,
+        countAllJobs: 0,
+        feedbackList: [],
+        syncRegTermsMd: SyncRegTermsMd(
+          id: "",
+          version: "",
+          createdDate: "",
+          serviceTerms: '',
+          marketingInfoTerms: '',
+          personalInfoTerms: '',
+          softwareTerms: '',
+          halalTerms: '',
+        ));
   }
 
   InitState copyWith({
@@ -53,6 +65,7 @@ class InitState {
     int? countMymJobs,
     int? countAllJobs,
     List<FeedbackMd>? feedbackList,
+    SyncRegTermsMd? syncRegTermsMd,
   }) {
     return InitState(
       countDhkJobs: countDhkJobs ?? this.countDhkJobs,
@@ -65,6 +78,7 @@ class InitState {
       countMymJobs: countMymJobs ?? this.countMymJobs,
       countAllJobs: countAllJobs ?? this.countAllJobs,
       feedbackList: feedbackList ?? this.feedbackList,
+      syncRegTermsMd: syncRegTermsMd ?? this.syncRegTermsMd,
     );
   }
 }
@@ -82,6 +96,7 @@ class UpdateInitStateAction {
   int? countMymJobs;
   int? countAllJobs;
   List<FeedbackMd>? feedbackList;
+  SyncRegTermsMd? syncRegTermsMd;
 
   UpdateInitStateAction({
     this.countDhkJobs,
@@ -94,6 +109,7 @@ class UpdateInitStateAction {
     this.countMymJobs,
     this.countAllJobs,
     this.feedbackList,
+    this.syncRegTermsMd,
   });
 }
 
@@ -116,5 +132,17 @@ class GetInternetConnectionCheckAction {
 
   GetInternetConnectionCheckAction({
     required this.context,
+  });
+}
+
+class GetTermsAndPoliciesAction {
+  GetTermsAndPoliciesAction();
+}
+
+class GetUpdateTermsAndPoliciesAction {
+  SyncRegTermsMd syncRegTermsMd;
+
+  GetUpdateTermsAndPoliciesAction({
+    required this.syncRegTermsMd,
   });
 }

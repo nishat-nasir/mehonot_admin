@@ -45,6 +45,13 @@ class AppRouter extends $AppRouter {
         AutoRoute(path: 'feedback', page: FeedbackRouter.page, children: [
           AutoRoute(path: '', page: FeedbackListRoute.page),
         ]),
+        AutoRoute(path: 'policies', page: PoliciesRouter.page, children: [
+          AutoRoute(path: '', page: PoliciesListRoute.page),
+          CustomRoute(
+              path: 'quill-editor',
+              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
+              page: QuillEditorRoute.page),
+        ]),
         AutoRoute(path: 'quilltest', page: QuillRouter.page, children: [
           AutoRoute(path: '', page: QuillTestRoute.page),
         ]),
@@ -81,6 +88,11 @@ class JobAdsRouterPage extends AutoRouter {
 @RoutePage(name: 'FeedbackRouter')
 class FeedbackRouterPage extends AutoRouter {
   const FeedbackRouterPage({super.key});
+}
+
+@RoutePage(name: 'PoliciesRouter')
+class PoliciesRouterPage extends AutoRouter {
+  const PoliciesRouterPage({super.key});
 }
 
 @RoutePage(name: 'QuillRouter')

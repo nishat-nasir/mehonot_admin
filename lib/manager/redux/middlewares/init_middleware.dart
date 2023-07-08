@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:mehonot_admin/manager/firebase/firebase_kit.dart';
 import 'package:mehonot_admin/manager/hive_client.dart';
 import '../../../presentation/template/template.dart';
 import '../../models/Feedback/feedback_md.dart';
+import '../../models/sync/sync_reg_terms_md.dart';
 import '../../navigation/router.gr.dart';
 import '../states/ads_state.dart';
 import '../states/auth_state.dart';
@@ -14,12 +16,16 @@ class InitMiddleware extends MiddlewareClass<AppState> {
     switch (action.runtimeType) {
       case GetStateInitAction:
         return _getStateInitAction(store.state, action, next);
-              case GetInternetConnectionCheckAction:
+      case GetInternetConnectionCheckAction:
         return _getInternetConnectionCheckAction(store.state, action, next);
       case GetAllJobsCountAction:
         return _getAllJobsCountAction(store.state, action, next);
       case GetAllFeedbackAction:
         return _getAllFeedbackAction(store.state, action, next);
+      case GetTermsAndPoliciesAction:
+        return _getTermsAndPoliciesAction(store.state, action, next);
+      case GetUpdateTermsAndPoliciesAction:
+        return _getUpdateTermsAndPoliciesAction(store.state, action, next);
       default:
         return next(action);
     }
@@ -153,6 +159,74 @@ Future<bool> _getInternetConnectionCheckAction(AppState state,
     return true;
   } else {
     logger("No internet");
+    return false;
+  }
+}
+
+Future<bool?> _getTermsAndPoliciesAction(AppState state,
+    GetTermsAndPoliciesAction action, NextDispatcher next) async {
+  logger("GetTermsAndPoliciesAction -- called");
+  try {
+    CollectionReference termsAndPoliciesColl = FirebaseKit().termsAndPolicies;
+    SyncRegTermsMd? syncRegTermsMd;
+    await termsAndPoliciesColl.get().then((value) {
+      value.docs.map((e) {
+        syncRegTermsMd = SyncRegTermsMd(
+          id: e["id"],
+          createdDate: e["createdDate"].toString(),
+          version: e["version"],
+          halalTerms: e["halalTerms"],
+          marketingInfoTerms: e["marketingInfoTerms"],
+          personalInfoTerms: e["personalInfoTerms"],
+          serviceTerms: e["serviceTerms"],
+          softwareTerms: e["softwareTerms"],
+        );
+      }).toList();
+    }).then((value) {
+      appStore.dispatch(UpdateInitStateAction(syncRegTermsMd: syncRegTermsMd));
+    });
+    logger(
+        "GetTermsAndPoliciesAction -- syncRegTermsMd: ${syncRegTermsMd?.toJson()}");
+    return true;
+  } catch (e) {
+    logger("GetTermsAndPoliciesAction -- Error: $e");
+    return false;
+  }
+}
+
+Future<bool> _getUpdateTermsAndPoliciesAction(AppState state,
+    GetUpdateTermsAndPoliciesAction action, NextDispatcher next) async {
+  logger("GetTermsAndPoliciesAction -- ");
+  try {
+    CollectionReference termsAndPoliciesColl = FirebaseKit().termsAndPolicies;
+
+    await termsAndPoliciesColl.doc(action.syncRegTermsMd.id).update({
+      "createdDate": action.syncRegTermsMd.createdDate,
+      "version": (int.parse(action.syncRegTermsMd.version) + 1).toString(),
+      "halalTerms": action.syncRegTermsMd.halalTerms,
+      "marketingInfoTerms": action.syncRegTermsMd.marketingInfoTerms,
+      "personalInfoTerms": action.syncRegTermsMd.personalInfoTerms,
+      "serviceTerms": action.syncRegTermsMd.serviceTerms,
+      "softwareTerms": action.syncRegTermsMd.softwareTerms,
+    }).then((value) async {
+      SyncRegTermsMd syncRegTermsMd = SyncRegTermsMd(
+        id: action.syncRegTermsMd.id,
+        createdDate: action.syncRegTermsMd.createdDate,
+        version: action.syncRegTermsMd.version,
+        halalTerms: action.syncRegTermsMd.halalTerms,
+        marketingInfoTerms: action.syncRegTermsMd.marketingInfoTerms,
+        personalInfoTerms: action.syncRegTermsMd.personalInfoTerms,
+        serviceTerms: action.syncRegTermsMd.serviceTerms,
+        softwareTerms: action.syncRegTermsMd.softwareTerms,
+      );
+
+      await appStore
+          .dispatch(UpdateInitStateAction(syncRegTermsMd: syncRegTermsMd));
+    });
+
+    return true;
+  } catch (e) {
+    logger("GetTermsAndPoliciesAction -- Error: $e");
     return false;
   }
 }

@@ -22,7 +22,7 @@ class SizedText extends StatelessWidget {
       required this.text,
       this.textStyle,
       this.useLocaleText = true,
-      this.softWrap = false,
+      this.softWrap = true,
       this.overflow = TextOverflow.visible,
       this.textAlign = TextAlign.left,
       this.maxLines,

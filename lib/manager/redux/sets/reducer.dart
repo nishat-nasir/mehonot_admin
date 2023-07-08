@@ -92,6 +92,7 @@ InitState _updateInitState(InitState state, UpdateInitStateAction action) {
     countMymJobs: action.countMymJobs ?? state.countMymJobs,
     countAllJobs: action.countAllJobs ?? state.countAllJobs,
     feedbackList: action.feedbackList ?? state.feedbackList,
+    syncRegTermsMd: action.syncRegTermsMd ?? state.syncRegTermsMd,
   );
 }
 

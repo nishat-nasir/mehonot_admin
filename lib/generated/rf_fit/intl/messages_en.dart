@@ -75,6 +75,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Change Password"),
         "cities": MessageLookupByLibrary.simpleMessage("Cities"),
         "city": MessageLookupByLibrary.simpleMessage("City"),
+        "close": MessageLookupByLibrary.simpleMessage("Close"),
         "company": MessageLookupByLibrary.simpleMessage("Company"),
         "companyLogo": MessageLookupByLibrary.simpleMessage("Company Logo"),
         "companyName": MessageLookupByLibrary.simpleMessage("Company Name"),
@@ -100,6 +101,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "delete": MessageLookupByLibrary.simpleMessage("Delete"),
         "deleteJobConfirm": MessageLookupByLibrary.simpleMessage(
             "Are you sure to delete this job?"),
+        "description": MessageLookupByLibrary.simpleMessage("Description"),
         "details": MessageLookupByLibrary.simpleMessage("Details"),
         "dismiss": MessageLookupByLibrary.simpleMessage("Dismiss"),
         "district": MessageLookupByLibrary.simpleMessage("District"),
@@ -282,6 +284,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "saveProfile": MessageLookupByLibrary.simpleMessage("Save Profile"),
         "savedJobs": MessageLookupByLibrary.simpleMessage("Saved Jobs"),
         "searchJobs": MessageLookupByLibrary.simpleMessage("Search Jobs"),
+        "seeResult": MessageLookupByLibrary.simpleMessage("See Result"),
         "select": MessageLookupByLibrary.simpleMessage("Select"),
         "send": MessageLookupByLibrary.simpleMessage("Send"),
         "settings": MessageLookupByLibrary.simpleMessage("Settings"),
@@ -291,6 +294,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
         "startDate": MessageLookupByLibrary.simpleMessage("Start Date"),
         "startTime": MessageLookupByLibrary.simpleMessage("Start time"),
+        "subTitle": MessageLookupByLibrary.simpleMessage("SubTitle"),
         "submit": MessageLookupByLibrary.simpleMessage("Submit"),
         "success": MessageLookupByLibrary.simpleMessage("Success"),
         "successLoginMsg": MessageLookupByLibrary.simpleMessage(
