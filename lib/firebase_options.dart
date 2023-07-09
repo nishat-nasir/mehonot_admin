@@ -44,44 +44,39 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyDUFmX-MCh4bt0V3jFz5-O6MNSd_9fC5Pk',
-    appId: '1:111528070491:web:50717822e1eda89b42de7e',
-    messagingSenderId: '111528070491',
-    projectId: 'porisrom-2022',
-    authDomain: 'porisrom-2022.firebaseapp.com',
-    databaseURL: 'https://porisrom-2022-default-rtdb.firebaseio.com',
-    storageBucket: 'porisrom-2022.appspot.com',
-    measurementId: 'G-YX5XJ5YWKS',
+    apiKey: 'AIzaSyCu1QoBfUa19l9lSa1silom6CUQ0Pp-ZAI',
+    appId: '1:710449776748:web:7be316c8d1f2fa02927049',
+    messagingSenderId: '710449776748',
+    projectId: 'mehonot-bd',
+    authDomain: 'mehonot-bd.firebaseapp.com',
+    storageBucket: 'mehonot-bd.appspot.com',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyACCnMR08q_00DDqTN3R2J1QkIdZLs605M',
-    appId: '1:111528070491:android:80dbffff9a3cf9a342de7e',
-    messagingSenderId: '111528070491',
-    projectId: 'porisrom-2022',
-    databaseURL: 'https://porisrom-2022-default-rtdb.firebaseio.com',
-    storageBucket: 'porisrom-2022.appspot.com',
+    apiKey: 'AIzaSyAM5oXzpMd5g1iSBfEYcu_kZ_2oGzW-DYM',
+    appId: '1:710449776748:android:3dc905c3e28cdcac927049',
+    messagingSenderId: '710449776748',
+    projectId: 'mehonot-bd',
+    storageBucket: 'mehonot-bd.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDnT9xsa3h7HnMO-XGUFQWrR8uVYKfd0xE',
-    appId: '1:111528070491:ios:653918f10977ddce42de7e',
-    messagingSenderId: '111528070491',
-    projectId: 'porisrom-2022',
-    databaseURL: 'https://porisrom-2022-default-rtdb.firebaseio.com',
-    storageBucket: 'porisrom-2022.appspot.com',
-    iosClientId: '111528070491-t49982pdk2nabi8g2cli5hqr8ae6s2lv.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDKfig5s0FPoolriir9iVdeR1OKU_I99Ko',
+    appId: '1:710449776748:ios:ff4a85e2cf388268927049',
+    messagingSenderId: '710449776748',
+    projectId: 'mehonot-bd',
+    storageBucket: 'mehonot-bd.appspot.com',
+    iosClientId: '710449776748-48hpbo0e5d7methakir1jkgumfa49qc6.apps.googleusercontent.com',
     iosBundleId: 'com.example.mehonotAdmin',
   );
 
   static const FirebaseOptions macos = FirebaseOptions(
-    apiKey: 'AIzaSyDnT9xsa3h7HnMO-XGUFQWrR8uVYKfd0xE',
-    appId: '1:111528070491:ios:aeb299772546752d42de7e',
-    messagingSenderId: '111528070491',
-    projectId: 'porisrom-2022',
-    databaseURL: 'https://porisrom-2022-default-rtdb.firebaseio.com',
-    storageBucket: 'porisrom-2022.appspot.com',
-    iosClientId: '111528070491-77dd3i8jctef7njn9pi2rinqo8kh25fh.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDKfig5s0FPoolriir9iVdeR1OKU_I99Ko',
+    appId: '1:710449776748:ios:d61e83d1d9308afb927049',
+    messagingSenderId: '710449776748',
+    projectId: 'mehonot-bd',
+    storageBucket: 'mehonot-bd.appspot.com',
+    iosClientId: '710449776748-9hl33b2tfb0vba43dnbuqrj4bpafpi24.apps.googleusercontent.com',
     iosBundleId: 'com.example.mehonotAdmin.RunnerTests',
   );
 }
