@@ -33,6 +33,10 @@ class AppRouter extends $AppRouter {
           AutoRoute(path: 'banner-details', page: BannerDetailsRoute.page),
           AutoRoute(path: 'banner-create', page: BannerCreateRoute.page),
           AutoRoute(path: 'banner-edit', page: BannerEditRoute.page),
+          CustomRoute(
+              path: 'quill-editor',
+              transitionsBuilder: TransitionsBuilders.slideLeftWithFade,
+              page: QuillEditorRoute.page),
           AutoRoute(path: 'quilltest', page: QuillRouter.page, children: [
             AutoRoute(path: '', page: QuillTestRoute.page),
           ]),

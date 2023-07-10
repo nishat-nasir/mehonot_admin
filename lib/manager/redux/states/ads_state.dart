@@ -158,8 +158,8 @@ class GetUpdatedBannersAction {
   final BannerModel bannerModel;
   final Division division;
   List<File>? imageFilesToAdd;
-  List<String>? imageUrlsToAdd;
-  List<String>? imageUrlsToDelete;
+  String? imageUrlsToAdd;
+  String? imageUrlsToDelete;
 
   GetUpdatedBannersAction({
     required this.bannerType,

@@ -202,28 +202,28 @@ Future<bool> _getJobAdsDetailAction(
 
     switch (action.division) {
       case Division.Dhaka:
-        curLocAds = state.adsState.allJobAdsIds.dhakaJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.dhakaJobAds;
         break;
       case Division.Chittagong:
-        curLocAds = state.adsState.allJobAdsIds.chittagongJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.chittagongJobAds;
         break;
       case Division.Rajshahi:
-        curLocAds = state.adsState.allJobAdsIds.rajshahiJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.rajshahiJobAds;
         break;
       case Division.Khulna:
-        curLocAds = state.adsState.allJobAdsIds.khulnaJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.khulnaJobAds;
         break;
       case Division.Barisal:
-        curLocAds = state.adsState.allJobAdsIds.barisalJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.barisalJobAds;
         break;
       case Division.Sylhet:
-        curLocAds = state.adsState.allJobAdsIds.sylhetJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.sylhetJobAds;
         break;
       case Division.Rangpur:
-        curLocAds = state.adsState.allJobAdsIds.rangpurJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.rangpurJobAds;
         break;
       case Division.Mymensingh:
-        curLocAds = state.adsState.allJobAdsIds.mymensinghJobAds ?? [];
+        curLocAds = state.adsState.allJobAdsIds.mymensinghJobAds;
         break;
     }
 
@@ -384,10 +384,10 @@ Future<bool> _getUpdatedBannersAction(
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
 
-    String bannerUuid = generateHomeBannerUuid(
-      division: action.division.name,
-      type: action.bannerType,
-    );
+    if (action.bannerModel.id == null) {
+      return false;
+    }
+    String bannerUuid = action.bannerModel.id!;
 
     if (action.imageUrlsToDelete != null &&
         action.imageUrlsToDelete!.isNotEmpty) {
@@ -396,7 +396,7 @@ Future<bool> _getUpdatedBannersAction(
       }
     }
 
-    final imageUrls = <String>[];
+    String imageUrls = "";
 
     if (action.imageFilesToAdd != null && action.imageFilesToAdd!.isNotEmpty) {
       List<File?> imageToUpload = [];
@@ -414,7 +414,7 @@ Future<bool> _getUpdatedBannersAction(
           postImageId: bannerUuid,
         );
         if (imgLink != null) {
-          imageUrls.add(imgLink);
+          imageUrls = imgLink;
           logger('Image Upload Success $imgLink');
         } else {
           logger('Image Upload Failed');
@@ -422,7 +422,7 @@ Future<bool> _getUpdatedBannersAction(
       }
     }
 
-    imageUrls.addAll(action.imageUrlsToAdd ?? []);
+    imageUrls = action.imageUrlsToAdd ?? "";
 
     CollectionReference createBannerAdsCollection;
     if (action.bannerType == "home") {
