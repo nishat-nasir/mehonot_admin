@@ -87,4 +87,4 @@ const fbCompanyLogoImgStorageFolderName = "COMPANY_LOGO_IMAGES";
 const String userProfileJobRelationsFbDb = "JOB_RELATIONS";
 const String jobDetailsFbDb = "JOB_DETAILS";
 
-const String jobAdsDocId = "k7Y7EOc2O2dqp0QkCfgr";
+const String jobAdsDocId = "hLuIWiwbeswXTTmiSjJX";

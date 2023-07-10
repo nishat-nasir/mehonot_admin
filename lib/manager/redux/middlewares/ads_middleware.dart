@@ -144,6 +144,8 @@ Future<bool> _getJobAdsIdsAction(
     CollectionReference jobAdsIdsCollection = firebaseKit.adsJobsCollection;
 
     await jobAdsIdsCollection.doc(jobAdsDocId).get().then((value) {
+      logger("GetJobAdsIdsAction  values -- ${value.data()}");
+
       jobAdsIdsModel = JobAdsIdsMd(
         // appliedBy: value["appliedBy"] != null && value["appliedBy"].isNotEmpty
         //     ? List<String>.from(value["appliedBy"].map((e) => e.toString()))
@@ -182,7 +184,7 @@ Future<bool> _getJobAdsIdsAction(
 
     return true;
   } catch (e) {
-    logger(e.toString(), hint: "GetJobAdsIdsAction CATCH ERROR");
+    logger("${e.toString()}", hint: "GetJobAdsIdsAction CATCH ERROR");
     return false;
   }
 }
