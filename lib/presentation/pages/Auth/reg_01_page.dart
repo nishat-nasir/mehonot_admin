@@ -24,10 +24,10 @@ class Registration01Page extends StatefulWidget {
 
 class _Registration01PageState extends State<Registration01Page> {
   final GlobalKey<FormState> _formKeyRegPageNameDiv =
-  GlobalKey<FormState>(debugLabel: '_formKeyRegPageNameDiv');
+      GlobalKey<FormState>(debugLabel: '_formKeyRegPageNameDiv');
 
   final GlobalKey<FormState> _formKeyRegPagePhonePass =
-  GlobalKey<FormState>(debugLabel: '_formKeyRegPagePhonePass');
+      GlobalKey<FormState>(debugLabel: '_formKeyRegPagePhonePass');
 
   TextEditingController phoneNumController = TextEditingController();
   TextEditingController firstNameController = TextEditingController();
@@ -45,15 +45,9 @@ class _Registration01PageState extends State<Registration01Page> {
   bool isOtpSent = false;
   bool isOtpCorrect = false;
   String createUserAddressDivisionString =
-      Constants
-          .locationsBd()
-          .names()
-          .first;
+      Constants.locationsBd().names().first;
   Division createUserAddressDivisionDivision =
-  convertStringToDivision(Constants
-      .locationsBd()
-      .names()
-      .first);
+      convertStringToDivision(Constants.locationsBd().names().first);
 
   int regStep = 0;
 
@@ -110,10 +104,7 @@ class _Registration01PageState extends State<Registration01Page> {
               SizedText(text: S(context).division),
               SizedBox(
                   height: 140.h,
-                  width: MediaQuery
-                      .of(context)
-                      .size
-                      .width - 100.w,
+                  width: MediaQuery.of(context).size.width - 100.w,
                   child: PrsmDropdown(
                       enableShadow: false,
                       enableBorder: true,
@@ -308,7 +299,7 @@ class _Registration01PageState extends State<Registration01Page> {
           },
         );
       } catch (e) {
-        closeLoading();
+        closeLoadingDialog();
         setState(() {
           isOtpSent = false;
         });
@@ -330,9 +321,7 @@ class _Registration01PageState extends State<Registration01Page> {
       // phoneNumber = "+88${phoneNumController.text.substring(1)}";
       phoneNumber = "+82${phoneNumController.text.substring(1)}";
     }
-    if (value
-        .toString()
-        .length == 6) {
+    if (value.toString().length == 6) {
       String smsCode = value;
       PhoneAuthCredential credential = PhoneAuthProvider.credential(
           verificationId: verId!, smsCode: smsCode);
@@ -358,9 +347,7 @@ class _Registration01PageState extends State<Registration01Page> {
 
     logger("CALLING_REGISTER");
     logger(
-        "${phNum} ${passController.text} ${firstNameController
-            .text} ${lastNameController
-            .text} ${createUserAddressDivisionString}");
+        "${phNum} ${passController.text} ${firstNameController.text} ${lastNameController.text} ${createUserAddressDivisionString}");
     registeredComplete = await appStore.dispatch(GetRegisterAction(
       userModelReq: UserModelReq(
         phoneNumber: phNum,

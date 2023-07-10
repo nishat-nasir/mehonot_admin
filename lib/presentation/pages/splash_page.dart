@@ -69,7 +69,7 @@ class _SplashPageState extends State<SplashPage> {
     const totalSteps = '1';
 
     log('\nGet State INIT [1/$totalSteps]');
-    appStore.dispatch(GetStateInitAction());
+    appStore.dispatch(GetStateInitAction(context: context));
   }
 
   Future<bool> _onWillPop() {

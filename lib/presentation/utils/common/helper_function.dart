@@ -14,14 +14,19 @@ import '../constants.dart';
 import 'log_tester.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
-Future<bool> fbDeleteBannerImg({required String postImageId}) async {
+Future<void> fbDeleteBannerImg({required String imageId}) async {
+  Uri uri = Uri.parse(imageId);
+  String fullPath = uri.path;
+  String decodedPath = Uri.decodeComponent(fullPath);
+  String fileName = decodedPath.substring(decodedPath.lastIndexOf('/') + 1);
   try {
-    final url = FirebaseStorage.instance.refFromURL(postImageId);
-    await url.delete();
-    return true;
+    final storageRef = firebase_storage.FirebaseStorage.instance
+        .ref(fbJobImagesBannerStorageFolderName);
+    final ref = storageRef.child(fileName);
+    await ref.delete();
+    logger('Banner File deleted successfully');
   } catch (e) {
-    logger(e.toString(), hint: 'FBDELETEIMG CATCH ERROR');
-    return false;
+    logger('Banner Error IMG DELETE file: $e');
   }
 }
 
@@ -157,9 +162,7 @@ Future<File?> compressImageFunc(File file) async {
 String calculateDuration(Timestamp timestamp, BuildContext context) {
   final postDate = timestamp.toDate();
   final now = DateTime.now();
-  final difference = now
-      .difference(postDate)
-      .inDays;
+  final difference = now.difference(postDate).inDays;
   if (difference > 30) {
     return DateFormat('yyyy-MM-dd').format(postDate);
   }
@@ -182,8 +185,7 @@ checkConnectivity({required BuildContext context}) async {
       showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) =>
-              AlertDialog(
+          builder: (context) => AlertDialog(
                   title: Text(S(context).noInternet),
                   content: Text(S(context).noInternetCheck),
                   actions: [
@@ -353,7 +355,6 @@ trDayType({required String day, required BuildContext context}) {
       return day;
   }
 }
-
 
 Future<void> launchMakePhoneCall({required String phoneNumber}) async {
   final Uri launchUri = Uri(

@@ -54,6 +54,7 @@ _getStateInitAction(
     await Future.delayed(const Duration(seconds: 3));
     userFetched = await appStore.dispatch(GetExistedUserAction(
       userId: HiveClient.getUserId()!,
+      context: action.context,
     ));
     if (userFetched) {
       await appStore.dispatch(GetAllJobsCountAction());

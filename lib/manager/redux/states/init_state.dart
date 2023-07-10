@@ -116,7 +116,11 @@ class UpdateInitStateAction {
 ///------------------INIT Action ---------
 
 class GetStateInitAction {
-  GetStateInitAction();
+  BuildContext context;
+
+  GetStateInitAction({
+    required this.context,
+  });
 }
 
 class GetAllJobsCountAction {

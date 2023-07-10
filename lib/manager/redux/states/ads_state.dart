@@ -144,12 +144,14 @@ class GetCreateBannersAction {
   final BannerModel bannerModel;
   final File bannerImg;
   final Division division;
+  BuildContext context;
 
   GetCreateBannersAction({
     required this.bannerType,
     required this.bannerModel,
     required this.bannerImg,
     required this.division,
+    required this.context,
   });
 }
 
@@ -160,6 +162,7 @@ class GetUpdatedBannersAction {
   List<File>? imageFilesToAdd;
   String? imageUrlsToAdd;
   String? imageUrlsToDelete;
+  BuildContext context;
 
   GetUpdatedBannersAction({
     required this.bannerType,
@@ -168,6 +171,7 @@ class GetUpdatedBannersAction {
     this.imageFilesToAdd,
     this.imageUrlsToAdd,
     this.imageUrlsToDelete,
+    required this.context,
   });
 }
 

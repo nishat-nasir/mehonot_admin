@@ -61,8 +61,7 @@ Future<bool> _getLoginAction(
       );
 
       UserProfileModel? userProf = await appStore.dispatch(GetUserProfileAction(
-        userProfileId: userData.userProfileId,
-      ));
+          userProfileId: userData.userProfileId, context: action.context));
 
       if (userProf != null) {
         next(UpdateUserStateAction(userData: userData));
@@ -108,6 +107,7 @@ Future<bool> _getExistedUserAction(
 
       UserProfileModel? userProf = await appStore.dispatch(GetUserProfileAction(
         userProfileId: userData.userProfileId,
+        context: action.context,
       ));
 
       if (userProf != null) {
@@ -194,7 +194,7 @@ Future<bool> _getRegisterAction(
 
     return true;
   } catch (e) {
-    closeLoading();
+    closeLoadingDialog();
     logger(e.toString(), hint: 'GET Create USER CATCH ERROR');
     return false;
   }

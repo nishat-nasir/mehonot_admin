@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mehonot_admin/presentation/utils/constants.dart';
 import 'package:uuid/uuid.dart';
@@ -20,6 +21,7 @@ final encryptor = enc.Encrypter(aes);
 const userUuid = Uuid();
 
 AppIntl S(BuildContext context) => AppIntl.of(context);
+GlobalKey<State> loadingDialogKey = GlobalKey<State>();
 
 extension intl_helper on BuildContext {
   AppIntl get intl => AppIntl.of(this);
@@ -173,12 +175,30 @@ String convertTimeStampToDate(Timestamp timestamp) {
   return "${timestamp.toDate().year}.${timestamp.toDate().month}.${timestamp.toDate().day}";
 }
 
-showLoading() {
-  // showLoadingDialog(Global.navState!.context);
+showLoading(BuildContext context) {
+  showDialog(
+    barrierDismissible: kDebugMode ? true : false,
+    context: context,
+    builder: (context) {
+      return AlertDialog(
+        key: loadingDialogKey,
+        content: const Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CircularProgressIndicator(),
+            SizedBox(width: 20),
+            Text("Loading..."),
+          ],
+        ),
+      );
+    },
+  );
 }
 
-closeLoading() {
-  // appStore.dispatch(DismissPopupAction(all: true));
+closeLoadingDialog() {
+  if (loadingDialogKey.currentContext != null) {
+    Navigator.pop(loadingDialogKey.currentContext!);
+  }
 }
 
 Division convertStringToDivision(String division) {

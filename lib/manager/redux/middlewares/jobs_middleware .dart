@@ -511,7 +511,7 @@ Future<bool> _getCreateJobReqAction(
 
     return true;
   } catch (e) {
-    // closeLoading();
+    // closeLoadingDialog();
     logger(e.toString(), hint: 'GetCreateJobReqAction CATCH ERROR');
     return false;
   }
@@ -766,7 +766,7 @@ Future<bool> _getCreateJobAction(
     // ));
 
     // await appStore.dispatch(GetUpdateUserAction(postId: _postUid));
-    // closeLoading();
+    // closeLoadingDialog();
     return true;
   } catch (e) {
     // closeLoading();
