@@ -21,12 +21,12 @@ class Login01Page extends StatefulWidget {
 
 class _Login01PageState extends State<Login01Page> {
   final GlobalKey<FormState> _formKeyLoginPage =
-  GlobalKey<FormState>(debugLabel: '_formKeyLoginPage');
+      GlobalKey<FormState>(debugLabel: '_formKeyLoginPage');
 
   TextEditingController phoneNumController =
-  TextEditingController(text: kDebugMode ? "01011111111" : "");
+      TextEditingController(text: kDebugMode ? "01097802701" : "");
   TextEditingController pwController =
-  TextEditingController(text: kDebugMode ? "Test123!" : "");
+      TextEditingController(text: kDebugMode ? "Test123!" : "");
 
   DateTime timeBackPressed = DateTime.now();
   String errorText = "";
@@ -44,10 +44,7 @@ class _Login01PageState extends State<Login01Page> {
                 key: _formKeyLoginPage,
                 child: Center(
                     child: SizedBox(
-                        width: MediaQuery
-                            .of(context)
-                            .size
-                            .width / 1.2,
+                        width: MediaQuery.of(context).size.width / 1.2,
                         child: SpacedColumn(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +84,7 @@ class _Login01PageState extends State<Login01Page> {
                               ),
                               SpacedRow(
                                   mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     InkWell(
                                       onTap: onForgotPasswordPress(context),
@@ -130,8 +127,8 @@ class _Login01PageState extends State<Login01Page> {
       if (!phNum.startsWith('0')) {
         phNum = "0${phoneNumController.text}";
       }
-      bool matched = await appStore.dispatch(
-          GetLoginAction(phoneNumber: phNum, password: pwController.text));
+      bool matched = await appStore.dispatch(GetLoginAction(
+          phoneNumber: phNum, password: pwController.text, context: context));
 
       if (matched) {
         setState(() {
