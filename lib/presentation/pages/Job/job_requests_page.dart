@@ -34,7 +34,17 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
               child: SingleChildScrollView(
                   child: SpacedColumn(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [_buildJobRequestList(state)])));
+                      children: [
+                    StatusAndRefreshWidget(
+                      onTapRefresh: () async {
+                        await appStore.dispatch(GetReqJobsAction());
+                        setState(() {});
+                      },
+                      statusAndDetails:
+                          "Job req : ${state.jobsState.allRequestedJobs.length}",
+                    ),
+                    _buildJobRequestList(state)
+                  ])));
         });
   }
 
@@ -44,13 +54,6 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
     if (allReqJobs.isEmpty) {
       return Container();
     }
-    list.add(StatusAndRefreshWidget(
-      onTapRefresh: () async {
-        await appStore.dispatch(GetReqJobsAction());
-        setState(() {});
-      },
-      statusAndDetails: "Job req : ${state.jobsState.allRequestedJobs.length}",
-    ));
     for (int i = 0; i < allReqJobs.length; i++) {
       if (allReqJobs[i].status.name != JobStatus.test.name) {
         JobModel job = allReqJobs[i];
