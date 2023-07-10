@@ -460,9 +460,17 @@ Future<bool> _getCreateJobAdsAction(
 
     switch (action.division) {
       case Division.Dhaka:
-        await createAdsJobsCollection.doc(jobAdsDocId).update({
-          "dhakaJobAds": FieldValue.arrayUnion([action.jobId]),
-        });
+        // if already available return
+        if (state.adsState.dhakaJobAds.contains(action.jobId)) {
+          ScaffoldMessenger.of(action.context).showSnackBar(
+            const SnackBar(content: SizedText(text: "Already available")),
+          );
+          return true;
+        } else {
+          await createAdsJobsCollection.doc(jobAdsDocId).update({
+            "dhakaJobAds": FieldValue.arrayUnion([action.jobId]),
+          });
+        }
         break;
       case Division.Khulna:
         await createAdsJobsCollection.doc(jobAdsDocId).update({

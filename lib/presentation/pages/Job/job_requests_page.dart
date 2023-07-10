@@ -8,6 +8,7 @@ import '../../../manager/navigation/router.gr.dart';
 import '../../../manager/redux/states/ads_state.dart';
 import '../../../manager/redux/states/jobs_state.dart';
 import '../../template/template.dart';
+import '../../widgets/status_refresh/StatusAndRefreshWidget.dart';
 
 @RoutePage()
 class JobRequestsPage extends StatefulWidget {
@@ -43,11 +44,13 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
     if (allReqJobs.isEmpty) {
       return Container();
     }
-    list.add(Align(
-        alignment: Alignment.topLeft,
-        child: SizedText(
-            text: "Job req : ${state.jobsState.allRequestedJobs.length - 1}",
-            textStyle: ThemeTextRegular.k12)));
+    list.add(StatusAndRefreshWidget(
+      onTapRefresh: () async {
+        await appStore.dispatch(GetReqJobsAction());
+        setState(() {});
+      },
+      statusAndDetails: "Job req : ${state.jobsState.allRequestedJobs.length}",
+    ));
     for (int i = 0; i < allReqJobs.length; i++) {
       if (allReqJobs[i].status.name != JobStatus.test.name) {
         JobModel job = allReqJobs[i];
@@ -63,10 +66,6 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
           },
           onTap: () {
             context.pushRoute(JobDetailsRouter(
-              bottomWidget: PrimaryButton(
-                buttonText: "Move to Job ADS",
-                onPressed: onMoveToJobAds,
-              ),
               jobModel: job,
             ));
           },
@@ -124,6 +123,7 @@ class _JobRequestsPageState extends State<JobRequestsPage> {
     await appStore.dispatch(GetCreateJobAdsAction(
       jobId: currentJob!.jobId,
       division: convertStringToDivision(currentJob!.address.division),
+      context: context,
     ));
   }
 

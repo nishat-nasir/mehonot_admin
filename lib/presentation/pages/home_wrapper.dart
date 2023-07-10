@@ -29,6 +29,11 @@ class GeneralWrapper extends StatelessWidget {
               scaffoldKey: generalWrapperGlobalKey,
               drawer: const DefaultSidebar(),
               resizeToAvoidBottomInset: true,
+              onDrawerChanged: (isDrawerOpen) {
+                if (isDrawerOpen) {
+                  SystemChannels.textInput.invokeMethod('TextInput.hide');
+                }
+              },
               appBarBuilder: (appBarCtx, tabsRouter) {
                 logger(appBarCtx.topRoute.name, hint: '----------');
                 switch (appBarCtx.topRoute.name) {

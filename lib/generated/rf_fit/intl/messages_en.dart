@@ -178,6 +178,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "language": MessageLookupByLibrary.simpleMessage("Language"),
         "lastName": MessageLookupByLibrary.simpleMessage("Last Name"),
         "later": MessageLookupByLibrary.simpleMessage("Later"),
+        "linkCopiedToClip":
+            MessageLookupByLibrary.simpleMessage("Link copied to clipboard"),
         "location": MessageLookupByLibrary.simpleMessage("Location"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginError": MessageLookupByLibrary.simpleMessage("Login Error!"),
@@ -305,6 +307,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "termsAndConditions":
             MessageLookupByLibrary.simpleMessage("Terms and Conditions"),
         "terrible": MessageLookupByLibrary.simpleMessage("Terrible"),
+        "textCopiedTextToClip":
+            MessageLookupByLibrary.simpleMessage("Text copied to clipboard"),
         "thereIsNoJobDescription":
             MessageLookupByLibrary.simpleMessage("There is no job description"),
         "thereIsNoSavedJob":

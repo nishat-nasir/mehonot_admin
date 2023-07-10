@@ -21,6 +21,7 @@ class Constants {
   static const ENCRYTORKEY = "N7YI4KQ3UETGOEMOBTEG3BDJACI0LW==";
   static const locale = 'bn_BD';
   static const filePath = 'path/to/bn_BD_data_file';
+  static String sendEmailSubject = "Assalamu Alaikum, Mailing from Mehonot";
 
   ////////////////////////////////
   ////////////////////////////////

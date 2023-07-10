@@ -242,5 +242,7 @@
   "description": "Description",
   "subTitle": "SubTitle",
   "seeResult": "See Result",
-  "close": "Close"
+  "close": "Close",
+  "linkCopiedToClip": "Link copied to clipboard",
+  "textCopiedTextToClip": "Text copied to clipboard"
 }

@@ -174,10 +174,12 @@ class GetUpdatedBannersAction {
 class GetCreateJobAdsAction {
   final String jobId;
   final Division division;
+  final BuildContext context;
 
   GetCreateJobAdsAction({
     required this.jobId,
     required this.division,
+    required this.context,
   });
 }
 

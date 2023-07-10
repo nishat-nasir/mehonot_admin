@@ -1,10 +1,12 @@
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart';
 import '../../../manager/firebase/firebase_kit.dart';
 import '../../../manager/redux/states/init_state.dart';
 import '../../template/template.dart';
@@ -155,7 +157,9 @@ Future<File?> compressImageFunc(File file) async {
 String calculateDuration(Timestamp timestamp, BuildContext context) {
   final postDate = timestamp.toDate();
   final now = DateTime.now();
-  final difference = now.difference(postDate).inDays;
+  final difference = now
+      .difference(postDate)
+      .inDays;
   if (difference > 30) {
     return DateFormat('yyyy-MM-dd').format(postDate);
   }
@@ -178,7 +182,8 @@ checkConnectivity({required BuildContext context}) async {
       showDialog(
           barrierDismissible: false,
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (context) =>
+              AlertDialog(
                   title: Text(S(context).noInternet),
                   content: Text(S(context).noInternetCheck),
                   actions: [
@@ -347,4 +352,51 @@ trDayType({required String day, required BuildContext context}) {
     default:
       return day;
   }
+}
+
+
+Future<void> launchMakePhoneCall({required String phoneNumber}) async {
+  final Uri launchUri = Uri(
+    scheme: 'tel',
+    path: phoneNumber,
+  );
+  await launchUrl(launchUri);
+}
+
+Future<void> launchInWebViewOrVC(Uri url) async {
+  if (!await launchUrl(
+    url,
+    mode: LaunchMode.inAppWebView,
+    webViewConfiguration: const WebViewConfiguration(
+        headers: <String, String>{'my_header_key': 'my_header_value'}),
+  )) {
+    throw Exception('Could not launch $url');
+  }
+}
+
+Future<void> launchEmail({required String email, String? subject}) async {
+  final Uri launchUri = Uri(
+    scheme: 'mailto',
+    path: email,
+    queryParameters: <String, String>{'subject': Constants.sendEmailSubject},
+  );
+  await launchUrl(launchUri);
+}
+
+copyWebLink({required BuildContext context, required String link}) {
+  final Uri toCopy = Uri(
+    scheme: 'https',
+    host: link,
+  );
+  Clipboard.setData(ClipboardData(text: toCopy.toString()));
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: SizedText(text: S(context).linkCopiedToClip)),
+  );
+}
+
+copyText({required BuildContext context, required String text}) {
+  Clipboard.setData(ClipboardData(text: text));
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(content: SizedText(text: S(context).textCopiedTextToClip)),
+  );
 }

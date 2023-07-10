@@ -2479,6 +2479,26 @@ class AppIntl {
       args: [],
     );
   }
+
+  /// `Link copied to clipboard`
+  String get linkCopiedToClip {
+    return Intl.message(
+      'Link copied to clipboard',
+      name: 'linkCopiedToClip',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Text copied to clipboard`
+  String get textCopiedTextToClip {
+    return Intl.message(
+      'Text copied to clipboard',
+      name: 'textCopiedTextToClip',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<AppIntl> {
