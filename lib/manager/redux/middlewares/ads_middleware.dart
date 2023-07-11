@@ -40,8 +40,8 @@ class AdsMiddleware extends MiddlewareClass<AppState> {
   }
 }
 
-Future<bool> _getHomeBannersAction(AppState state, GetHomeBannersAction action,
-    NextDispatcher next) async {
+Future<bool> _getHomeBannersAction(
+    AppState state, GetHomeBannersAction action, NextDispatcher next) async {
   try {
     logger("GetHomeBannersAction -- Called");
 
@@ -125,8 +125,8 @@ Future<bool> _getSettingsBannersAction(AppState state,
   }
 }
 
-Future<bool> _getJobAdsIdsAction(AppState state, GetJobAdsIdsAction action,
-    NextDispatcher next) async {
+Future<bool> _getJobAdsIdsAction(
+    AppState state, GetJobAdsIdsAction action, NextDispatcher next) async {
   try {
     logger("GetJobAdsIdsAction -- Called");
 
@@ -158,7 +158,7 @@ Future<bool> _getJobAdsIdsAction(AppState state, GetJobAdsIdsAction action,
             : [],
         rajshahiJobAds: value['rajshahiJobAds'].isNotEmpty
             ? List<String>.from(
-            value['rajshahiJobAds'].map((e) => e.toString()))
+                value['rajshahiJobAds'].map((e) => e.toString()))
             : [],
         rangpurJobAds: value['rangpurJobAds'].isNotEmpty
             ? List<String>.from(value['rangpurJobAds'].map((e) => e.toString()))
@@ -171,11 +171,11 @@ Future<bool> _getJobAdsIdsAction(AppState state, GetJobAdsIdsAction action,
             : [],
         chittagongJobAds: value['chittagongJobAds'].isNotEmpty
             ? List<String>.from(
-            value['chittagongJobAds'].map((e) => e.toString()))
+                value['chittagongJobAds'].map((e) => e.toString()))
             : [],
         mymensinghJobAds: value['mymensinghJobAds'].isNotEmpty
             ? List<String>.from(
-            value['mymensinghJobAds'].map((e) => e.toString()))
+                value['mymensinghJobAds'].map((e) => e.toString()))
             : [],
       );
     });
@@ -189,8 +189,8 @@ Future<bool> _getJobAdsIdsAction(AppState state, GetJobAdsIdsAction action,
   }
 }
 
-Future<bool> _getJobAdsDetailAction(AppState state,
-    GetJobAdsDetailAction action, NextDispatcher next) async {
+Future<bool> _getJobAdsDetailAction(
+    AppState state, GetJobAdsDetailAction action, NextDispatcher next) async {
   try {
     logger("GetJobAdsDetailAction -- Called");
 
@@ -198,7 +198,7 @@ Future<bool> _getJobAdsDetailAction(AppState state,
     List<JobModel> allAds = [];
 
     CollectionReference jobFromDivision =
-    getDivisionCollection(action.division);
+        getDivisionCollection(action.division);
 
     switch (action.division) {
       case Division.Dhaka:
@@ -229,7 +229,7 @@ Future<bool> _getJobAdsDetailAction(AppState state,
 
     for (int i = 0; i < curLocAds.length; i++) {
       JobModel job =
-      await jobFromDivision.doc(curLocAds[i]).get().then((value) {
+          await jobFromDivision.doc(curLocAds[i]).get().then((value) {
         JobModel jobModel = JobModel(
           jobId: value["jobId"],
           jobDetailsId: value["jobDetailsId"],
@@ -314,8 +314,8 @@ Future<bool> _getJobAdsDetailAction(AppState state,
   }
 }
 
-Future<bool> _getCreateBannersAction(AppState state,
-    GetCreateBannersAction action, NextDispatcher next) async {
+Future<bool> _getCreateBannersAction(
+    AppState state, GetCreateBannersAction action, NextDispatcher next) async {
   try {
     logger("GetCreateBannersAction -- Called");
     // Show loading
@@ -331,7 +331,7 @@ Future<bool> _getCreateBannersAction(AppState state,
     String? imageUrl;
 
     final jobImgId =
-    generateBannerImageName(bannerType: action.bannerModel.bannerType);
+        generateBannerImageName(bannerType: action.bannerModel.bannerType);
 
     if (imageToUpload != null) {
       String? imgLink = await fbUploadBannerImgAndGetLink(
@@ -369,7 +369,7 @@ Future<bool> _getCreateBannersAction(AppState state,
       "createdAt": DateTime.now(),
       "startAt": action.bannerModel.startAt,
       "removeAt":
-      Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
 
     closeLoadingDialog();
@@ -383,8 +383,8 @@ Future<bool> _getCreateBannersAction(AppState state,
   }
 }
 
-Future<bool> _getUpdatedBannersAction(AppState state,
-    GetUpdatedBannersAction action, NextDispatcher next) async {
+Future<bool> _getUpdatedBannersAction(
+    AppState state, GetUpdatedBannersAction action, NextDispatcher next) async {
   try {
     logger("GetUpdatedBannersAction -- Called");
     // Show loading
@@ -449,7 +449,7 @@ Future<bool> _getUpdatedBannersAction(AppState state,
       "bannerType": action.bannerModel.bannerType,
       "category": action.bannerModel.category,
       "removeAt":
-      Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
+          Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
 
     closeLoadingDialog();
@@ -463,15 +463,15 @@ Future<bool> _getUpdatedBannersAction(AppState state,
   }
 }
 
-Future<bool> _getCreateJobAdsAction(AppState state,
-    GetCreateJobAdsAction action, NextDispatcher next) async {
+Future<bool> _getCreateJobAdsAction(
+    AppState state, GetCreateJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetCreateJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
 
     switch (action.division) {
       case Division.Dhaka:
-      // if already available return
+        // if already available return
         if (state.adsState.dhakaJobAds.contains(action.jobId)) {
           ScaffoldMessenger.of(action.context).showSnackBar(
             const SnackBar(content: SizedText(text: "Already available")),
@@ -527,8 +527,8 @@ Future<bool> _getCreateJobAdsAction(AppState state,
   }
 }
 
-Future<bool> _getRemoveJobAdsAction(AppState state,
-    GetRemoveJobAdsAction action, NextDispatcher next) async {
+Future<bool> _getRemoveJobAdsAction(
+    AppState state, GetRemoveJobAdsAction action, NextDispatcher next) async {
   try {
     logger("GetRemoveJobAdsAction -- Called");
     CollectionReference createAdsJobsCollection = firebaseKit.adsJobsCollection;
