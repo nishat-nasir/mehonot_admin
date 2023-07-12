@@ -148,6 +148,7 @@ abstract class $AppRouter extends _i33.RootStackRouter {
         child: _i4.BannerCreatePage(
           key: args.key,
           bannerType: args.bannerType,
+          onBannerCreate: args.onBannerCreate,
         ),
       );
     },
@@ -508,12 +509,14 @@ class BannerCreateRoute extends _i33.PageRouteInfo<BannerCreateRouteArgs> {
   BannerCreateRoute({
     _i34.Key? key,
     required String bannerType,
+    required Function onBannerCreate,
     List<_i33.PageRouteInfo>? children,
   }) : super(
           BannerCreateRoute.name,
           args: BannerCreateRouteArgs(
             key: key,
             bannerType: bannerType,
+            onBannerCreate: onBannerCreate,
           ),
           initialChildren: children,
         );
@@ -528,15 +531,18 @@ class BannerCreateRouteArgs {
   const BannerCreateRouteArgs({
     this.key,
     required this.bannerType,
+    required this.onBannerCreate,
   });
 
   final _i34.Key? key;
 
   final String bannerType;
 
+  final Function onBannerCreate;
+
   @override
   String toString() {
-    return 'BannerCreateRouteArgs{key: $key, bannerType: $bannerType}';
+    return 'BannerCreateRouteArgs{key: $key, bannerType: $bannerType, onBannerCreate: $onBannerCreate}';
   }
 }
 

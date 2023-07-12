@@ -70,6 +70,7 @@ Future<bool> _getHomeBannersAction(
         );
         allHomeBanners.add(bannerModel);
       }).toList();
+      allHomeBanners.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     });
     logger("GetSettingsBannersAction ---- ${allHomeBanners.length}");
     await appStore.dispatch(
@@ -114,6 +115,7 @@ Future<bool> _getSettingsBannersAction(AppState state,
         );
         allSettingsBanners.add(bannerModel);
       }).toList();
+      allSettingsBanners.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     });
     logger("GetSettingsBannersAction ---- ${allSettingsBanners.length}");
     await appStore
