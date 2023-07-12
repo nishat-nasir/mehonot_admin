@@ -451,6 +451,7 @@ Future<bool> _getUpdatedBannersAction(
       "removeAt":
           Timestamp.fromDate(DateTime.now().add(const Duration(days: 60))),
     });
+    await appStore.dispatch(GetSettingsBannersAction());
 
     closeLoadingDialog();
     return true;

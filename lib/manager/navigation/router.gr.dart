@@ -168,6 +168,7 @@ abstract class $AppRouter extends _i33.RootStackRouter {
         child: _i6.BannerEditPage(
           key: args.key,
           bannerMd: args.bannerMd,
+          onBannerEdit: args.onBannerEdit,
         ),
       );
     },
@@ -583,12 +584,14 @@ class BannerEditRoute extends _i33.PageRouteInfo<BannerEditRouteArgs> {
   BannerEditRoute({
     _i35.Key? key,
     required _i36.BannerModel bannerMd,
+    required Function onBannerEdit,
     List<_i33.PageRouteInfo>? children,
   }) : super(
           BannerEditRoute.name,
           args: BannerEditRouteArgs(
             key: key,
             bannerMd: bannerMd,
+            onBannerEdit: onBannerEdit,
           ),
           initialChildren: children,
         );
@@ -603,15 +606,18 @@ class BannerEditRouteArgs {
   const BannerEditRouteArgs({
     this.key,
     required this.bannerMd,
+    required this.onBannerEdit,
   });
 
   final _i35.Key? key;
 
   final _i36.BannerModel bannerMd;
 
+  final Function onBannerEdit;
+
   @override
   String toString() {
-    return 'BannerEditRouteArgs{key: $key, bannerMd: $bannerMd}';
+    return 'BannerEditRouteArgs{key: $key, bannerMd: $bannerMd, onBannerEdit: $onBannerEdit}';
   }
 }
 
