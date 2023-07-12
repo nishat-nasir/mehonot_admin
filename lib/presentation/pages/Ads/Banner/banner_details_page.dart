@@ -26,7 +26,10 @@ class _BannerDetailsPageState extends State<BannerDetailsPage> {
   @override
   void initState() {
     super.initState();
-    convertJsonToQuillController(widget.banner.description ?? '');
+    convertJsonToQuillController((widget.banner.description == null ||
+            widget.banner.description!.isEmpty)
+        ? '[{"insert":"\n"}]'
+        : widget.banner.description!);
   }
 
   @override
