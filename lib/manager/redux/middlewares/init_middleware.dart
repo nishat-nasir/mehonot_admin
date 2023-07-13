@@ -181,6 +181,7 @@ Future<bool?> _getTermsAndPoliciesAction(AppState state,
           personalInfoTerms: e["personalInfoTerms"],
           serviceTerms: e["serviceTerms"],
           softwareTerms: e["softwareTerms"],
+          aboutUs: e["aboutUs"],
         );
       }).toList();
     }).then((value) {
@@ -209,6 +210,7 @@ Future<bool> _getUpdateTermsAndPoliciesAction(AppState state,
       "personalInfoTerms": action.syncRegTermsMd.personalInfoTerms,
       "serviceTerms": action.syncRegTermsMd.serviceTerms,
       "softwareTerms": action.syncRegTermsMd.softwareTerms,
+      "aboutUs": action.syncRegTermsMd.aboutUs,
     }).then((value) async {
       SyncRegTermsMd syncRegTermsMd = SyncRegTermsMd(
         id: action.syncRegTermsMd.id,
@@ -219,6 +221,7 @@ Future<bool> _getUpdateTermsAndPoliciesAction(AppState state,
         personalInfoTerms: action.syncRegTermsMd.personalInfoTerms,
         serviceTerms: action.syncRegTermsMd.serviceTerms,
         softwareTerms: action.syncRegTermsMd.softwareTerms,
+        aboutUs: action.syncRegTermsMd.aboutUs,
       );
 
       await appStore

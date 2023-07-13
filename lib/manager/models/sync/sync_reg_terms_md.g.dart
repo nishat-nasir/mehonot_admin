@@ -15,6 +15,7 @@ SyncRegTermsMd _$SyncRegTermsMdFromJson(Map json) => SyncRegTermsMd(
       personalInfoTerms: json['personalInfoTerms'] as String,
       softwareTerms: json['softwareTerms'] as String,
       halalTerms: json['halalTerms'] as String,
+      aboutUs: json['aboutUs'] as String,
     );
 
 Map<String, dynamic> _$SyncRegTermsMdToJson(SyncRegTermsMd instance) =>
@@ -27,4 +28,5 @@ Map<String, dynamic> _$SyncRegTermsMdToJson(SyncRegTermsMd instance) =>
       'personalInfoTerms': instance.personalInfoTerms,
       'marketingInfoTerms': instance.marketingInfoTerms,
       'halalTerms': instance.halalTerms,
+      'aboutUs': instance.aboutUs,
     };

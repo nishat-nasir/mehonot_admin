@@ -51,6 +51,7 @@ class InitState {
           personalInfoTerms: '',
           softwareTerms: '',
           halalTerms: '',
+          aboutUs: '',
         ));
   }
 
